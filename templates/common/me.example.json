@@ -1,0 +1,22 @@
+{
+  "name": "Taro Yamada",
+  "github": "yamada-taro",
+  "email": "taro.yamada@example.com",
+  "slackId": "U0123ABCDEF",
+  "position": "Software Engineer",
+  "team": "product_engineering",
+  "role": "member",
+  "techStack": ["TypeScript", "React", "Node.js"],
+  "focusAreas": ["API improvements", "Performance optimization"],
+  "workingStyle": {
+    "timezone": "Asia/Tokyo",
+    "workingHours": "10:00-19:00",
+    "communication": "Slack async-first, Huddle for urgents"
+  },
+  "preferences": {
+    "language": "ja",
+    "outputFormat": "Concise bullet points"
+  },
+  "legalNotice": "This data is used locally only and is never sent to remote servers",
+  "notes": "Friday afternoons are review focus time"
+}

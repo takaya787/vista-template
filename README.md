@@ -47,13 +47,12 @@ templates/
 │   │   │   │   ├── documentation.md   # Doc output rules
 │   │   │   │   ├── output-language.md # Language settings
 │   │   │   │   ├── memory.md          # Self-learning policy
-│   │   │   │   ├── onboarding.md      # me.json lifecycle
+│   │   │   │   ├── onboarding.md      # me.json reference rules
 │   │   │   │   ├── claude-md.md       # CLAUDE.md guidelines
 │   │   │   │   └── skill-conventions.md
 │   │   │   └── config/
 │   │   │       └── always.md          # Owner definition
-│   │   └── skills/
-│   │       └── onboarding/            # /onboarding skill
+│   │   └── skills/                    # Common skills (if any)
 │   ├── docs/team.md                   # Team roster
 │   ├── minutes/                       # Meeting transcripts
 │   ├── screenshots/                   # Captured screenshots
@@ -95,11 +94,12 @@ Common convention rules apply to all roles. Role-specific templates add addition
 ./scripts/setup.sh <role> <target-directory>
 ```
 
-The script copies **common first**, then **role-specific files on top** (overwriting where needed). After setup:
+The script interactively collects all settings (project config, user profile) and:
 
-1. Edit `.claude/rules/config/` files to set your project-specific settings
-2. Edit `docs/team.md` to add your team members
-3. Start Claude Code and run `/onboarding` to create your `me.json`
+1. Copies common + role-specific files to the target
+2. Replaces placeholders in config files with your answers
+3. Generates `me.json` and populates `docs/team.md`
+4. Runs `npm install` (if applicable)
 
 See `docs/template-guide.md` in each template for detailed instructions.
 
