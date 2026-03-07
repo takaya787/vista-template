@@ -1,0 +1,36 @@
+# Plan files are ephemeral — only keep the directory structure
+.ai/plans/*
+!.ai/plans/.gitkeep
+
+# Owner personal data (generated per user, see me.example.json)
+me.json
+
+# Notion browser auth state (contains session cookies)
+.notion-auth.json
+
+# AI-generated documents (reports, planning, weekly-updates, etc.)
+docs/planning/
+docs/weekly-updates/
+docs/sprint-goals/
+docs/sprint-history/
+docs/reports/
+
+# Meeting transcripts (sensitive content)
+minutes/*
+!minutes/.gitkeep
+
+# Assets (screenshots, videos, traces — all generated)
+assets/
+
+# Legacy screenshots directory
+screenshots/
+
+# Session logs (personal data)
+.ai/session-logs/
+
+# Dependencies
+node_modules/
+
+# --- injected claude context ---
+.claude/*
+# --- injected claude context ---
