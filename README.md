@@ -28,6 +28,9 @@ Role-based project templates for Claude Code. Each template provides a pre-confi
 
 ## Quick Start
 
+### Full Setup (role-specific)
+> Interactively sets up a complete role template (common + role-specific files, config placeholders, me.json, dependencies)
+
 ```bash
 # Clone the repository
 git clone https://github.com/takaya787/vista-template.git
@@ -39,6 +42,13 @@ cd vista-template
 # Navigate to your project and start Claude Code
 cd ~/path/to/your-project
 claude
+```
+
+### Quick Use (common only)
+> Copies only the shared common templates (.claude rules, hooks, docs structure) without role-specific configuration or interactive prompts
+
+```bash
+./scripts/copy-common.sh ~/path/to/your-project
 ```
 
 ## Architecture: common + role
