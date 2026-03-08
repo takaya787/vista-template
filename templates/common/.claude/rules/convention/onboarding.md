@@ -1,3 +1,9 @@
+---
+paths:
+  - "me.json"
+  - "scripts/setup.sh"
+---
+
 # Owner Profile — me.json
 
 `me.json` is the owner's personal profile, created by `scripts/setup.sh` during initial setup.

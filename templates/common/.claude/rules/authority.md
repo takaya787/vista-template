@@ -1,3 +1,7 @@
+---
+paths: "**/*"
+---
+
 # Rule Authority — Convention over Configuration
 
 ## Principle

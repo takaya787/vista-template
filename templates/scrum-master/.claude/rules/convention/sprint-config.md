@@ -1,11 +1,11 @@
-# Sprint Configuration
+---
+paths: "**/*"
+---
 
-Centralizes all sprint-related definitions. All skills should reference this rule.
+# Sprint Convention
 
-## Sprint Duration
-
-- Default: **1 week** (Monday start – Friday end)
-- Calculate period from `sprint.startDate` + duration
+Defines immutable sprint-related standards. All skills should reference this rule.
+For project-specific settings (duration, schedule, etc.), see `rules/config/sprint-settings.md`.
 
 ## Status Mapping
 
@@ -25,6 +25,7 @@ Centralizes all sprint-related definitions. All skills should reference this rul
 - **Remaining SP**: Total SP of In Progress + Sprint Backlog (within sprint)
 - **Completion rate**: Completed SP / (Completed + Remaining) × 100
 - **Velocity**: If past sprint data is available, calculate points consumed per person per business day
+- Estimate velocity using a 3-sprint moving average
 
 ## Point Notation
 
@@ -38,32 +39,27 @@ Centralizes all sprint-related definitions. All skills should reference this rul
    - For tasks linked to an EPIC, also consider the number of remaining tasks in that EPIC
 3. **Standalone tasks (not part of an EPIC)**: Higher point value = higher priority
 
-## Sprint History Storage
+## Sprint History Format
 
-When a skill aggregates sprint data, save the results in the following format:
+When a skill aggregates sprint data, save the results in the following JSON format:
 
-### Location
-`docs/sprint-history/sprint-{N}.json`
-
-### Format
 ```json
 {
-  "sprint": "Sprint 28",
-  "startDate": "2026-02-24",
-  "endDate": "2026-02-28",
+  "sprint": "Sprint N",
+  "startDate": "YYYY-MM-DD",
+  "endDate": "YYYY-MM-DD",
   "team": ["member1", "member2"],
   "businessDays": 5,
   "points": {
-    "done": 10,
-    "inReview": 2,
-    "inProgress": 3,
+    "done": 0,
+    "inReview": 0,
+    "inProgress": 0,
     "backlog": 0
   },
-  "velocity": 2.4
+  "velocity": 0.0
 }
 ```
 
 ### Usage
 - Used by `/planning` for velocity calculation
 - Used by `/weekly-update` for comparison with previous report
-- Estimate velocity using a 3-sprint moving average

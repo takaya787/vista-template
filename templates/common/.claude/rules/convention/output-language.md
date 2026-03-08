@@ -1,3 +1,7 @@
+---
+paths: "**/*"
+---
+
 # Output Language — {{LANGUAGE}}
 
 Controls the language used in reports and user interactions.
