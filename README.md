@@ -13,6 +13,19 @@ Role-based project templates for Claude Code. Each template provides a pre-confi
 | `marketing` | Planned | Campaign tracking, content planning, analytics reports |
 | `investor-relations` | Planned | Financial reporting, investor communication, KPI dashboards |
 
+## Prerequisites
+
+| Tool | Version | Required | Purpose |
+|------|---------|----------|---------|
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | latest | Yes | AI assistant CLI |
+| [Git](https://git-scm.com/) | any | Yes | Repository cloning |
+| [Node.js](https://nodejs.org/) | >= 18 | Yes | Notion scripts (Playwright) |
+| [pnpm](https://pnpm.io/) | >= 8 | Yes | Package manager (used by setup script) |
+| [GitHub CLI (`gh`)](https://cli.github.com/) | >= 2.0 | Yes (scrum-master) | GitHub API operations |
+| Python 3 | >= 3.9 | No | Timezone auto-detection in setup |
+
+> **Note:** `gh auth login` must be completed before running Claude Code with the scrum-master template. Notion access additionally requires `node scripts/notion-login.mjs` after setup.
+
 ## Quick Start
 
 ```bash
