@@ -34,7 +34,7 @@ fi
 
 if [ -d "$TARGET_DIR/.claude" ] || [ -f "$TARGET_DIR/CLAUDE.md" ]; then
   echo "Warning: Target directory already contains Claude Code configuration."
-  read -p "Overwrite existing files? (y/N): " CONFIRM
+  read -p "Overwrite existing files? (y/N): " CONFIRM < /dev/tty
   if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
     echo "Aborted."
     exit 0
