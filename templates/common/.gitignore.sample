@@ -28,6 +28,9 @@ screenshots/
 # Session logs (personal data)
 .ai/session-logs/
 
+# E2E test artifacts (Playwright)
+test-results/
+
 # Dependencies
 node_modules/
 
