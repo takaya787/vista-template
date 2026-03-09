@@ -32,35 +32,28 @@ Role-based project templates for Claude Code. Each template provides a pre-confi
 
 No `git clone` required. Just run one command:
 
-```bash
-# Full Setup (role-specific)
-curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- scrum-master ~/path/to/your-project
+**Full Setup** (role-specific):
 
-# Quick Use (common only)
+```bash
+curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- scrum-master ~/path/to/your-project
+```
+
+**Quick Use** (common only):
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- ~/path/to/your-project
 ```
 
-### Full Setup (role-specific)
-> Interactively sets up a complete role template (common + role-specific files, config placeholders, me.json, dependencies)
+**Show Directory Usage** (scrum-master):
 
 ```bash
-# Clone the repository
-git clone https://github.com/takaya787/vista-template.git
-cd vista-template
-
-# Set up a template in your project
-./scripts/setup.sh scrum-master ~/path/to/your-project
-
-# Navigate to your project and start Claude Code
-cd ~/path/to/your-project
-claude
+find templates/scrum-master -name "README.md" -not -path "templates/scrum-master/README.md" -exec sh -c 'echo "--- $(dirname "$1" | sed "s|templates/scrum-master/||") ---" && cat "$1" && echo' _ {} \;
 ```
 
-### Quick Use (common only)
-> Copies only the shared common templates (.claude rules, hooks, docs structure) without role-specific configuration or interactive prompts
+**Show Directory Usage** (marketing):
 
 ```bash
-./scripts/copy-common.sh ~/path/to/your-project
+find templates/marketing -name "README.md" -not -path "templates/marketing/README.md" -exec sh -c 'echo "--- $(dirname "$1" | sed "s|templates/marketing/||") ---" && cat "$1" && echo' _ {} \;
 ```
 
 ## Architecture: common + role
