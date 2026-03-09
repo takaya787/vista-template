@@ -28,6 +28,18 @@ Role-based project templates for Claude Code. Each template provides a pre-confi
 
 ## Quick Start
 
+### One-command install (via curl)
+
+No `git clone` required. Just run one command:
+
+```bash
+# Full Setup (role-specific)
+curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- scrum-master ~/path/to/your-project
+
+# Quick Use (common only)
+curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- ~/path/to/your-project
+```
+
 ### Full Setup (role-specific)
 > Interactively sets up a complete role template (common + role-specific files, config placeholders, me.json, dependencies)
 
