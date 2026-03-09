@@ -1,0 +1,52 @@
+---
+name: analysis-workflow
+description: Defines the standard workflow for all marketing analysis tasks including competitor research.
+---
+
+# Analysis Workflow Convention
+
+## Standard Analysis Flow
+
+すべての分析タスクはこの順序で進める:
+
+1. **Input確認** — `inbox/` にファイルがあるか確認。なければユーザーにインプット形式を案内して停止
+2. **仮説宣言** — 分析前に「何を明らかにしたいか」を1文で宣言し、ユーザーの確認を取る
+3. **分析実行** — ファイルまたはテキストを読み込み構造化して解釈
+4. **Findings出力** — 発見 → 根拠 → 推奨アクション の順で記述
+5. **保存** — `reports/analysis/{topic}_{YYYY-MM-DD}.md` に保存
+
+## Competitor Analysis — Input Priority
+
+| 優先度 | 形式                                      | 対応                                                          |
+| ------ | ----------------------------------------- | ------------------------------------------------------------- |
+| 1st    | テキスト貼り付け（LP本文・広告コピー等）  | そのまま分析                                                  |
+| 2nd    | スクリーンショット（`inbox/` に保存済み） | 画像を読み込んで分析                                          |
+| 3rd    | PDF・資料（`inbox/` に保存済み）          | ファイルを読み込んで分析                                      |
+| 4th    | 競合名のみ（資料なし）                    | `[REQUIRES INPUT]` と明示し、1st〜3rdのいずれかを案内して停止 |
+
+インプットなしに競合の数値・戦略を推測・補完してはいけない。
+
+## Findings Structure
+
+```markdown
+## 仮説
+
+（分析前に設定した問い）
+
+## Findings
+
+- Finding 1: （発見）
+  - 根拠: （データまたはテキストの該当箇所）
+  - 示唆: （自社への示唆）
+
+## 推奨アクション
+
+1. [HIGH] ...
+2. [MID] ...
+3. [LOW] ...
+```
+
+## KPI Interpretation Rules
+
+- 単独の数値ではなく「前週比」「前月比」を軸に解釈する
+- ベンチマーク値を使う場合は `[BENCHMARK: 出所不明]` タグを付ける

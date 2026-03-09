@@ -19,11 +19,13 @@ When Convention (`rules/convention/`) and Config (`rules/config/`) conflict, Con
 ## Allowed vs Disallowed
 
 ### Allowed (Extending)
+
 - Define owner information in Config's `always.md` (Convention has no owner definition)
 - Add project-specific GitHub workflows in Config's `github-workflow.md`
 - Add new settings that Convention does not define
 
 ### Disallowed (Overriding)
+
 - Change sprint duration in Config (`sprint-config.md` is defined in Convention)
 - Override output language rules in Config (`output-language.md` is defined in Convention)
 - Skip or modify workflow steps in Config (`workflow.md` is defined in Convention)
