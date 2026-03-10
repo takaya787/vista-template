@@ -33,4 +33,4 @@ Follow these rules when adding a new service.
 2. Add an entry to the table above
 3. Add required permissions to `.claude/settings.local.json`
 4. Add usage instructions to the Useful Commands section of `CLAUDE.md`
-5. If the service requires per-user account info (ID, username, etc.), add the field to `me.json` (see `rules/convention/onboarding.md`)
+5. If the service requires per-user account info (ID, username, etc.), add the field to `.vista/profile/me.json` (see `rules/convention/onboarding.md`)

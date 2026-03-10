@@ -4,5 +4,5 @@ Setup and utility scripts for scaffolding Vista templates into target projects.
 
 | Script | Purpose |
 |--------|---------|
-| `setup.sh` | Interactively sets up a complete role template (common + role-specific files, config placeholders, me.json, dependencies) |
+| `setup.sh` | Sets up a role template (common + role-specific files, `.vista/` directory structure). Profile personalization is handled by the `/onboarding` skill on first Claude Code launch |
 | `copy-common.sh` | Copies only the shared common templates (.claude rules, hooks, docs structure) without role-specific configuration or interactive prompts |

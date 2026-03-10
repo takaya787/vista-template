@@ -2,10 +2,10 @@
 
 ## Getting Started
 
-1. Run `./scripts/setup.sh scrum-master <target-dir>` — the script interactively collects all settings (GitHub, Notion, user profile) and generates config files and `me.json`
+1. Run `./scripts/setup.sh scrum-master <target-dir>` — copies template files and creates `.vista/` directory structure
 2. `cd <target-dir>`
-3. Add member profiles in `docs/members/{github}.md` (if your team has multiple members)
-4. Start Claude Code: `claude`
+3. Start Claude Code: `claude` — on first launch, `/onboarding` will be suggested to personalize your profile and settings
+4. Add member profiles in `docs/members/{github}.md` (if your team has multiple members)
 
 ## Customization
 

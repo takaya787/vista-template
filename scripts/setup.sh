@@ -5,6 +5,7 @@ set -euo pipefail
 # Usage: ./scripts/setup.sh <role> <target-directory>
 #
 # Copies common + role-specific template files to the target directory.
+# Profile personalization is handled by the /onboarding skill on first Claude Code launch.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
@@ -108,6 +109,55 @@ if [ -d "$TARGET_DIR/.claude/hooks" ]; then
   chmod +x "$TARGET_DIR/.claude/hooks/"*.sh 2>/dev/null || true
 fi
 
+# --- Generate .vista/ structure ---
+
+echo "  Creating .vista/ directory structure..."
+
+mkdir -p "$TARGET_DIR/.vista/state"
+mkdir -p "$TARGET_DIR/.vista/profile"
+mkdir -p "$TARGET_DIR/.vista/config"
+
+# Auto-detect GitHub username
+GITHUB_USER=""
+if command -v gh &> /dev/null; then
+  GITHUB_USER=$(gh api user --jq '.login' 2>/dev/null || echo "")
+fi
+
+# Auto-detect timezone
+TIMEZONE=""
+if command -v python3 &> /dev/null; then
+  TIMEZONE=$(python3 -c "import datetime; print(datetime.datetime.now().astimezone().tzinfo)" 2>/dev/null || echo "")
+fi
+
+# Generate .vista/state/setup.json
+SETUP_DATE=$(date +%Y-%m-%d)
+cat > "$TARGET_DIR/.vista/state/setup.json" << EOF
+{
+  "role": "$ROLE",
+  "setupDate": "$SETUP_DATE",
+  "sourceVersion": "1.0.0"
+}
+EOF
+
+# Generate .vista/profile/me.json (skeleton)
+cat > "$TARGET_DIR/.vista/profile/me.json" << EOF
+{
+  "github": "${GITHUB_USER}",
+  "workingStyle": { "timezone": "${TIMEZONE}" },
+  "preferences": { "language": "ja" },
+  "legalNotice": "This data is used locally only and is never sent to remote servers"
+}
+EOF
+
+# Generate .vista/state/onboarding.json (pending)
+CREATED_AT=$(date -u +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || date +%Y-%m-%dT%H:%M:%S%z)
+cat > "$TARGET_DIR/.vista/state/onboarding.json" << EOF
+{
+  "status": "pending",
+  "createdAt": "$CREATED_AT"
+}
+EOF
+
 # --- Done ---
 
 echo ""
@@ -117,4 +167,5 @@ echo "Next steps:"
 echo "  1. cd $TARGET_DIR"
 echo "  2. Review and customize .claude/rules/config/ files"
 echo "  3. Start Claude Code: claude"
+echo "     (On first launch, /onboarding will personalize your profile and settings)"
 echo ""

@@ -2,8 +2,9 @@
 .ai/plans/*
 !.ai/plans/.gitkeep
 
-# Owner personal data (generated per user, see me.example.json)
-me.json
+# Vista state and profile (generated per user, not shared)
+.vista/state/
+.vista/profile/
 
 # Notion browser auth state (contains session cookies)
 .notion-auth.json

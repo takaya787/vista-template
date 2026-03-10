@@ -75,7 +75,7 @@ templates/
 │   │   │   │   ├── documentation.md   # Doc output rules
 │   │   │   │   ├── output-language.md # Language settings
 │   │   │   │   ├── memory.md          # Self-learning policy
-│   │   │   │   ├── onboarding.md      # me.json reference rules
+│   │   │   │   ├── onboarding.md      # Owner profile & onboarding rules
 │   │   │   │   ├── claude-md.md       # CLAUDE.md guidelines
 │   │   │   │   └── skill-conventions.md
 │   │   │   └── config/
@@ -84,7 +84,12 @@ templates/
 │   ├── docs/team.md                   # Team roster
 │   ├── minutes/                       # Meeting transcripts
 │   ├── screenshots/                   # Captured screenshots
-│   ├── me.example.json                # Owner profile template
+│   ├── .vista/                        # Vista metadata directory
+│   │   ├── state/                     # Onboarding & setup state (gitignored)
+│   │   ├── profile/                   # Owner profile (gitignored)
+│   │   │   └── me.example.json        # Owner profile template
+│   │   └── config/                    # Vista-specific config (tracked)
+│   ├── memory/MEMORY.md               # Auto-memory starter template
 │   └── .gitignore                     # Pre-configured gitignore
 │
 ├── scrum-master/                      # Role-specific (merged on top of common)
@@ -122,12 +127,11 @@ Common convention rules apply to all roles. Role-specific templates add addition
 ./scripts/setup.sh <role> <target-directory>
 ```
 
-The script interactively collects all settings (project config, user profile) and:
+The script copies template files and creates the `.vista/` directory structure:
 
 1. Copies common + role-specific files to the target
-2. Replaces placeholders in config files with your answers
-3. Generates `me.json` and populates `docs/team.md`
-4. Runs `npm install` (if applicable)
+2. Creates `.vista/` directory with skeleton profile and onboarding state
+3. On first Claude Code launch, `/onboarding` is automatically suggested to personalize your profile and settings (~3-5 minutes conversational interview)
 
 See `docs/template-guide.md` in each template for detailed instructions.
 
