@@ -8,23 +8,39 @@ Automatically assess task complexity before execution. Run this triage on every 
 
 ## Scoring Signals
 
+Score the task on 3 signals (Irreversibility is a safety gate, not a score signal):
+
 | Signal | Low (0pt) | High (1pt) |
 |--------|-----------|------------|
 | Step count | 1–2 actions | 3+ steps |
 | Blast radius | 1 file / command | 2+ files / systems |
 | Uncertainty | Approach is clear | Design decisions required |
-| Irreversibility | Fully reversible | External writes / deletions / schema changes |
+
+## Irreversibility Safety Gate
+
+Irreversibility is **not a score signal** — it is a mandatory warning applied regardless of score:
+
+- If the operation involves external writes, deletions, or schema changes, prepend a one-line warning before executing
+- Format: `"[IRREVERSIBLE] This will permanently {action}. Proceeding unless you say stop."`
+- Do **not** escalate Simple or Confirm tasks to PLAN mode solely because they are irreversible
 
 ## Classification
 
 | Total Score | Classification | Behavior |
 |-------------|----------------|----------|
 | 0pt | **Simple** | Declare in one sentence, then execute immediately. No task list needed |
-| 1pt+ | **PLAN** | Enter plan mode, create task list, get user approval before execution |
+| 1pt | **Confirm** | State the plan in 2-3 sentences and list affected files, wait for "ok" before executing |
+| 2pt+ | **PLAN** | Enter plan mode, create task list, get user approval before execution |
 
 ## Simple Mode
 
 - State what you will do in one sentence, then execute
+- No `EnterPlanMode`, no `TaskCreate`
+
+## Confirm Mode
+
+- Summarize the approach in 2-3 sentences and list affected files or systems
+- Wait for explicit user confirmation ("ok", "yes", "go ahead") before executing
 - No `EnterPlanMode`, no `TaskCreate`
 
 ## PLAN Mode
@@ -47,7 +63,7 @@ Re-evaluate when any of these occur during execution:
 - Unexpected design decisions arise
 - Irreversible operations are discovered
 
-When upgrading from Simple → PLAN:
+When upgrading from Simple/Confirm → PLAN:
 
 1. Notify the user of the re-classification and reason
 2. Pause execution

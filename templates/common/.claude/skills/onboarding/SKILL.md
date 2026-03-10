@@ -80,7 +80,12 @@ Call `AskUserQuestion` with the **Working Style batch**. See `references/intervi
 
 ### Step 4: Role-Specific Configuration
 
-Based on the role from `.vista/state/setup.json`, call `AskUserQuestion` with role-specific batches. See `references/{role}-interview.md` for per-role questions and options.
+Based on the role from `.vista/state/setup.json`, load `references/{role}-interview.md` and call `AskUserQuestion` with role-specific batches.
+
+If the role-specific interview file does not exist:
+- Skip role-specific questions without error
+- Record `"role-specific-interview"` in `skippedQuestions`
+- Notify: "Role-specific questions for this role are not yet available. Continuing with core profile setup."
 
 For **scrum-master** role: after role-specific questions and Notion URL collection, collect team member information for `docs/team.md` via conversational follow-up. See `references/scrum-master-interview.md` for the prompt, parsing rules, and target.
 

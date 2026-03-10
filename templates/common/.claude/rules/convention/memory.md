@@ -29,11 +29,14 @@ Do not save detected learning candidates immediately; record them only after the
 
 ## Confirmation Loop (Learn → Confirm → Commit)
 
-1. When learning signals are detected during a session, note them internally
-2. At session boundaries (e.g., task completion), batch-confirm with the user:
-   - "I learned some things from today's conversation: ... May I record them?"
-3. Record only user-approved insights in memory/
-4. The AI handles classification and storage location decisions. Only ask the user for Yes/No
+Batch-confirm detected learning candidates at one of these concrete moments:
+1. **After a task is marked complete** — user says "done", "ok", "looks good" after an AI action
+2. **When the user asks an unrelated new question** — natural conversation boundary
+3. **When the user explicitly says "remember this" or "save this"**
+
+Prompt format: "I noticed some patterns from today's session: [list]. May I record them?"
+
+Record only user-approved insights in memory/. The AI handles classification and storage location. Only ask the user for Yes/No.
 
 ## Memory Review
 
@@ -44,5 +47,20 @@ Prevent accumulation of stale or contradictory knowledge:
 
 ## Promotion to Rules
 
-- When the same pattern is confirmed twice, promote it to `.claude/rules/`
-- Remove promoted knowledge from memory/ to prevent duplication
+- When the same pattern is confirmed twice, promote it to `.claude/rules/config/` as a project-specific learned rule
+- Convention files (`rules/convention/`) are immutable shared standards — NEVER modify them via the promotion process
+- Follow `rule-conventions.md` format: add YAML frontmatter with `paths: "**/*"` for behavioral rules
+- Suggested approach: accumulate promoted items in `rules/config/learned-preferences.md` to prevent file proliferation
+- Remove promoted knowledge from `memory/` to prevent duplication
+
+## Promotion Counter
+
+Track promotion candidates in `memory/MEMORY.md` under a `## Learning Candidates` section:
+
+```
+## Learning Candidates
+<!-- Format: [COUNT/2] description — detected YYYY-MM-DD -->
+<!-- Promote to rules/config/learned-preferences.md when COUNT reaches 2 -->
+```
+
+When COUNT reaches 2, initiate promotion immediately at the next task boundary.

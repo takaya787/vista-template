@@ -31,4 +31,4 @@ paths: "**/*"
 - Follow the `memory.md` convention for self-learning and memory management
 - During sessions, detect implicit learning from signals: corrections, repetitions, selections, rejections
 - Batch-confirm detected learning candidates with the user at task boundaries; record only approved items
-- When the same pattern is confirmed twice, promote it to `.claude/rules/` and remove from memory/
+- When the same pattern is confirmed twice, promote it to `.claude/rules/config/` (never convention/) and remove from memory/

@@ -1,5 +1,5 @@
 ---
-inject: "*"
+paths: "**/*"
 ---
 
 ## Owner
@@ -9,6 +9,5 @@ inject: "*"
 - When fetching project data, highlight the owner's assigned items, blockers, and deadlines first
 - Refer to `docs/team.md` and `docs/members/` for team information
 
-## Session Start
-
-- Check `.vista/state/onboarding.json` at session start. If `status` is `"pending"`, suggest running `/onboarding` to personalize the environment
+<!-- Session start behavior (onboarding detection) is defined in
+     rules/convention/onboarding.md — do not redefine here to avoid duplication -->
