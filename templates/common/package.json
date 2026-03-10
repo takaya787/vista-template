@@ -1,13 +1,14 @@
 {
-  "name": "vista-scrum-master",
+  "name": "vista-project",
   "version": "1.0.0",
-  "description": "Vista template for Scrum Master / Task Manager AI",
+  "description": "Vista project",
   "type": "module",
   "scripts": {
     "notion:login": "node scripts/notion-login.mjs",
     "notion:fetch": "node scripts/notion-fetch.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/claude-code": "^1",
     "playwright": "^1.58.2"
   }
 }
