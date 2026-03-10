@@ -80,7 +80,9 @@ Call `AskUserQuestion` with the **Working Style batch**. See `references/intervi
 
 ### Step 4: Role-Specific Configuration
 
-Based on the role from `.vista/state/setup.json`, call `AskUserQuestion` with role-specific batches. See `references/interview-protocol.md` → Batch 3 for per-role questions and options.
+Based on the role from `.vista/state/setup.json`, call `AskUserQuestion` with role-specific batches. See `references/{role}-interview.md` for per-role questions and options.
+
+For **scrum-master** role: after role-specific questions and Notion URL collection, collect team member information for `docs/team.md` via conversational follow-up. See `references/scrum-master-interview.md` for the prompt, parsing rules, and target.
 
 Also check `rules/config/` files for remaining `{{PLACEHOLDER}}` values. For any found, present them to the user for input.
 
@@ -96,7 +98,8 @@ Verify external service connections based on role:
 
 1. Update `.vista/profile/me.json` with all collected answers
 2. Update any `rules/config/` files where placeholders were filled
-3. Seed `memory/MEMORY.md` with initial preferences:
+3. Update `docs/team.md` with team member data if collected (scrum-master role)
+4. Seed `memory/MEMORY.md` with initial preferences:
    - Owner communication preferences
    - Output format preferences
    - Any notable working style information

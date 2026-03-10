@@ -158,6 +158,12 @@ cat > "$TARGET_DIR/.vista/state/onboarding.json" << EOF
 }
 EOF
 
+# --- Install dependencies ---
+
+cd "$TARGET_DIR"
+echo "  Installing dependencies with pnpm..."
+pnpm install
+
 # --- Done ---
 
 echo ""
