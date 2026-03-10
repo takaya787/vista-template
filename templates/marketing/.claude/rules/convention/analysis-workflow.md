@@ -1,6 +1,5 @@
 ---
-name: analysis-workflow
-description: Defines the standard workflow for all marketing analysis tasks including competitor research.
+paths: "**/*"
 ---
 
 # Analysis Workflow Convention

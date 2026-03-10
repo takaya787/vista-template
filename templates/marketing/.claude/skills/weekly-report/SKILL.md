@@ -44,3 +44,43 @@ TL;DR → チャネル別パフォーマンス（前週diff付き）→ Highligh
 ### Step 6: 保存・確認
 
 `reports/weekly/{YYYY-MM-DD}.md` に保存し、ユーザーに内容確認と追記を促す。
+
+## Output Format
+
+```markdown
+---
+date: YYYY-MM-DD
+type: weekly
+sources:
+  - data/raw/{files_used}
+---
+
+## TL;DR
+
+- （最重要な数値変化 — 1行）
+- （最大のポジティブ要因 — 1行）
+- （最優先のアクション — 1行）
+
+## チャネル別パフォーマンス
+
+| チャネル | Impressions | Clicks | CTR | CV | CVR | CPA | ROAS | 前週比(CV) |
+|---------|------------|--------|-----|----|----|-----|------|-----------|
+| Google Search | ... | ... | ...% | ... | ...% | ¥... | ...% | +X% / -X% |
+| Meta | ... | ... | ...% | ... | ...% | ¥... | ...% | +X% / -X% |
+
+> Source: data/raw/{file_name}
+
+## Highlights
+
+- [GOOD] ...
+- [WATCH] ...
+- [ACTION] ...
+
+## 来週のアクション
+
+1. [HIGH] ...
+2. [MID] ...
+3. [LOW] ...
+
+<!-- 共有フォーマット（integrations.md の Primary 設定に応じて追記） -->
+```

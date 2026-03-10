@@ -1,6 +1,5 @@
 ---
-name: report-output
-description: Defines rules for report structure, save location, and external sharing format.
+paths: "**/*"
 ---
 
 # Report Output Convention

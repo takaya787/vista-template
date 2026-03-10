@@ -8,3 +8,6 @@ Thumbs.db
 *~
 .vscode/
 .idea/
+
+# Local Only
+memory/loop-history.md

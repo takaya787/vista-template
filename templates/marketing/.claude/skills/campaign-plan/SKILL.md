@@ -44,3 +44,52 @@ description: Create a structured campaign plan with KPIs, budget allocation, and
 ### Step 4: 保存・確認
 
 `reports/analysis/campaign_{name}_{YYYY-MM-DD}.md` に保存し、ユーザーに確認を促す。
+
+## Output Format
+
+```markdown
+---
+date: YYYY-MM-DD
+type: campaign
+sources:
+  - "user brief"
+  - reports/weekly/{latest}.md
+---
+
+## TL;DR
+
+- （キャンペーンゴール — 1行）
+- （総予算と期間 — 1行）
+- （最重要KPI — 1行）
+
+## Overview
+
+| 項目 | 内容 |
+|------|------|
+| ゴール | Awareness / Lead / Conversion |
+| 期間 | YYYY-MM-DD 〜 YYYY-MM-DD |
+| 総予算 | ¥XXX |
+| ターゲット | ... |
+
+## チャネル別予算配分
+
+| チャネル | 配分比 | 予算 | 想定CPA | 想定CV数 |
+|---------|--------|------|---------|---------|
+| Google Search | XX% | ¥XXX | ¥XXX | XX |
+| Meta | XX% | ¥XXX | ¥XXX | XX |
+
+## 週次タイムライン
+
+| 週 | Google Search | Meta | その他 | マイルストーン |
+|----|-------------|------|--------|--------------|
+| W1 | セットアップ | セットアップ | ... | 配信開始 |
+| W2 | 運用 | 運用 | ... | 初回レビュー |
+
+## 成功KPI
+
+| KPI | 目標値 | 測定方法 |
+|-----|--------|---------|
+| CV数 | XX | GA4 CV tracking |
+| CPA | ¥XXX | 広告管理画面 |
+| ROAS | XXX% | 広告管理画面 |
+```

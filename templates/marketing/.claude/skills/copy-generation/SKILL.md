@@ -41,4 +41,33 @@ description: Generate ad copy variants for a given campaign brief. Use when the 
 
 ### Step 4: 出力・確認
 
-ユーザーに確認を取り、採用バリエーションを `inbox/copy_{campaign-name}_{YYYY-MM-DD}.md` に保存。
+ユーザーに確認を取り、採用バリエーションを `reports/analysis/copy_{campaign-name}_{YYYY-MM-DD}.md` に保存。
+
+## Output Format
+
+```markdown
+## ブリーフ
+
+| 項目 | 内容 |
+|------|------|
+| 商品・サービス | ... |
+| ターゲット | ... |
+| 訴求便益 | ... |
+| 対象チャネル | ... |
+
+## コピーバリエーション
+
+| # | 訴求軸 | Headline | Body | 文字数(H/B) |
+|---|--------|----------|------|------------|
+| 1 | 価格 | ... | ... | XX/XX |
+| 2 | 感情 | ... | ... | XX/XX |
+| 3 | 機能 | ... | ... | XX/XX |
+| 4 | 社会的証明 | ... | ... | XX/XX |
+| 5 | 緊急性 | ... | ... | XX/XX |
+
+## A/Bテスト提案
+
+- テストペア: #X vs #X
+- 検証仮説: ...
+- 推奨期間: X日間
+```

@@ -13,17 +13,19 @@ Weekly reports are an important communication tool for conveying project progres
 
 ## Data Sources
 
-- **GitHub Project** — Refer to `CLAUDE.md` for Project number and Org
+- **GitHub Project** — Refer to `rules/config/github-workflow.md` for Org and Project number
 - **Previous report** — Latest file in `docs/weekly-updates/` (for diff calculation)
-- **Issue details** — Refer to `CLAUDE.md` for the Issue repository
+- **Issue details** — Refer to `rules/config/github-workflow.md` for the Issue repository
 - **Sprint history** — Past data in `docs/sprint-history/` (for trend analysis)
 
 ## Steps
 
 ### Step 1: Fetch Project Data
 
+Use Org and Project number from `rules/config/github-workflow.md`:
+
 ```bash
-gh project item-list {PROJECT_NUMBER} --owner {ORG} --format json --limit 200
+gh project item-list <PROJECT_NUMBER> --owner <ORG_NAME> --format json --limit 200
 ```
 
 ### Step 2: Calculate Sprint Consumption
@@ -41,3 +43,48 @@ Save to `docs/weekly-updates/{YYYY-MM-DD}.md`.
 ### Step 5: Confirm with User
 
 Display the report and prompt the user to add to the "This Week's Updates" section.
+
+## Output Format
+
+Save as `docs/weekly-updates/{YYYY-MM-DD}.md` with this structure:
+
+```markdown
+---
+date: YYYY-MM-DD
+sprint: N
+sources:
+  - github-project
+  - sprint-history/sprint-{N-1}.json
+---
+
+## TL;DR
+
+- (Most significant progress — 1 line)
+- (Biggest blocker or risk — 1 line)
+- (Recommended action — 1 line)
+
+## Sprint Consumption
+
+| Metric | This Week | Last Week | Diff |
+|--------|-----------|-----------|------|
+| Done + In Review | X pt | Y pt | +Z pt |
+| In Progress | X pt | Y pt | +Z pt |
+| Sprint Backlog | X pt | Y pt | -Z pt |
+| Completion Rate | X% | Y% | +Z% |
+
+## Remaining SP by Category
+
+| Category | Remaining SP | % of Total |
+|----------|-------------|------------|
+| ... | X | X% |
+
+## Key Movements
+
+- (Completed items and newly added items this week)
+
+## This Week's Updates
+
+(User fills in manually after review)
+```
+
+Diff notation: use `+Xpt` / `-Xpt` for increases/decreases. Highlight significant changes (>20% swing) in bold.

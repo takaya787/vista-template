@@ -1,6 +1,5 @@
 ---
-name: integrations
-description: External tool connection settings. Customize per project.
+paths: "**/*"
 ---
 
 # Integrations Config

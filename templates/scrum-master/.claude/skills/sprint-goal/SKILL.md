@@ -13,7 +13,7 @@ Sprint Goals are pasted into the Notion standup page and shared with the whole t
 
 ## Data Sources
 
-- **GitHub Project** — Refer to `CLAUDE.md` for Project number and Org
+- **GitHub Project** — Refer to `rules/config/github-workflow.md` for Org and Project number
 - **Team composition** — Refer to `docs/team.md` (managers are excluded from task display)
 
 ## Steps
@@ -24,8 +24,10 @@ Use the sprint number if provided as an argument. Otherwise, ask the user.
 
 ### Step 2: Fetch GitHub Project Data
 
+Use Org and Project number from `rules/config/github-workflow.md`:
+
 ```bash
-gh project item-list {PROJECT_NUMBER} --owner {ORG} --format json --limit 200
+gh project item-list <PROJECT_NUMBER> --owner <ORG_NAME> --format json --limit 200
 ```
 
 Filter items where `sprint.title` matches `Sprint {N}`.
@@ -41,3 +43,25 @@ Summarize each assignee's tasks by theme. Write in the completion form matching 
 ### Step 5: Output
 
 Output markdown in a format ready to paste into Notion.
+
+## Output Format
+
+```markdown
+## Sprint {N} Goals ({start_date} - {end_date})
+
+### {Assignee Name} (@github)
+
+- **Theme 1**: (1-sentence summary of related tasks)
+- **Theme 2**: (1-sentence summary of related tasks)
+- **Theme 3**: (if applicable)
+
+### {Assignee Name} (@github)
+
+- **Theme 1**: ...
+```
+
+Rules:
+- Group each assignee's tasks into 2-3 themes (do not list individual issues)
+- Write in the completion form matching `output-language.md` (e.g., "〜を完了する" in Japanese)
+- Exclude managers from task display (per `docs/team.md` roles)
+- Highlight the owner's section first

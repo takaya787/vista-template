@@ -1,6 +1,5 @@
 ---
-name: channels
-description: Active marketing channels for this project. Customize per project.
+paths: "**/*"
 ---
 
 # Active Channels Config

@@ -38,3 +38,51 @@ Value Proposition / ターゲット / 主要メッセージ / 価格・CTA / ト
 ### Step 5: 保存
 
 `reports/analysis/competitor_{company-name}_{YYYY-MM-DD}.md` に保存。
+
+## Output Format
+
+```markdown
+---
+date: YYYY-MM-DD
+type: analysis
+sources:
+  - inbox/{input_file} or "pasted text"
+---
+
+## TL;DR
+
+- （最大の差別化ポイント — 1行）
+- （自社への最重要示唆 — 1行）
+- （最優先アクション — 1行）
+
+## 対象
+
+- 競合名: {company_name}
+- 分析対象: {LP / 広告コピー / 資料 / etc.}
+
+## 仮説
+
+（分析前に設定した問い）
+
+## Findings
+
+- Finding 1: （発見）
+  - 根拠: （データまたはテキストの該当箇所）
+  - 示唆: （自社への示唆）
+
+## 構造化比較
+
+| 軸 | 競合 | 自社（推定） |
+|----|------|-------------|
+| Value Proposition | ... | ... |
+| ターゲット | ... | ... |
+| 主要メッセージ | ... | ... |
+| 価格・CTA | ... | ... |
+| トーン | ... | ... |
+
+## 推奨アクション
+
+1. [HIGH] ...
+2. [MID] ...
+3. [LOW] ...
+```

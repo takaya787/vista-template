@@ -1,6 +1,5 @@
 ---
-name: data-sources
-description: Defines rules for registering, naming, and handling all marketing data files.
+paths: "**/*"
 ---
 
 # Data Source Convention

@@ -1,1 +1,1 @@
-Investor relations template: financial reporting, investor communication, KPI dashboards. (Planned)
+Investor relations template: financial reporting, investor communication, KPI dashboards, disclosure compliance, and quiet period management.
