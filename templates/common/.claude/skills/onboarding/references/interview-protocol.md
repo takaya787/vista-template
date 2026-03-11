@@ -35,7 +35,9 @@ All roles. Present as a single `AskUserQuestion` call.
 - **options:**
   1. `{ label: "Scrum Master", description: "Agile team facilitation and sprint management" }`
   2. `{ label: "Product Manager", description: "Roadmap, prioritization, stakeholder management" }`
-  3. `{ label: "Marketing Manager", description: "Campaigns, analytics, content strategy" }`
+  3. `{ label: "Designer", description: "Design review, asset management, design system documentation" }`
+  4. `{ label: "Marketing Manager", description: "Campaigns, analytics, content strategy" }`
+  5. `{ label: "Investor Relations", description: "Financial reporting, investor communication, KPI dashboards" }`
 - **Target:** `.vista/profile/me.json` → `position`
 - **Skip default:** Infer from role argument (e.g., "Scrum Master" for scrum-master)
 

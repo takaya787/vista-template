@@ -122,5 +122,8 @@ Verify external service connections based on role:
 2. Display a summary of configured settings
 3. Suggest role-specific next actions:
    - scrum-master: "Try `/planning` to see your sprint dashboard"
+   - product-manager: "Try `/prd` to draft your first PRD"
+   - designer: "Try `/design-review` to run your first design review"
    - marketing: "Try `/weekly-report` to generate your first report"
+   - investor-relations: "Try creating your first KPI dashboard"
 4. If questions were skipped, mention: "You can re-run `/onboarding` anytime to fill in skipped items"
