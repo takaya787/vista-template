@@ -46,18 +46,14 @@ Extract feature items from input. For each feature, identify any existing contex
 
 ### Step 3: Score Each Feature
 
-For RICE: score Reach, Impact, Confidence, Effort per feature.
-- Reach: users/quarter in `{{REACH_UNIT}}`
-- Impact: 0.25 (minimal) / 0.5 (low) / 1 (medium) / 2 (high) / 3 (massive)
-- Confidence: 10-100%
-- Effort: in `{{EFFORT_UNIT}}`
-- Formula: `(Reach × Impact × Confidence) / Effort`
+Apply the scoring formulas and component definitions from `rules/convention/prioritization.md`.
 
-For ICE: score Impact (1-10), Confidence (1-10), Ease (1-10).
-
-For MoSCoW: classify Must/Should/Could/Won't with rationale. Must = max 60% of capacity.
+- **RICE**: `(Reach × Impact × Confidence%) / Effort` — see `prioritization.md` for component scales and unit settings
+- **ICE**: `Impact × Confidence × Ease` (each 1–10) — all ICE results are implicitly `[LOW CONFIDENCE]`
+- **MoSCoW**: Must / Should / Could / Won't — Must capped at 60% of capacity
 
 Apply `pm-data-integrity.md` rules: label any score component lacking source data as `[ESTIMATED]` with reasoning.
+Apply tie-breaking rules from `prioritization.md` when scores are equal.
 
 ### Step 4: Rank and Identify Risks
 

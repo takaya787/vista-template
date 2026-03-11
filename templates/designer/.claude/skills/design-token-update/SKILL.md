@@ -92,6 +92,22 @@ For any DEPRECATED or RENAMED tokens, pause and ask the user to confirm:
 Do not proceed until explicit confirmation is received.
 ADDED and CHANGED tokens do not require separate confirmation — they are included in the overall diff shown in Step 3.
 
+#### RENAMED + DEPRECATED Simultaneously
+
+If a token appears as both RENAMED (old name → new name) and DEPRECATED (old name removed):
+- Treat it as **RENAMED only**. Deprecation is implied by the rename — do not create a separate DEPRECATED entry for the old name.
+- In the changelog, use the `#### Renamed` section and append: `"Old name deprecated — do not use."`
+- Do not produce a duplicate entry in `#### Deprecated` for the same token.
+
+#### Processing Order (when multiple change types coexist)
+
+Apply changes in this strict order to avoid reference conflicts:
+
+1. **RENAMED** — update key references first so subsequent steps use the new names
+2. **ADDED** — add new tokens to the processed set
+3. **CHANGED** — update values for existing tokens
+4. **DEPRECATED** — mark and wrap in deprecation comment last (after all renames are resolved)
+
 ### Step 5: Generate Processed Output Files
 
 After confirmation, write to `design/tokens/processed/`:

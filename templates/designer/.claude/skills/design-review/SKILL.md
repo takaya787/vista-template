@@ -51,7 +51,7 @@ Assess every finding against these categories:
 | Visual Design | `[VISUAL]` | Layout, color, typography, spacing, alignment, brand consistency |
 | User Experience | `[UX]` | Flow, affordance, cognitive load, error prevention, feedback |
 | Copy & Content | `[COPY]` | Clarity, tone, length, localization readiness, placeholder text |
-| Accessibility | `[A11Y]` | Contrast ratio, touch targets, focus order, screen reader hints |
+| Accessibility | `[A11Y]` | Contrast ratio, touch targets, focus order, screen reader hints — thresholds defined in `rules/convention/accessibility-standards.md` |
 | Specification | `[SPEC]` | Missing states, edge cases, responsive behavior, interaction details |
 
 ### Step 4: Assign Severity
@@ -62,6 +62,8 @@ Assess every finding against these categories:
 | 2 | `MAJOR` | Significant UX degradation or inconsistency | Should fix |
 | 3 | `MINOR` | Polish issue, minor inconsistency | Nice to fix |
 | 4 | `NICE-TO-HAVE` | Subjective improvement suggestion | Optional |
+
+For all `[A11Y]` findings, assign severity exclusively from the table in `rules/convention/accessibility-standards.md`. Do not infer A11Y severity independently.
 
 ### Step 5: Generate Review Report
 

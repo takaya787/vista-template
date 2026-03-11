@@ -43,11 +43,13 @@ Rules are split into **Convention (shared standards, do not modify)** and **Conf
 | Owner personal data  | `.vista/profile/me.json` (populated via `/onboarding`) |
 | Team composition     | `docs/team.md`, `docs/members/`                        |
 | Coding standards     | `rules/convention/coding-standards.md`                 |
+| Testing standards    | `rules/convention/testing-standards.md`                |
 | Change safety        | `rules/convention/change-safety.md`                    |
 | Tech stack           | `rules/config/tech-stack.md`                           |
 | Repository settings  | `rules/config/repository.md`                           |
 | CI/CD config         | `rules/config/ci-config.md`                            |
 | Bug reports / diffs  | `inbox/`                                               |
+| Bug investigation logs | `docs/bugs/`                                         |
 
 ## Getting Started
 

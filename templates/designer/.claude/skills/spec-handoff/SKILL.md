@@ -105,6 +105,15 @@ For every color, spacing, radius, shadow, or typography value in the spec:
 - Format: `{token.name}` (e.g., `color.primary.500`, `spacing.sm`)
 - If no processed token file exists, use `[TOKEN REQUIRED: {description}]`
 
+#### TOKEN REQUIRED Escalation
+
+After placing any `[TOKEN REQUIRED]` placeholders, count the total across the spec being written:
+
+| Count | Action |
+|-------|--------|
+| 1–2 placeholders | Continue generating the spec. List all gaps in the Engineer Notes section under "Token Gaps". Suggest running `/design-token-update` after spec review. |
+| 3 or more placeholders | Stop immediately and surface: `[SPEC BLOCKED — TOKEN DATA MISSING] {N} token values are missing. The spec cannot be completed reliably without them. Recommended: run /design-token-update first, then re-run /spec-handoff.` Do not continue until the user explicitly responds with "continue anyway" or completes the token update. |
+
 ### Step 5: Write Engineer Notes
 
 Add a dedicated section for implementation guidance that a designer would not naturally include but an engineer needs:

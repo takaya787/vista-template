@@ -29,11 +29,10 @@ description: Generate ad copy variants for a given campaign brief. Use when the 
 
 ### Step 2: 文字数制約の適用
 
-| チャネル      | Headline | Body      |
-| ------------- | -------- | --------- |
-| Google Search | 30字以内 | 90字以内  |
-| Meta          | 40字以内 | 125字以内 |
-| LINE          | 20字以内 | 60字以内  |
+`rules/config/channels.md` の対象チャネルの `copy_limits` フィールドを読み込んで適用する。SKILL.md内に文字数制限を直接記述しないこと（プラットフォーム仕様変更時の一元管理のため）。
+
+- `copy_limits` が未設定のチャネルが指定された場合: `[COPY_LIMIT REQUIRED: channels.mdの{チャネル名}にcopy_limitsを設定してください]` を出力して停止
+- 生成したコピーは制限文字数を超えていないかを必ず確認し、各バリエーションに文字数を表示する（例: `28/30字`）
 
 ### Step 3: バリエーション生成
 
