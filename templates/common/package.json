@@ -8,7 +8,6 @@
     "notion:fetch": "node scripts/notion-fetch.mjs"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^1",
     "playwright": "^1.58.2"
   }
 }

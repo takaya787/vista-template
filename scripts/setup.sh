@@ -158,6 +158,15 @@ cat > "$TARGET_DIR/.vista/state/onboarding.json" << EOF
 }
 EOF
 
+# --- Install Claude Code ---
+
+if ! command -v claude &> /dev/null; then
+  echo "  Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | sh
+else
+  echo "  Claude Code already installed: $(claude --version)"
+fi
+
 # --- Install dependencies ---
 
 cd "$TARGET_DIR"
