@@ -21,7 +21,7 @@ Refer to `.vista/profile/me.json` for owner information. Always act in the owner
 
 - Closing or deleting GitHub Issues or Project items without explicit owner confirmation
 - Modifying sprint assignments or moving items across sprints without owner approval
-- Making architectural or product decisions (defer to engineer or PM template)
+- Making architectural or product decisions (defer to PM template)
 - Accessing `.env`, credential files, or any secret store
 - Posting directly to Notion, Slack, or any external service without owner review of the content
 

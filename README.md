@@ -9,7 +9,6 @@ Role-based project templates for Claude Code. Each template provides a pre-confi
 | `scrum-master` | Ready | Task management, sprint planning, weekly reports, meeting minutes |
 | `product-manager` | Planned | Product roadmap, feature prioritization, stakeholder communication |
 | `designer` | Planned | Design review, asset management, design system documentation |
-| `engineer` | Planned | Code review, architecture decisions, technical documentation |
 | `marketing` | Planned | Campaign tracking, content planning, analytics reports |
 | `investor-relations` | Planned | Financial reporting, investor communication, KPI dashboards |
 
@@ -105,7 +104,6 @@ templates/
 │
 ├── product-manager/                   # (planned)
 ├── designer/                          # (planned)
-├── engineer/                          # (planned)
 ├── marketing/                         # (planned)
 └── investor-relations/                # (planned)
 ```

@@ -123,5 +123,4 @@ Verify external service connections based on role:
 3. Suggest role-specific next actions:
    - scrum-master: "Try `/planning` to see your sprint dashboard"
    - marketing: "Try `/weekly-report` to generate your first report"
-   - engineer: "Start by exploring the codebase with me"
 4. If questions were skipped, mention: "You can re-run `/onboarding` anytime to fill in skipped items"

@@ -15,7 +15,6 @@ AVAILABLE_ROLES=(
   "scrum-master"
   "product-manager"
   "designer"
-  "engineer"
   "marketing"
   "investor-relations"
 )
@@ -36,7 +35,7 @@ usage() {
   echo ""
   echo "Examples:"
   echo "  $0 scrum-master ~/projects/my-project"
-  echo "  $0 engineer ./my-app"
+  echo "  $0 designer ./my-app"
 }
 
 # --- Argument validation ---

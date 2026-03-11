@@ -34,9 +34,8 @@ All roles. Present as a single `AskUserQuestion` call.
 - **multiSelect:** false
 - **options:**
   1. `{ label: "Scrum Master", description: "Agile team facilitation and sprint management" }`
-  2. `{ label: "Software Engineer", description: "Development, code review, architecture" }`
-  3. `{ label: "Product Manager", description: "Roadmap, prioritization, stakeholder management" }`
-  4. `{ label: "Marketing Manager", description: "Campaigns, analytics, content strategy" }`
+  2. `{ label: "Product Manager", description: "Roadmap, prioritization, stakeholder management" }`
+  3. `{ label: "Marketing Manager", description: "Campaigns, analytics, content strategy" }`
 - **Target:** `.vista/profile/me.json` → `position`
 - **Skip default:** Infer from role argument (e.g., "Scrum Master" for scrum-master)
 
@@ -55,7 +54,7 @@ All roles. Present as a single `AskUserQuestion` call.
 
 ### Q3: Tech Stack (technical roles only)
 
-- **Applies to:** engineer, designer, product-manager
+- **Applies to:** designer, product-manager
 - **header:** "Tech Stack"
 - **question:** "What are your primary technologies?"
 - **multiSelect:** true
@@ -121,7 +120,6 @@ Role-specific questions (formerly Batch 3) are maintained in separate files per 
 |------|------|
 | scrum-master | `references/scrum-master-interview.md` |
 | marketing | `references/marketing-interview.md` |
-| engineer | `references/engineer-interview.md` |
 | product-manager | `references/product-manager-interview.md` |
 | designer | `references/designer-interview.md` |
 | investor-relations | `references/investor-relations-interview.md` |
