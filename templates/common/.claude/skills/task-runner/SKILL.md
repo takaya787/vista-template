@@ -5,74 +5,74 @@ description: Execute a single pending task from a .ai/tasks/ queue file autonomo
 
 # Task Runner
 
-watcher プロセスから `claude -p` 経由で呼び出される自律実行スキル。
-`.ai/tasks/*.md` のキューから1タスクを取り出し、実行し、完了を記録する。
+An autonomous execution skill invoked by the watcher process via `claude -p`.
+Picks up one task from the `.ai/tasks/*.md` queue, executes it, and records completion.
 
 ## Steps
 
-### Step 1: タスクを特定する
+### Step 1: Identify the task
 
-呼び出しプロンプトからファイルパスとタスク slug を読み取る。
-指定がない場合は `.ai/tasks/*.md` を走査し、最初の `[ ]` エントリを取得する。
+Read the file path and task slug from the invocation prompt.
+If not specified, scan `.ai/tasks/*.md` and pick the first `[ ]` entry.
 
-タスクエントリの形式:
+Task entry format:
 
 ```
 ## [ ] {slug}
-{説明}
-完了基準: {基準}
+{description}
+Done criteria: {criteria}
 ```
 
-### Step 2: In Progress にマークする
+### Step 2: Mark as In Progress
 
-タスクファイルの該当行を更新する（他のプロセスが同じタスクを重複実行しないよう、実行前に即座に行う）:
+Update the relevant line in the task file (do this immediately before execution to prevent other processes from duplicate-running the same task):
 
 ```
 ## [ ] {slug}  →  ## [~] {slug}
 ```
 
-### Step 3: タスクを実行する
+### Step 3: Execute the task
 
-説明と完了基準を読み、コードベースを必要に応じて探索して実装する。
+Read the description and done criteria, explore the codebase as needed, and implement.
 
-**複雑さの判断 (task-triage.md に準拠):**
+**Complexity assessment (per task-triage.md):**
 
-- Simple (0pt): そのまま実行
-- PLAN (1pt+): 計画を立ててから実行。ユーザー確認は不要 — 自律実行のため自己承認で進める
+- Simple (0pt): Execute directly
+- PLAN (1pt+): Create a plan before executing. No user confirmation needed — self-approve since this is autonomous execution
 
-**実行上の注意:**
+**Execution notes:**
 
-- 完了基準を常に念頭に置く — それが「完了」の定義
-- 変更はコミットしない（watcher 側の責務）
-- 予期しないエラーや設計判断が必要な場合は後述の Step 4b へ
-- **Step 4a で完了を記録する際、`date '+%Y-%m-%d %H:%M'` で現在の日時（YYYY-MM-DD HH:MM形式）を自動取得して記録する**
+- Always keep the done criteria in mind — it defines "done"
+- Do not commit changes (that is the watcher's responsibility)
+- If unexpected errors or design decisions are required, proceed to Step 4b below
+- **When recording completion in Step 4a, automatically fetch the current date/time in YYYY-MM-DD HH:MM format using `date '+%Y-%m-%d %H:%M'`**
 
-### Step 4a: 完了 → Done にマークする
+### Step 4a: Completed → Mark as Done
 
-実装が完了し完了基準を満たしたら、タスクファイルを更新:
+When the implementation is complete and the done criteria are met, update the task file:
 
 ```
 ## [~] {slug}  →  ## [x] {slug}
-{説明}
-完了基準: {基準}
-完了: {YYYY-MM-DD HH:MM}
+{description}
+Done criteria: {criteria}
+Done: {YYYY-MM-DD HH:MM}
 ```
 
-### Step 4b: 失敗 → Blocked にマークする
+### Step 4b: Failed → Mark as Blocked
 
-実行できない理由がある場合（設計判断が必要・依存タスク未完了・情報不足等）:
+When execution is not possible (design decision required, dependent task incomplete, insufficient information, etc.):
 
 ```
 ## [~] {slug}  →  ## [!] {slug}
-{説明}
-完了基準: {基準}
-ブロック理由: {理由を1行で}  ← 追記
+{description}
+Done criteria: {criteria}
+Blocked reason: {reason in one line}  ← appended
 ```
 
-ステータス一覧:
-| マーカー | 意味 |
-|---------|------|
-| `[ ]` | Pending — 未実行 |
-| `[~]` | In Progress — 実行中 |
-| `[x]` | Done — 完了 |
-| `[!]` | Blocked — 実行不能（理由を記載） |
+Status reference:
+| Marker | Meaning |
+|--------|---------|
+| `[ ]` | Pending — not yet executed |
+| `[~]` | In Progress — executing |
+| `[x]` | Done — completed |
+| `[!]` | Blocked — cannot execute (reason noted) |

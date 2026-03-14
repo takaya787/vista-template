@@ -1,98 +1,98 @@
 ---
 name: task-register
-description: Register a task into a .ai/tasks/ queue file for autonomous AI execution by a watcher process. Use when the user says "/task-register", "このタスクを登録して", "後でAIにやらせたい", "自律タスクとして残しておいて", "バックグラウンドで進めておいて", "タスクキューに追加", or any phrase indicating they want to defer work to the AI. Also trigger when the user describes a feature, fix, or refactor and says they're not ready to execute it yet — proactively suggest registering it.
+description: Register a task into a .ai/tasks/ queue file for autonomous AI execution by a watcher process. Use when the user says "/task-register", "register this task", "I want the AI to handle this later", "save this as an autonomous task", "run this in the background", "add to task queue", or any phrase indicating they want to defer work to the AI. Also trigger when the user describes a feature, fix, or refactor and says they're not ready to execute it yet — proactively suggest registering it.
 ---
 
 # Task Register
 
-AI watcher プロセスが読み取り・実行するタスクキューファイル (`.ai/tasks/*.md`) にタスクエントリを追記するスキル。
+A skill that appends task entries to task queue files (`.ai/tasks/*.md`) read and executed by the AI watcher process.
 
-## CRITICAL: セッション境界ルール
+## CRITICAL: Session Boundary Rules
 
-このスキルが動作するセッションは **登録専用セッション** である。このセッションは `/task-register` を呼び出した後も、会話が続く限り登録専用の振る舞いを維持する。
+The session in which this skill operates is a **registration-only session**. After `/task-register` is invoked, this session maintains registration-only behavior for the duration of the conversation.
 
 ```
 ┌─────────────────────────────┐     ┌──────────────────────────────┐
-│  インタラクティブセッション   │     │  watcher セッション           │
-│  (このスキルが動くセッション) │     │  (claude -p / watch.sh)       │
-│                             │     │                               │
-│  ✅ タスクの登録のみ          │────▶│  ✅ タスクの実行               │
-│  ❌ 実装・コード変更          │     │  ✅ ステータス更新              │
-│  ❌ Agent 起動               │     │  ✅ 完了マーク                 │
+│  Interactive Session         │     │  Watcher Session              │
+│  (session running this skill)│     │  (claude -p / watch.sh)       │
+│                              │     │                               │
+│  ✅ Task registration only   │────▶│  ✅ Task execution             │
+│  ❌ Implementation / changes │     │  ✅ Status updates             │
+│  ❌ Agent invocation         │     │  ✅ Completion marking         │
 └─────────────────────────────┘     └──────────────────────────────┘
 ```
 
-**このセッションで絶対に行ってはいけないこと:**
+**Actions strictly prohibited in this session:**
 
-- 実装・コード変更・調査・分析
-- ファイルの読み込み（タスクファイルへの書き込み以外）
-- Agent / サブエージェントの起動
-- 登録後の「実装しましょうか？」などの提案
-- キューに `[ ]` タスクが存在しても、それを実行しようとすること
+- Implementation, code changes, investigation, or analysis
+- File reads (except writing to task files)
+- Agent / sub-agent invocation
+- Post-registration suggestions such as "Shall I implement this?"
+- Attempting to execute `[ ]` tasks even if they exist in the queue
 
-登録されたタスクは watcher プロセスが別セッションで実行する。このセッションの役割はそこで終わり。
+Registered tasks are executed by the watcher process in a separate session. This session's role ends there.
 
-## ファイル構造
+## File Structure
 
-1ファイル = 1トピック（複数タスクを格納）。ファイルは領域ごとに分ける:
+1 file = 1 topic (containing multiple tasks). Files are organized by domain:
 
 ```
 .ai/tasks/
-├── ui.md        # フロントエンド・UI 関連
-├── backend.md   # バックエンド・API 関連
-├── infra.md     # ビルド・CI・インフラ関連
-└── (任意の名前).md
+├── ui.md        # Frontend / UI related
+├── backend.md   # Backend / API related
+├── infra.md     # Build / CI / Infrastructure related
+└── (any-name).md
 ```
 
-## タスクエントリ形式
+## Task Entry Format
 
 ```markdown
 ## [ ] {task-slug}
 
-{1〜2行の説明。何を・どこで・なぜ}
-完了基準: {1行で書ける確認方法}
+{1-2 line description. What / Where / Why}
+Done criteria: {verification method in one line}
 ```
 
-ステータスマーカー（watcher と Claude Code が更新する）:
+Status markers (updated by the watcher and Claude Code):
 
-- `[ ]` — Pending（登録済み・未着手）
-- `[~]` — In Progress（実行中）
-- `[x]` — Done（完了）、末尾に `完了: YYYY-MM-DD` を追加
+- `[ ]` — Pending (registered, not yet started)
+- `[~]` — In Progress (executing)
+- `[x]` — Done (completed), append `Done: YYYY-MM-DD` at the end
 
 ---
 
 ## Steps
 
-### Step 1: ファイルを特定する（読み込み不要）
+### Step 1: Identify the target file (no file reads needed)
 
-会話の文脈・ユーザーの説明のみからトピックを判断し、追記先ファイルを決める。
+Determine the topic from the conversation context and user description alone, then decide which file to append to.
 
-- コードベースの探索・ファイルの読み込みは不要
-- 不明なときのみユーザーに確認する
+- No codebase exploration or file reads required
+- Only ask the user for clarification when uncertain
 
-### Step 2: タスクエントリを生成する
+### Step 2: Generate the task entry
 
-以下の方針で簡潔に書く:
+Write concisely following these guidelines:
 
-- **slug**: 動詞-目的語の kebab-case（例: `add-dark-mode`, `fix-auth-bug`）
-- **説明**: 1〜2行。ユーザーの説明をそのまま整理して記載
-- **完了基準**: watcher が「終わった」と判断できる1行の基準
+- **slug**: verb-noun in kebab-case (e.g., `add-dark-mode`, `fix-auth-bug`)
+- **description**: 1-2 lines. Organize and transcribe the user's description as-is
+- **Done criteria**: A single line that lets the watcher determine "this is done"
 
-### Step 3: ファイルに追記する
+### Step 3: Append to the file
 
-Write / Edit ツールのみ使用して対象ファイルの末尾にエントリを追記する。
-**ユーザーに確認を求めず、即座に書き込む。** `.ai/tasks/` への編集権限は `settings.local.json` で事前許可済みのため、許可プロンプトは発生しない。
-ファイルが存在しない場合は以下のヘッダー付きで新規作成:
+Use only the Write / Edit tools to append the entry to the end of the target file.
+**Write immediately without asking for user confirmation.** Edit permissions for `.ai/tasks/` are pre-authorized in `settings.local.json`, so no permission prompt will appear.
+If the file does not exist, create it with the following header:
 
 ```markdown
 # Tasks: {topic}
 ```
 
-### Step 4: 完了を報告して終了する
+### Step 4: Report completion and finish
 
 ```
-登録完了: .ai/tasks/{file}.md に追加
-タスク: {slug}
+Registered: added to .ai/tasks/{file}.md
+Task: {slug}
 ```
 
-**ここで終了。実装・調査・提案は一切行わない。**
+**Stop here. Do not perform any implementation, investigation, or suggestions.**
