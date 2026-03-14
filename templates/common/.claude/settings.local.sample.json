@@ -8,7 +8,9 @@
       "Bash(bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.sh\":*)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
       "Write(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
-      "Read(file_path:$CLAUDE_PROJECT_DIR/docs/*)"
+      "Read(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.ai/tasks/*)",
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.ai/tasks/*)"
     ]
   },
   "enableAllProjectMcpServers": true,
