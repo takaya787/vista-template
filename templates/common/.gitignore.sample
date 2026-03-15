@@ -1,20 +1,13 @@
-# Plan files are ephemeral — only keep the directory structure
-.ai/plans/*
-!.ai/plans/.gitkeep
+# Claude hidden folder
+.ai/*
+.claude/*
 
 # Vista state and profile (generated per user, not shared)
-.vista/state/
-.vista/profile/
+.vista/*
 
-# Notion browser auth state (contains session cookies)
-.notion-auth.json
-
-# AI-generated documents (reports, planning, weekly-updates, etc.)
-docs/planning/
-docs/weekly-updates/
-docs/sprint-goals/
-docs/sprint-history/
-docs/reports/
+# AI-generated documents
+docs/*
+!docs/.gitkeep
 
 # Meeting transcripts (sensitive content)
 minutes/*
@@ -22,12 +15,11 @@ minutes/*
 
 # Assets (screenshots, videos, traces — all generated)
 assets/
+!assets/.gitkeep
 
 # Legacy screenshots directory
 screenshots/
-
-# Session logs (personal data)
-.ai/session-logs/
+!screenshots/.gitkeep
 
 # E2E test artifacts (Playwright)
 test-results/
@@ -35,6 +27,3 @@ test-results/
 # Dependencies
 node_modules/
 
-# --- injected claude context ---
-.claude/*
-# --- injected claude context ---

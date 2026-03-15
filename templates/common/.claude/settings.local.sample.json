@@ -10,7 +10,53 @@
       "Write(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
       "Read(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.ai/tasks/*)",
-      "Write(file_path:$CLAUDE_PROJECT_DIR/.ai/tasks/*)"
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.ai/tasks/*)",
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/config/*.md)",
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/config/*.md)",
+      "Read(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/config/*.md)"
+    ],
+    "deny": [
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/convention/*.md)",
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/convention/*.md)",
+
+      "Bash(sudo:*)",
+      "Bash(su :*)",
+      "Bash(su -:*)",
+
+      "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+      "Bash(shred:*)",
+
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+
+      "Bash(curl*|*sh:*)",
+      "Bash(wget*|*sh:*)",
+      "Bash(eval:*)",
+      "Bash(exec:*)",
+
+      "Bash(chmod 777:*)",
+      "Bash(chmod -R 777:*)",
+      "Bash(chown:*)",
+
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Write(**/.env)",
+      "Write(**/.env.*)",
+
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/id_rsa)",
+      "Read(**/id_ed25519)",
+      "Edit(**/*.pem)",
+      "Edit(**/*.key)",
+      "Write(**/*.pem)",
+      "Write(**/*.key)"
     ]
   },
   "enableAllProjectMcpServers": true,
@@ -22,6 +68,35 @@
           {
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-dangerous-commands.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/audit-file-write.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-ssrf.sh\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/audit-command.sh\""
           }
         ]
       }
