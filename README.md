@@ -175,12 +175,13 @@ curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scrip
 
 ### Updating vista-template
 
-Convention files in all workspaces reflect the update immediately via symlinks. To update the persistent install:
+`install.sh` always removes the existing `~/.vista/vista-template` and re-downloads the latest version. Simply re-run the installer:
 
 ```bash
-rm -rf ~/.vista/vista-template
 curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- ~/path/to/workspace
 ```
+
+Convention files are deployed as symlinks pointing to `~/.vista/vista-template`. Because symlinks always resolve to the current contents of the install location, updating `~/.vista/vista-template` via `install.sh` ensures every workspace immediately reads the latest convention rules — no per-workspace file updates needed.
 
 ## Contributing
 

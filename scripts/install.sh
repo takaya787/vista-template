@@ -48,26 +48,22 @@ fi
 
 # --- Install vista-template to persistent location ---
 
-if [ -d "$VISTA_HOME" ]; then
-  echo "Vista template already installed at $VISTA_HOME"
-  echo "To update, run: rm -rf $VISTA_HOME && re-run this script"
-else
-  echo "Installing vista-template to $VISTA_HOME..."
-  mkdir -p "$(dirname "$VISTA_HOME")"
+echo "Installing vista-template to $VISTA_HOME..."
+[ -d "$VISTA_HOME" ] && rm -rf "$VISTA_HOME"
+mkdir -p "$(dirname "$VISTA_HOME")"
 
-  WORK_DIR="$(mktemp -d)"
-  trap 'rm -rf "$WORK_DIR"' EXIT
+WORK_DIR="$(mktemp -d)"
+trap 'rm -rf "$WORK_DIR"' EXIT
 
-  curl -fsSL "$REPO_TARBALL" | tar -xz -C "$WORK_DIR"
+curl -fsSL "$REPO_TARBALL" | tar -xz -C "$WORK_DIR"
 
-  if [ ! -d "$WORK_DIR/$EXTRACTED_DIR_NAME" ]; then
-    echo "Error: Failed to extract repository."
-    exit 1
-  fi
-
-  mv "$WORK_DIR/$EXTRACTED_DIR_NAME" "$VISTA_HOME"
-  echo "Installed to $VISTA_HOME"
+if [ ! -d "$WORK_DIR/$EXTRACTED_DIR_NAME" ]; then
+  echo "Error: Failed to extract repository."
+  exit 1
 fi
+
+mv "$WORK_DIR/$EXTRACTED_DIR_NAME" "$VISTA_HOME"
+echo "Installed to $VISTA_HOME"
 
 # --- Deploy to target directory ---
 
