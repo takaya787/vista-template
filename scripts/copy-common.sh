@@ -44,12 +44,18 @@ _has_non_symlink_config() {
   return 1
 }
 
+FORCE="${VISTA_FORCE:-true}"
+
 if _has_non_symlink_config "$TARGET_DIR"; then
-  echo "Warning: Target directory already contains Claude Code configuration (non-symlink files)."
-  read -p "Overwrite existing files? (y/N): " CONFIRM < /dev/tty
-  if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
-    echo "Aborted."
-    exit 0
+  if [ "$FORCE" = "true" ]; then
+    echo "Overwriting existing Claude Code configuration (VISTA_FORCE=true)..."
+  else
+    echo "Warning: Target directory already contains Claude Code configuration (non-symlink files)."
+    read -p "Overwrite existing files? (y/N): " CONFIRM < /dev/tty
+    if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
+      echo "Aborted."
+      exit 0
+    fi
   fi
 fi
 

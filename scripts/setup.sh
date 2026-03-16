@@ -79,12 +79,18 @@ fi
 
 # --- Target directory check ---
 
+FORCE="${VISTA_FORCE:-true}"
+
 if [ -d "$TARGET_DIR/.claude" ] || [ -f "$TARGET_DIR/CLAUDE.md" ]; then
-  echo "Warning: Target directory already contains Claude Code configuration."
-  read -p "Overwrite existing files? (y/N): " CONFIRM < /dev/tty
-  if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
-    echo "Aborted."
-    exit 0
+  if [ "$FORCE" = "true" ]; then
+    echo "Overwriting existing Claude Code configuration (VISTA_FORCE=true)..."
+  else
+    echo "Warning: Target directory already contains Claude Code configuration."
+    read -p "Overwrite existing files? (y/N): " CONFIRM < /dev/tty
+    if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
+      echo "Aborted."
+      exit 0
+    fi
   fi
 fi
 
@@ -156,15 +162,6 @@ cat > "$TARGET_DIR/.vista/state/onboarding.json" << EOF
   "createdAt": "$CREATED_AT"
 }
 EOF
-
-# --- Install Claude Code ---
-
-if ! command -v claude &> /dev/null; then
-  echo "  Installing Claude Code..."
-  curl -fsSL https://claude.ai/install.sh | sh
-else
-  echo "  Claude Code already installed: $(claude --version)"
-fi
 
 # --- Install dependencies ---
 

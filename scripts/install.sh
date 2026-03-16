@@ -13,6 +13,7 @@ set -euo pipefail
 REPO_TARBALL="https://github.com/takaya787/vista-template/archive/refs/heads/main.tar.gz"
 EXTRACTED_DIR_NAME="vista-template-main"
 VISTA_HOME="${VISTA_HOME:-$HOME/.vista/vista-template}"
+FORCE="${VISTA_FORCE:-true}"
 
 # --- Usage ---
 
@@ -28,7 +29,8 @@ usage() {
   echo "  curl -fsSL .../install.sh | bash -s -- ~/my-project"
   echo ""
   echo "Environment:"
-  echo "  VISTA_HOME   Override install path (default: ~/.vista/vista-template)"
+  echo "  VISTA_HOME    Override install path (default: ~/.vista/vista-template)"
+  echo "  VISTA_FORCE   Skip confirmation prompts (default: false)"
 }
 
 # --- Argument parsing ---
@@ -65,7 +67,18 @@ fi
 mv "$WORK_DIR/$EXTRACTED_DIR_NAME" "$VISTA_HOME"
 echo "Installed to $VISTA_HOME"
 
+# --- Install Claude Code CLI ---
+
+if ! command -v claude &> /dev/null; then
+  echo "Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | sh
+else
+  echo "Claude Code already installed: $(claude --version)"
+fi
+
 # --- Deploy to target directory ---
+
+export VISTA_FORCE
 
 if [ -n "$ROLE" ]; then
   echo "Running Full Setup (role: $ROLE)..."
