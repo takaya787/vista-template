@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Vista Template Installer (curl-friendly)
-# Downloads and runs setup without requiring git clone.
+# Downloads vista-template to ~/.vista/vista-template (persistent) and deploys to a target directory.
 #
 # Full Setup (role-specific):
 #   curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- <role> <target>
@@ -12,6 +12,7 @@ set -euo pipefail
 
 REPO_TARBALL="https://github.com/takaya787/vista-template/archive/refs/heads/main.tar.gz"
 EXTRACTED_DIR_NAME="vista-template-main"
+VISTA_HOME="${VISTA_HOME:-$HOME/.vista/vista-template}"
 
 # --- Usage ---
 
@@ -25,6 +26,9 @@ usage() {
   echo "Examples:"
   echo "  curl -fsSL .../install.sh | bash -s -- scrum-master ~/my-project"
   echo "  curl -fsSL .../install.sh | bash -s -- ~/my-project"
+  echo ""
+  echo "Environment:"
+  echo "  VISTA_HOME   Override install path (default: ~/.vista/vista-template)"
 }
 
 # --- Argument parsing ---
@@ -33,40 +37,44 @@ ROLE=""
 TARGET_DIR=""
 
 if [ $# -ge 2 ]; then
-  # Full Setup: role + target
   ROLE="$1"
   TARGET_DIR="$2"
 elif [ $# -eq 1 ]; then
-  # Quick Use: target only
   TARGET_DIR="$1"
 else
   usage
   exit 1
 fi
 
-# --- Temporary directory with cleanup ---
+# --- Install vista-template to persistent location ---
 
-TMPDIR="$(mktemp -d)"
-trap 'rm -rf "$TMPDIR"' EXIT
+if [ -d "$VISTA_HOME" ]; then
+  echo "Vista template already installed at $VISTA_HOME"
+  echo "To update, run: rm -rf $VISTA_HOME && re-run this script"
+else
+  echo "Installing vista-template to $VISTA_HOME..."
+  mkdir -p "$(dirname "$VISTA_HOME")"
 
-# --- Download and extract ---
+  WORK_DIR="$(mktemp -d)"
+  trap 'rm -rf "$WORK_DIR"' EXIT
 
-echo "Downloading vista-template..."
-curl -fsSL "$REPO_TARBALL" | tar -xz -C "$TMPDIR"
+  curl -fsSL "$REPO_TARBALL" | tar -xz -C "$WORK_DIR"
 
-REPO_DIR="$TMPDIR/$EXTRACTED_DIR_NAME"
+  if [ ! -d "$WORK_DIR/$EXTRACTED_DIR_NAME" ]; then
+    echo "Error: Failed to extract repository."
+    exit 1
+  fi
 
-if [ ! -d "$REPO_DIR" ]; then
-  echo "Error: Failed to extract repository."
-  exit 1
+  mv "$WORK_DIR/$EXTRACTED_DIR_NAME" "$VISTA_HOME"
+  echo "Installed to $VISTA_HOME"
 fi
 
-# --- Run the appropriate script ---
+# --- Deploy to target directory ---
 
 if [ -n "$ROLE" ]; then
   echo "Running Full Setup (role: $ROLE)..."
-  bash "$REPO_DIR/scripts/setup.sh" "$ROLE" "$TARGET_DIR"
+  bash "$VISTA_HOME/scripts/setup.sh" "$ROLE" "$TARGET_DIR"
 else
   echo "Running Quick Use (common only)..."
-  bash "$REPO_DIR/scripts/copy-common.sh" "$TARGET_DIR"
+  bash "$VISTA_HOME/scripts/copy-common.sh" "$TARGET_DIR"
 fi

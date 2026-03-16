@@ -89,7 +89,7 @@ templates/
 │   │   │   └── me.example.json        # Owner profile template
 │   │   └── config/                    # Vista-specific config (tracked)
 │   ├── memory/MEMORY.md               # Auto-memory starter template
-│   └── .gitignore                     # Pre-configured gitignore
+│   └── .gitignore.sample              # Gitignore template (merged into target on deploy)
 │
 ├── scrum-master/                      # Role-specific (merged on top of common)
 │   ├── CLAUDE.md                      # AI role: scrum master
@@ -132,6 +132,55 @@ The script copies template files and creates the `.vista/` directory structure:
 3. On first Claude Code launch, `/onboarding` is automatically suggested to personalize your profile and settings (~3-5 minutes conversational interview)
 
 See `docs/template-guide.md` in each template for detailed instructions.
+
+## Install Strategy
+
+### Persistent install location
+
+`install.sh` downloads vista-template once to a fixed location on the machine:
+
+```
+~/.vista/vista-template/   ← single source of truth for all workspaces
+```
+
+This path can be overridden with the `VISTA_HOME` environment variable.
+
+### Convention files as symlinks
+
+`copy-common.sh` deploys convention files as **absolute-path symlinks** pointing to the persistent install, rather than copies:
+
+| File type | Deployment | Reason |
+|---|---|---|
+| `rules/convention/*.md` | symlink → `~/.vista/vista-template/...` | Update once, reflected everywhere |
+| `rules/authority.md` | symlink → `~/.vista/vista-template/...` | Same |
+| `rules/config/*.md` | copy | Project-specific content |
+| `.claude/hooks/*.sh` | copy | Symlinks are a security risk for hooks |
+| `.claude/skills/` | copy | Role-specific, not updated centrally |
+| `memory/MEMORY.md` | copy | Project-specific |
+| `.claude/settings.local.json` | copy from sample (first time only) | User edits this |
+
+Symlinked files are listed in `.gitignore` and are **not committed** to the workspace repository. They are regenerated per machine.
+
+### New machine setup
+
+When cloning a workspace on a new machine, symlinks are absent (gitignored). Re-run the installer to restore them:
+
+```bash
+# If vista-template is not yet installed on this machine:
+curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- ~/path/to/workspace
+
+# If already installed:
+~/.vista/vista-template/scripts/copy-common.sh ~/path/to/workspace
+```
+
+### Updating vista-template
+
+Convention files in all workspaces reflect the update immediately via symlinks. To update the persistent install:
+
+```bash
+rm -rf ~/.vista/vista-template
+curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- ~/path/to/workspace
+```
 
 ## Contributing
 

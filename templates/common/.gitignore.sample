@@ -7,22 +7,25 @@
 
 # AI-generated documents
 docs/*
-!docs/.gitkeep
+
+# AI Memory documents
+memory/*
 
 # Meeting transcripts (sensitive content)
 minutes/*
-!minutes/.gitkeep
 
 # Assets (screenshots, videos, traces — all generated)
 assets/
-!assets/.gitkeep
 
 # Legacy screenshots directory
 screenshots/
-!screenshots/.gitkeep
 
-# E2E test artifacts (Playwright)
-test-results/
+# Python Tmp Environment
+scripts/
+
+# Python Tmp Environment
+tmp/
+
 
 # Dependencies
 node_modules/
