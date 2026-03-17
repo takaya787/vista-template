@@ -20,8 +20,9 @@ Task-driven onboarding that personalizes the Claude Code environment by working 
 ## Data Sources
 
 - `.vista/state/onboarding.json` — Onboarding state and discovered tasks
-- `.vista/profile/me.json` — Owner profile (minimal required fields)
-- `references/interview-protocol.md` — Profile questions and auto-detection rules
+- `.vista/profile/me.json` — Symlink to `~/.vista/profile/me.json` (global owner profile)
+- `references/interview-protocol.md` — Profile questions and rendering notes
+- `references/interview-protocol.json` — Structured question definitions (all phases)
 - `references/task-discovery-guide.md` — Task discovery conversation guide
 - `references/config-generation-guide.md` — Config generation rules and schemas
 
@@ -51,14 +52,16 @@ All user input MUST be collected via the `AskUserQuestion` tool.
    > Hi! I'm Claude, your AI work assistant. Let's spend about 10 minutes getting to know how you work — I'll ask a few quick questions, then we'll tackle a real task together. Let me check a few things about your setup first...
 
 2. Read `.vista/state/onboarding.json` to determine current status
-3. Read `.vista/profile/me.json` to identify already-filled vs empty fields
+3. Read `.vista/profile/me.json` (symlink → `~/.vista/profile/me.json`) to identify already-filled vs empty fields
+   - If the symlink is broken or `~/.vista/profile/me.json` does not exist, treat as `"pending"` and ask the owner to re-run setup
 4. Auto-detect values (do NOT prompt the owner for these):
    - **Name:** `git config user.name`
    - **Email:** `git config user.email`
    - **Timezone:** System timezone (on macOS: `systemsetup -gettimezone` or parse `ls -l /etc/localtime`; on Linux: `timedatectl` or `cat /etc/timezone`)
 5. Route based on state:
-   - `onboarding.json` missing or `status: "pending"` → proceed to Step 2
-   - `status: "active"` AND `me.json` exists with all required fields → skip to Step 3 (prioritize `pendingTasks`)
+   - `onboarding.json` missing or `status: "pending"` AND global profile has no `name` → proceed to Step 2 (full onboarding)
+   - `onboarding.json` missing or `status: "pending"` AND global profile already has `name` → profile exists from another project; skip Step 2 and go to Step 3
+   - `status: "active"` AND `me.json` has all required fields → skip to Step 3 (prioritize `pendingTasks`)
    - `status: "active"` AND `me.json` missing or incomplete → re-collect missing profile fields (Step 2), then proceed to Step 3
    - `.vista/` directory exists but `onboarding.json` missing → state may have been reset; suggest re-running onboarding
    - `onboarding.json` exists but is malformed → treat as `"pending"`, log a warning
@@ -154,10 +157,10 @@ For the role definition, present it naturally: "I'd describe my role as: 'An ass
 
 See `references/config-generation-guide.md` for detailed write rules. Create any missing directories before writing. If a write fails, log a warning and continue with remaining writes.
 
-1. `.vista/profile/me.json` — any new fields discovered
+1. `.vista/profile/me.json` — any new fields discovered (writes persist globally via symlink to `~/.vista/profile/me.json`)
 2. `memory/MEMORY.md` — preference seeds (Do/Don't format per `memory.md` convention)
 3. `rules/config/` — any service-specific config generated
-4. `CLAUDE.md` — role definition draft if applicable (append `## Role` section if not present; do not modify existing content)
+4. `CLAUDE.md` — apply profile to project's CLAUDE.md per the "Applying Profile to CLAUDE.md" policy in `rules/convention/onboarding.md`
 5. `.vista/state/onboarding.json` — update last (confirms successful write)
 
 ### Step 6: Offer Next Steps

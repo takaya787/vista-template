@@ -170,9 +170,16 @@ cat > "$TARGET_DIR/.vista/state/setup.json" << EOF
 }
 EOF
 
-# Generate .vista/profile/me.json (skeleton, only if not already present)
-if [ ! -f "$TARGET_DIR/.vista/profile/me.json" ]; then
-  cat > "$TARGET_DIR/.vista/profile/me.json" << EOF
+# --- Global profile: ~/.vista/profile/me.json ---
+# Onboarding results are stored once in the global location.
+# Each project's .vista/profile/me.json is a symlink to it.
+
+GLOBAL_PROFILE_DIR="$HOME/.vista/profile"
+mkdir -p "$GLOBAL_PROFILE_DIR"
+
+# Write skeleton to global profile only if it does not already exist
+if [ ! -f "$GLOBAL_PROFILE_DIR/me.json" ]; then
+  cat > "$GLOBAL_PROFILE_DIR/me.json" << EOF
 {
   "github": "${GITHUB_USER}",
   "workingStyle": { "timezone": "${TIMEZONE}" },
@@ -180,13 +187,36 @@ if [ ! -f "$TARGET_DIR/.vista/profile/me.json" ]; then
   "legalNotice": "This data is used locally only and is never sent to remote servers"
 }
 EOF
+  echo "Created global profile at $GLOBAL_PROFILE_DIR/me.json"
+else
+  echo "Global profile already exists at $GLOBAL_PROFILE_DIR/me.json — reusing"
 fi
 
-# Generate .vista/state/onboarding.json (pending, only if not already present)
+# Project .vista/profile/me.json → symlink to global profile
+ln -sf "$GLOBAL_PROFILE_DIR/me.json" "$TARGET_DIR/.vista/profile/me.json"
+
+# Generate .vista/state/onboarding.json:
+# - pending  if global profile is a skeleton (onboarding not yet completed)
+# - active   if global profile already has name filled in (onboarding done previously)
 if [ ! -f "$TARGET_DIR/.vista/state/onboarding.json" ]; then
+  HAS_NAME=$(python3 -c "
+import json, sys
+try:
+  d = json.load(open('$GLOBAL_PROFILE_DIR/me.json'))
+  print('true' if d.get('name') else 'false')
+except Exception:
+  print('false')
+" 2>/dev/null || echo "false")
+
+  if [ "$HAS_NAME" = "true" ]; then
+    ONBOARDING_STATUS="active"
+  else
+    ONBOARDING_STATUS="pending"
+  fi
+
   cat > "$TARGET_DIR/.vista/state/onboarding.json" << EOF
 {
-  "status": "pending",
+  "status": "${ONBOARDING_STATUS}",
   "createdAt": "$CREATED_AT"
 }
 EOF

@@ -1,0 +1,561 @@
+[
+  {
+    "id": "name",
+    "phase": 1,
+    "phase_label": "基本情報",
+    "type": "text",
+    "label": "お名前",
+    "key": "name",
+    "required": true,
+    "placeholder": "山田 太郎"
+  },
+  {
+    "id": "email",
+    "phase": 1,
+    "phase_label": "基本情報",
+    "type": "text",
+    "label": "メールアドレス",
+    "key": "email",
+    "required": true,
+    "placeholder": "taro@example.com"
+  },
+  {
+    "id": "timezone",
+    "phase": 1,
+    "phase_label": "基本情報",
+    "type": "auto_detect",
+    "label": "タイムゾーン",
+    "description": "システムから自動取得。違う場合は修正してください。",
+    "auto_detect": "system timezone",
+    "key": "workingStyle.timezone",
+    "required": true
+  },
+  {
+    "id": "language",
+    "phase": 2,
+    "phase_label": "言語・コミュニケーション設定",
+    "type": "single_select",
+    "label": "Claude との対話・出力言語は？",
+    "key": "preferences.language",
+    "required": true,
+    "options": [
+      { "value": "ja", "label": "日本語" },
+      { "value": "en", "label": "English" },
+      { "value": "bilingual", "label": "両方（状況に応じて使い分け）" }
+    ]
+  },
+  {
+    "id": "output_format",
+    "phase": 2,
+    "phase_label": "言語・コミュニケーション設定",
+    "type": "single_select",
+    "label": "出力フォーマットの好みは？",
+    "key": "preferences.outputFormat",
+    "required": true,
+    "options": [
+      { "value": "bullets", "label": "箇条書き（スキャンしやすい）" },
+      { "value": "prose", "label": "文章（説明・文脈を重視）" },
+      { "value": "tables", "label": "表・構造化データ" },
+      { "value": "mixed", "label": "混合（内容に応じて使い分け）" }
+    ]
+  },
+  {
+    "id": "verbosity",
+    "phase": 2,
+    "phase_label": "言語・コミュニケーション設定",
+    "type": "single_select",
+    "label": "回答の詳細度は？",
+    "key": "preferences.verbosity",
+    "required": true,
+    "options": [
+      { "value": "concise", "label": "簡潔（要点のみ・スピード重視）" },
+      { "value": "normal", "label": "標準（バランス重視）" },
+      { "value": "detailed", "label": "詳細（背景・根拠も説明）" }
+    ]
+  },
+  {
+    "id": "tone",
+    "phase": 2,
+    "phase_label": "言語・コミュニケーション設定",
+    "type": "single_select",
+    "label": "Claude のトーン・話し方は？",
+    "key": "preferences.tone",
+    "required": true,
+    "options": [
+      { "value": "formal", "label": "フォーマル（丁寧語・敬語）" },
+      { "value": "casual", "label": "カジュアル（話し言葉・タメ口OK）" },
+      { "value": "neutral", "label": "ニュートラル（どちらでも）" }
+    ]
+  },
+  {
+    "id": "role_category",
+    "phase": 3,
+    "phase_label": "役割・組織",
+    "type": "single_select",
+    "label": "主な役職・役割は？",
+    "key": "role.category",
+    "required": true,
+    "options": [
+      { "value": "pm_planning", "label": "プロダクト・事業企画" },
+      { "value": "sales", "label": "営業・アカウント管理" },
+      { "value": "marketing", "label": "マーケティング・ブランド" },
+      { "value": "hr_ops", "label": "人事・総務・バックオフィス" },
+      { "value": "finance", "label": "財務・経理・法務" },
+      { "value": "consulting", "label": "コンサルタント・アドバイザー" },
+      { "value": "manager", "label": "マネージャー・チームリーダー" },
+      { "value": "executive", "label": "経営者・役員・事業責任者" }
+    ]
+  },
+  {
+    "id": "role_title",
+    "phase": 3,
+    "phase_label": "役割・組織",
+    "type": "text",
+    "label": "具体的な職種・肩書き（任意）",
+    "description": "上の選択肢に当てはまらない場合や、より具体的に伝えたい場合に記入",
+    "key": "role.title",
+    "required": false,
+    "placeholder": "例：カスタマーサクセスマネージャー、事業開発担当"
+  },
+  {
+    "id": "industry",
+    "phase": 3,
+    "phase_label": "役割・組織",
+    "type": "single_select",
+    "label": "業界は？",
+    "key": "role.industry",
+    "required": true,
+    "options": [
+      { "value": "tech", "label": "IT・テクノロジー・SaaS" },
+      { "value": "finance", "label": "金融・保険・フィンテック" },
+      { "value": "retail_ec", "label": "小売・EC・消費財" },
+      { "value": "manufacturing", "label": "製造・メーカー" },
+      { "value": "healthcare", "label": "医療・ヘルスケア・製薬" },
+      { "value": "consulting", "label": "コンサルティング・専門サービス" },
+      { "value": "media_ad", "label": "メディア・エンタメ・広告" },
+      { "value": "real_estate", "label": "不動産・建設" }
+    ]
+  },
+  {
+    "id": "company_size",
+    "phase": 3,
+    "phase_label": "役割・組織",
+    "type": "single_select",
+    "label": "組織規模は？",
+    "key": "role.companySize",
+    "required": true,
+    "options": [
+      { "value": "solo", "label": "個人・フリーランス" },
+      { "value": "startup", "label": "スタートアップ（〜30名）" },
+      { "value": "sme", "label": "中小企業（30〜300名）" },
+      { "value": "enterprise", "label": "大企業・エンタープライズ（300名以上）" }
+    ]
+  },
+  {
+    "id": "position_level",
+    "phase": 3,
+    "phase_label": "役割・組織",
+    "type": "single_select",
+    "label": "組織内のポジションは？",
+    "key": "role.positionLevel",
+    "required": true,
+    "options": [
+      { "value": "ic", "label": "個人貢献者（自分の業務に専念）" },
+      { "value": "lead", "label": "チームリーダー・サブリーダー" },
+      { "value": "manager", "label": "マネージャー（部下あり）" },
+      { "value": "director", "label": "部門長・ディレクター以上" }
+    ]
+  },
+  {
+    "id": "stakeholders",
+    "phase": 3,
+    "phase_label": "役割・組織",
+    "type": "textarea",
+    "label": "仕事上でやり取りする主なステークホルダーは？",
+    "description": "誰のために、誰と働くかを教えてください",
+    "key": "role.stakeholders",
+    "required": false,
+    "placeholder": "例：社内の開発チームと経営層の橋渡し。外部では代理店・パートナーとのやりとりが多い"
+  },
+  {
+    "id": "primary_outputs",
+    "phase": 4,
+    "phase_label": "日々の業務・成果物",
+    "type": "multi_select",
+    "label": "主に作成・管理する成果物は？（複数選択可）",
+    "key": "work.primaryOutputs",
+    "required": true,
+    "options": [
+      { "value": "reports", "label": "レポート・分析資料" },
+      { "value": "slides", "label": "プレゼン資料・提案書" },
+      { "value": "plans", "label": "計画書・ロードマップ" },
+      { "value": "memos", "label": "稟議書・申請書・社内メモ" },
+      { "value": "emails", "label": "メール・ビジネス文書" },
+      { "value": "spreadsheets", "label": "スプレッドシート・データ集計" },
+      { "value": "meeting_docs", "label": "会議資料・議事録" },
+      { "value": "manuals", "label": "マニュアル・手順書・FAQ" }
+    ]
+  },
+  {
+    "id": "daily_description",
+    "phase": 4,
+    "phase_label": "日々の業務・成果物",
+    "type": "textarea",
+    "label": "典型的な 1 日の仕事の流れを教えてください",
+    "description": "朝から夕方まで、どんな作業をどんな順番でこなしていますか？",
+    "key": "work.dailyDescription",
+    "required": true,
+    "placeholder": "例：朝はメールとSlackの確認、午前中は数字の集計とレポート作成、午後は社内MTGと顧客対応が多い"
+  },
+  {
+    "id": "recurring_tasks",
+    "phase": 4,
+    "phase_label": "日々の業務・成果物",
+    "type": "textarea",
+    "label": "毎週・毎月など定期的に行っているタスクは何ですか？",
+    "key": "work.recurringTasks",
+    "required": true,
+    "placeholder": "例：月曜に週次進捗レポート作成・共有、月末に売上サマリーを役員向けにまとめる"
+  },
+  {
+    "id": "time_consuming",
+    "phase": 4,
+    "phase_label": "日々の業務・成果物",
+    "type": "textarea",
+    "label": "現在最も時間がかかっている・面倒な作業は何ですか？",
+    "key": "work.timeConsuming",
+    "required": true,
+    "placeholder": "例：複数のツールからデータを集めて整形する作業、会議後に議事録を毎回一から書くこと"
+  },
+  {
+    "id": "meeting_frequency",
+    "phase": 5,
+    "phase_label": "会議・コミュニケーション",
+    "type": "single_select",
+    "label": "週にどれくらい会議（MTG）がありますか？",
+    "key": "meetings.frequency",
+    "required": true,
+    "options": [
+      { "value": "few", "label": "少ない（週 1〜3 本程度）" },
+      { "value": "moderate", "label": "中程度（週 4〜8 本）" },
+      { "value": "heavy", "label": "多い（週 9 本以上）" },
+      { "value": "varies", "label": "週によってバラバラ" }
+    ]
+  },
+  {
+    "id": "meeting_types",
+    "phase": 5,
+    "phase_label": "会議・コミュニケーション",
+    "type": "multi_select",
+    "label": "よく参加する会議の種類は？（複数可）",
+    "key": "meetings.types",
+    "required": false,
+    "options": [
+      { "value": "standup", "label": "チームデイリー・週次定例" },
+      { "value": "one_on_one", "label": "1on1（上司・部下・同僚）" },
+      { "value": "stakeholder", "label": "ステークホルダー報告・経営会議" },
+      { "value": "client", "label": "顧客・パートナーとの商談・打ち合わせ" },
+      { "value": "planning", "label": "計画・戦略ディスカッション" },
+      { "value": "review", "label": "成果物レビュー・フィードバックセッション" }
+    ]
+  },
+  {
+    "id": "meeting_prep",
+    "phase": 5,
+    "phase_label": "会議・コミュニケーション",
+    "type": "textarea",
+    "label": "会議の準備・議事録作成について、現在どのようにやっていますか？",
+    "key": "meetings.prepProcess",
+    "required": false,
+    "placeholder": "例：アジェンダを前日に共有、会議中にメモ、終了後に議事録を1時間以内にSlackで送る"
+  },
+  {
+    "id": "work_approach",
+    "phase": 6,
+    "phase_label": "仕事のスタイル",
+    "type": "single_select",
+    "label": "仕事の進め方として最も近いのは？",
+    "key": "workingStyle.approach",
+    "required": true,
+    "options": [
+      { "value": "planning_first", "label": "計画重視（先にしっかり設計・整理してから動く）" },
+      { "value": "iterative", "label": "反復型（小さく動かして確認しながら改善）" },
+      { "value": "deadline_driven", "label": "締切駆動（期限から逆算して集中する）" },
+      { "value": "flexible", "label": "臨機応変（優先度に応じて柔軟に対応）" }
+    ]
+  },
+  {
+    "id": "decision_style",
+    "phase": 6,
+    "phase_label": "仕事のスタイル",
+    "type": "single_select",
+    "label": "意思決定のスタイルは？",
+    "key": "workingStyle.decisionStyle",
+    "required": true,
+    "options": [
+      { "value": "data_driven", "label": "データ・数字で判断（根拠重視）" },
+      { "value": "consensus", "label": "合意形成重視（チームの納得感を大切にする）" },
+      { "value": "intuitive", "label": "経験・直感で判断（スピード重視）" },
+      { "value": "structured", "label": "フレームワーク活用（ロジック・構造で整理）" }
+    ]
+  },
+  {
+    "id": "review_process",
+    "phase": 6,
+    "phase_label": "仕事のスタイル",
+    "type": "textarea",
+    "label": "成果物のレビュー・承認フローを教えてください",
+    "description": "誰がどのようにチェックし、どこに提出・共有しますか？",
+    "key": "workingStyle.reviewProcess",
+    "required": false,
+    "placeholder": "例：上司に Slack で確認 → Google ドキュメントでコメントフィードバック → 修正して確定"
+  },
+  {
+    "id": "priority_handling",
+    "phase": 6,
+    "phase_label": "仕事のスタイル",
+    "type": "single_select",
+    "label": "タスクの優先度はどのように管理していますか？",
+    "key": "workingStyle.priorityHandling",
+    "required": true,
+    "options": [
+      { "value": "tool_based", "label": "タスク管理ツール（Notion, Jira等）で管理" },
+      { "value": "doc_based", "label": "スプレッドシートやメモで管理" },
+      { "value": "memory", "label": "頭の中で管理" },
+      { "value": "manager_led", "label": "上司・チームの指示に従う" }
+    ]
+  },
+  {
+    "id": "working_hours",
+    "phase": 6,
+    "phase_label": "仕事のスタイル",
+    "type": "single_select",
+    "label": "主な稼働時間帯は？",
+    "key": "workingStyle.workingHours",
+    "required": true,
+    "options": [
+      { "value": "morning", "label": "朝型（〜17時）" },
+      { "value": "standard", "label": "標準（9〜18時）" },
+      { "value": "evening", "label": "夜型（18時以降も稼働）" },
+      { "value": "flexible", "label": "不規則（非同期・在宅中心）" }
+    ]
+  },
+  {
+    "id": "communication_tools",
+    "phase": 7,
+    "phase_label": "使用ツール・サービス",
+    "type": "multi_select",
+    "label": "社内コミュニケーションツールは？（複数可）",
+    "key": "services.communication",
+    "required": true,
+    "options": [
+      { "value": "slack", "label": "Slack" },
+      { "value": "teams", "label": "Microsoft Teams" },
+      { "value": "chatwork", "label": "Chatwork" },
+      { "value": "email", "label": "メール中心（Gmail / Outlook）" },
+      { "value": "discord", "label": "Discord" }
+    ]
+  },
+  {
+    "id": "project_tools",
+    "phase": 7,
+    "phase_label": "使用ツール・サービス",
+    "type": "multi_select",
+    "label": "プロジェクト・タスク管理ツールは？（複数可）",
+    "key": "services.projectManagement",
+    "required": false,
+    "options": [
+      { "value": "notion", "label": "Notion" },
+      { "value": "jira", "label": "Jira" },
+      { "value": "asana", "label": "Asana" },
+      { "value": "trello", "label": "Trello" },
+      { "value": "backlog", "label": "Backlog" },
+      { "value": "spreadsheet", "label": "スプレッドシート" },
+      { "value": "none", "label": "特に使っていない" }
+    ]
+  },
+  {
+    "id": "data_tools",
+    "phase": 7,
+    "phase_label": "使用ツール・サービス",
+    "type": "multi_select",
+    "label": "データ集計・分析・レポートに使うツールは？（複数可）",
+    "key": "services.dataTools",
+    "required": false,
+    "options": [
+      { "value": "google_sheets", "label": "Google スプレッドシート" },
+      { "value": "excel", "label": "Excel" },
+      { "value": "google_data_studio", "label": "Looker Studio（旧 Data Studio）" },
+      { "value": "tableau", "label": "Tableau" },
+      { "value": "power_bi", "label": "Power BI" },
+      { "value": "salesforce", "label": "Salesforce" },
+      { "value": "none", "label": "特に使っていない" }
+    ]
+  },
+  {
+    "id": "presentation_tools",
+    "phase": 7,
+    "phase_label": "使用ツール・サービス",
+    "type": "multi_select",
+    "label": "プレゼン・資料作成ツールは？（複数可）",
+    "key": "services.presentationTools",
+    "required": false,
+    "options": [
+      { "value": "google_slides", "label": "Google スライド" },
+      { "value": "powerpoint", "label": "PowerPoint" },
+      { "value": "keynote", "label": "Keynote" },
+      { "value": "canva", "label": "Canva" }
+    ]
+  },
+  {
+    "id": "other_tools",
+    "phase": 7,
+    "phase_label": "使用ツール・サービス",
+    "type": "text",
+    "label": "上記以外でよく使う重要なツール・SaaS があれば教えてください",
+    "key": "services.otherTools",
+    "required": false,
+    "placeholder": "例：HubSpot, Workday, Figma, Box, kintone"
+  },
+  {
+    "id": "doc_tools",
+    "phase": 8,
+    "phase_label": "ドキュメント方針",
+    "type": "multi_select",
+    "label": "ドキュメント・ナレッジ管理に使うツールは？（複数可）",
+    "key": "documentation.tools",
+    "required": true,
+    "options": [
+      { "value": "notion", "label": "Notion" },
+      { "value": "confluence", "label": "Confluence" },
+      { "value": "google_docs", "label": "Google Docs" },
+      { "value": "word", "label": "Word" },
+      { "value": "sharepoint", "label": "SharePoint" },
+      { "value": "none", "label": "特に決まっていない" }
+    ]
+  },
+  {
+    "id": "doc_audience",
+    "phase": 8,
+    "phase_label": "ドキュメント方針",
+    "type": "single_select",
+    "label": "主に誰に向けてドキュメントを書きますか？",
+    "key": "documentation.primaryAudience",
+    "required": true,
+    "options": [
+      { "value": "team", "label": "直属チーム・同僚" },
+      { "value": "management", "label": "上位マネジメント・経営層" },
+      { "value": "cross_dept", "label": "他部門・社内横断" },
+      { "value": "external", "label": "社外（顧客・パートナー）" }
+    ]
+  },
+  {
+    "id": "doc_structure",
+    "phase": 8,
+    "phase_label": "ドキュメント方針",
+    "type": "textarea",
+    "label": "ドキュメントの書き方・構成で心がけていることはありますか？",
+    "description": "テンプレートの有無・見出し構成・粒度感など",
+    "key": "documentation.structurePolicy",
+    "required": false,
+    "placeholder": "例：「結論を最初に書く」「MECE に整理する」「図表を必ず入れる」「英語で書く」"
+  },
+  {
+    "id": "doc_conventions",
+    "phase": 8,
+    "phase_label": "ドキュメント方針",
+    "type": "textarea",
+    "label": "チームや会社で決まっているドキュメントのルール・慣習はありますか？",
+    "key": "documentation.conventions",
+    "required": false,
+    "placeholder": "例：「ファイル名に日付とバージョンを入れる」「承認者を必ず明記する」「テンプレートがある」"
+  },
+  {
+    "id": "autonomy",
+    "phase": 9,
+    "phase_label": "Claude の動作設定",
+    "type": "single_select",
+    "label": "Claude にどれくらい自律的に動いてほしい？",
+    "key": "workingStyle.autonomy",
+    "required": true,
+    "options": [
+      { "value": "guided", "label": "ガイド型（各ステップで確認を取る）" },
+      { "value": "balanced", "label": "バランス型（重要な判断のみ確認）" },
+      { "value": "autonomous", "label": "自律型（判断して進める、確認は最小限）" }
+    ]
+  },
+  {
+    "id": "edit_scope",
+    "phase": 9,
+    "phase_label": "Claude の動作設定",
+    "type": "single_select",
+    "label": "資料・文書の編集範囲は？",
+    "description": "指示した以外の箇所も改善してよいかどうか",
+    "key": "workingStyle.editScope",
+    "required": true,
+    "options": [
+      { "value": "minimal", "label": "最小限（指示した箇所のみ変更）" },
+      { "value": "moderate", "label": "適度（関連する箇所も含めて改善）" },
+      { "value": "comprehensive", "label": "包括的（全体の品質向上のために広く変更OK）" }
+    ]
+  },
+  {
+    "id": "never_do",
+    "phase": 9,
+    "phase_label": "Claude の動作設定",
+    "type": "textarea",
+    "label": "Claude にやってほしくないこと・禁止事項はありますか？",
+    "key": "workingStyle.neverDo",
+    "required": false,
+    "placeholder": "例：「確認なしでファイルを削除しない」「英語で返答しない」「意見・感想を述べない」「勝手に文章のトーンを変えない」"
+  },
+  {
+    "id": "always_follow",
+    "phase": 9,
+    "phase_label": "Claude の動作設定",
+    "type": "textarea",
+    "label": "Claude に常に守ってほしいルール・スタイルガイドはありますか？",
+    "key": "workingStyle.alwaysFollow",
+    "required": false,
+    "placeholder": "例：「提案は必ず3案出す」「数字は必ず根拠を添える」「社内用語（〇〇とは〜）を使う」"
+  },
+  {
+    "id": "primary_use_cases",
+    "phase": 10,
+    "phase_label": "目標・課題",
+    "type": "multi_select",
+    "label": "Claude を主に何に使いたいですか？（複数可）",
+    "key": "goals.primaryUseCases",
+    "required": true,
+    "options": [
+      { "value": "writing", "label": "文章作成・要約・翻訳" },
+      { "value": "analysis", "label": "データ分析・集計・調査" },
+      { "value": "planning", "label": "計画・戦略の立案・整理" },
+      { "value": "communication", "label": "メール・提案書・報告書作成" },
+      { "value": "meeting", "label": "会議準備・議事録・ファシリテーション" },
+      { "value": "learning", "label": "情報収集・学習・リサーチ" },
+      { "value": "automation", "label": "定型作業の効率化・自動化" },
+      { "value": "ideation", "label": "アイデア出し・ブレスト" }
+    ]
+  },
+  {
+    "id": "pain_point",
+    "phase": 10,
+    "phase_label": "目標・課題",
+    "type": "textarea",
+    "label": "今、仕事で最も困っていること・改善したいことは何ですか？",
+    "key": "goals.painPoint",
+    "required": true,
+    "placeholder": "例：「毎週のレポート作成に3時間かかる」「議事録をすぐにまとめられない」「提案書のクオリティにばらつきがある」"
+  },
+  {
+    "id": "success_image",
+    "phase": 10,
+    "phase_label": "目標・課題",
+    "type": "textarea",
+    "label": "Claude を使いこなせた状態をどうイメージしていますか？",
+    "key": "goals.successImage",
+    "required": false,
+    "placeholder": "例：「定型業務を半分の時間でこなせる」「週次レポートの下書きを自動で作れる」「提案書のたたき台を5分で作れる」"
+  }
+]

@@ -1,83 +1,70 @@
-# Interview Protocol — Minimal Profile Questions
+# Interview Protocol — Business Role Onboarding Questions
 
-Reference document for the onboarding skill. Defines the minimal set of questions to collect during onboarding. All user input is collected via the `AskUserQuestion` tool.
+Reference document for the onboarding skill. The full question definitions are maintained as structured data in [`interview-protocol.json`](./interview-protocol.json). This file provides orientation, rendering notes, and key implementation details.
 
-## Auto-Detected Fields
+## Question Definition File
 
-These fields are detected automatically and do not require user input.
+**Source of truth:** `references/interview-protocol.json`
 
-| Field | Detection Method | Target |
-|-------|-----------------|--------|
-| Name | `git config user.name` | `.vista/profile/me.json` → `name` |
-| Email | `git config user.email` | `.vista/profile/me.json` → `email` |
-| Timezone | macOS: `systemsetup -gettimezone` or `ls -l /etc/localtime`; Linux: `timedatectl` or `cat /etc/timezone` | `.vista/profile/me.json` → `workingStyle.timezone` |
+The JSON file defines all questions across 10 phases (~10 minutes total). Each question object has:
 
-### Confirmation of auto-detected values
-
-Present auto-detected values for confirmation (not via AskUserQuestion):
-> I detected the following — let me know if anything needs correction:
-> - Email: `{detected}`
-> - Timezone: `{detected}`
-
-If detection fails for email, ask via free-text follow-up.
-
----
-
-## Profile Questions
-
-### Q1: Name (conversational confirmation)
-
-Name is collected via auto-detection and conversational confirmation, not via AskUserQuestion. This avoids the tool's option constraints for a simple yes/no confirmation.
-
-**If name detected from git:**
-- Confirm conversationally: "I found your name: {detected_name}. Should I use this, or would you prefer something different?"
-- If the owner confirms, use the detected name
-- If the owner wants a different name, ask: "What should I call you?"
-- **Target:** `.vista/profile/me.json` → `name`
-
-**If name not detected:**
-- Ask conversationally: "What should I call you?" (free-text)
-- **Target:** `.vista/profile/me.json` → `name`
-
-### Q2 + Q3: Language & Format (single AskUserQuestion call)
-
-Bundle these two questions into one AskUserQuestion call after name is confirmed.
-
-### Q2: Output Language
-
-- **header:** "Language"
-- **question:** "Which language should I use for outputs and communication?"
-- **multiSelect:** false
-- **options:**
-  1. `{ label: "Japanese (Recommended)", description: "日本語で出力" }`
-  2. `{ label: "English", description: "Output in English" }`
-  3. `{ label: "Bilingual", description: "Use both depending on context" }`
-- **Target:** `.vista/profile/me.json` → `preferences.language`
-
-### Q3: Output Format
-
-- **header:** "Format"
-- **question:** "How do you prefer outputs to be formatted?"
-- **multiSelect:** false
-- **options:**
-  1. `{ label: "Concise bullets (Recommended)", description: "Short, scannable bullet points" }`
-  2. `{ label: "Detailed prose", description: "Full explanatory paragraphs" }`
-  3. `{ label: "Tables & data", description: "Structured tables with metrics" }`
-  4. `{ label: "Mixed", description: "Bullets for summaries, detail for analysis" }`
-- **Target:** `.vista/profile/me.json` → `preferences.outputFormat`
+| Field | Description |
+|-------|-------------|
+| `id` | Unique identifier |
+| `phase` | Phase number (1–10) |
+| `phase_label` | Display label for the phase |
+| `type` | One of: `auto_detect`, `text`, `textarea`, `single_select`, `multi_select` |
+| `label` | Question text shown to the user |
+| `key` | Dot-notation path in `.vista/profile/me.json` |
+| `required` | Whether the field must be filled before proceeding |
+| `options` | Array of `{ value, label }` for select types |
+| `placeholder` | Example input hint (text/textarea only) |
+| `description` | Optional supplementary explanation |
+| `auto_detect` | Source hint for `auto_detect` type (e.g., `"system timezone"`) |
 
 ---
 
-## Label-to-Value Mapping
+## Phase Overview
 
-When writing to `me.json`, map option labels to stored values:
+| Phase | Label | Questions |
+|-------|-------|-----------|
+| 1 | 基本情報 | name, email, timezone (auto_detect) |
+| 2 | 言語・コミュニケーション設定 | language, output_format, verbosity, tone |
+| 3 | 役割・組織 | role_category, role_title, industry, company_size, position_level, stakeholders |
+| 4 | 日々の業務・成果物 | primary_outputs, daily_description, recurring_tasks, time_consuming |
+| 5 | 会議・コミュニケーション | meeting_frequency, meeting_types, meeting_prep |
+| 6 | 仕事のスタイル | work_approach, decision_style, review_process, priority_handling, working_hours |
+| 7 | 使用ツール・サービス | communication_tools, project_tools, data_tools, presentation_tools, other_tools |
+| 8 | ドキュメント方針 | doc_tools, doc_audience, doc_structure, doc_conventions |
+| 9 | Claude の動作設定 | autonomy, edit_scope, never_do, always_follow |
+| 10 | 目標・課題 | primary_use_cases, pain_point, success_image |
 
-| Question | Label | Stored Value |
-|----------|-------|-------------|
-| Language | Japanese (Recommended) | `ja` |
-| Language | English | `en` |
-| Language | Bilingual | `bilingual` |
-| Format | Concise bullets (Recommended) | `bullets` |
-| Format | Detailed prose | `prose` |
-| Format | Tables & data | `tables` |
-| Format | Mixed | `mixed` |
+---
+
+## Rendering Notes (Electron App)
+
+| type | UI Component |
+|------|-------------|
+| `auto_detect` | Pre-filled input field (editable); show source hint |
+| `text` | Single-line input field |
+| `textarea` | Multi-line textarea |
+| `single_select` | Radio group or dropdown |
+| `multi_select` | Checkbox group |
+
+### auto_detect Handling
+
+For `type: "auto_detect"` fields, the app pre-fills the value from the system (e.g., timezone). Display it clearly and allow the user to edit before confirming.
+
+### Required Field Validation
+
+Do not allow progression to the next phase until all `required: true` fields in the current phase have a value.
+
+---
+
+## me.json Key Mapping
+
+All `key` values use dot-notation and map directly to the `.vista/profile/me.json` schema defined in `me.example.json`. For example:
+
+- `"key": "preferences.language"` → `me.json.preferences.language`
+- `"key": "role.category"` → `me.json.role.category`
+- `"key": "workingStyle.timezone"` → `me.json.workingStyle.timezone`
