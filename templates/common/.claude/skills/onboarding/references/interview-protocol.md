@@ -1,108 +1,63 @@
-# Interview Protocol — AskUserQuestion Batches
+# Interview Protocol — Minimal Profile Questions
 
-Reference document for the onboarding skill. Defines question batches formatted for the `AskUserQuestion` tool. Each batch contains 1-4 questions with 2-4 options each. "Other" is automatically appended by the tool for free-text input.
-
-## Table of Contents
-
-1. [Auto-Detected Fields](#auto-detected-fields)
-2. [Batch 1: Core Profile](#batch-1-core-profile)
-3. [Batch 2: Working Style](#batch-2-working-style)
-4. [Role-Specific Interview Files](#role-specific-interview-files)
-
----
+Reference document for the onboarding skill. Defines the minimal set of questions to collect during onboarding. All user input is collected via the `AskUserQuestion` tool.
 
 ## Auto-Detected Fields
 
-These fields are auto-detected and presented for confirmation (not via AskUserQuestion). If detection fails, ask via follow-up message.
+These fields are detected automatically and do not require user input.
 
 | Field | Detection Method | Target |
 |-------|-----------------|--------|
-| GitHub username | `gh api user --jq '.login'` | `.vista/profile/me.json` → `github` |
+| Name | `git config user.name` | `.vista/profile/me.json` → `name` |
 | Email | `git config user.email` | `.vista/profile/me.json` → `email` |
-| Timezone | System timezone (set by setup.sh) | `.vista/profile/me.json` → `workingStyle.timezone` |
+| Timezone | macOS: `systemsetup -gettimezone` or `ls -l /etc/localtime`; Linux: `timedatectl` or `cat /etc/timezone` | `.vista/profile/me.json` → `workingStyle.timezone` |
+
+### Confirmation of auto-detected values
+
+Present auto-detected values for confirmation (not via AskUserQuestion):
+> I detected the following — let me know if anything needs correction:
+> - Email: `{detected}`
+> - Timezone: `{detected}`
+
+If detection fails for email, ask via free-text follow-up.
 
 ---
 
-## Batch 1: Core Profile
+## Profile Questions
 
-All roles. Present as a single `AskUserQuestion` call.
+### Q1: Name (conversational confirmation)
 
-### Q1: Position / Title
+Name is collected via auto-detection and conversational confirmation, not via AskUserQuestion. This avoids the tool's option constraints for a simple yes/no confirmation.
 
-- **header:** "Position"
-- **question:** "What's your current role or title?"
-- **multiSelect:** false
-- **options:**
-  1. `{ label: "Scrum Master", description: "Agile team facilitation and sprint management" }`
-  2. `{ label: "Product Manager", description: "Roadmap, prioritization, stakeholder management" }`
-  3. `{ label: "Designer", description: "Design review, asset management, design system documentation" }`
-  4. `{ label: "Marketing Manager", description: "Campaigns, analytics, content strategy" }`
-  5. `{ label: "Investor Relations", description: "Financial reporting, investor communication, KPI dashboards" }`
-- **Target:** `.vista/profile/me.json` → `position`
-- **Skip default:** Infer from role argument (e.g., "Scrum Master" for scrum-master)
+**If name detected from git:**
+- Confirm conversationally: "I found your name: {detected_name}. Should I use this, or would you prefer something different?"
+- If the owner confirms, use the detected name
+- If the owner wants a different name, ask: "What should I call you?"
+- **Target:** `.vista/profile/me.json` → `name`
 
-### Q2: Team
+**If name not detected:**
+- Ask conversationally: "What should I call you?" (free-text)
+- **Target:** `.vista/profile/me.json` → `name`
 
-- **header:** "Team"
-- **question:** "Which team or department are you on?"
-- **multiSelect:** false
-- **options:**
-  1. `{ label: "Engineering", description: "Software development team" }`
-  2. `{ label: "Product", description: "Product management and design" }`
-  3. `{ label: "Marketing", description: "Growth, content, and brand" }`
-  4. `{ label: "Operations", description: "Business operations and support" }`
-- **Target:** `.vista/profile/me.json` → `team`
-- **Skip default:** `null`
+### Q2 + Q3: Language & Format (single AskUserQuestion call)
 
-### Q3: Tech Stack (technical roles only)
-
-- **Applies to:** designer, product-manager
-- **header:** "Tech Stack"
-- **question:** "What are your primary technologies?"
-- **multiSelect:** true
-- **options:**
-  1. `{ label: "TypeScript / JavaScript", description: "Frontend and backend JS ecosystem" }`
-  2. `{ label: "Python", description: "Backend, data science, scripting" }`
-  3. `{ label: "React / Next.js", description: "Frontend framework" }`
-  4. `{ label: "Go / Rust", description: "Systems and backend" }`
-- **Target:** `.vista/profile/me.json` → `techStack`
-- **Skip default:** `[]`
-
----
-
-## Batch 2: Working Style
-
-All roles. Present as a single `AskUserQuestion` call (3 questions).
-
-### Q1: Communication Style
-
-- **header:** "Comms"
-- **question:** "How do you prefer to communicate with your team?"
-- **multiSelect:** false
-- **options:**
-  1. `{ label: "Async Slack (Recommended)", description: "Slack messages, respond when available" }`
-  2. `{ label: "Real-time huddles", description: "Quick voice/video calls for discussions" }`
-  3. `{ label: "Email", description: "Formal written communication" }`
-  4. `{ label: "Mixed", description: "Slack for quick items, huddles for complex topics" }`
-- **Target:** `.vista/profile/me.json` → `workingStyle.communication`
-- **Skip default:** `"Slack async-first"`
+Bundle these two questions into one AskUserQuestion call after name is confirmed.
 
 ### Q2: Output Language
 
 - **header:** "Language"
-- **question:** "Which language should I use for reports and communication?"
+- **question:** "Which language should I use for outputs and communication?"
 - **multiSelect:** false
 - **options:**
   1. `{ label: "Japanese (Recommended)", description: "日本語で出力" }`
   2. `{ label: "English", description: "Output in English" }`
   3. `{ label: "Bilingual", description: "Use both depending on context" }`
 - **Target:** `.vista/profile/me.json` → `preferences.language`
-- **Skip default:** `"ja"`
 
 ### Q3: Output Format
 
 - **header:** "Format"
-- **question:** "How do you prefer reports and outputs to be formatted?"
+- **question:** "How do you prefer outputs to be formatted?"
 - **multiSelect:** false
 - **options:**
   1. `{ label: "Concise bullets (Recommended)", description: "Short, scannable bullet points" }`
@@ -110,18 +65,19 @@ All roles. Present as a single `AskUserQuestion` call (3 questions).
   3. `{ label: "Tables & data", description: "Structured tables with metrics" }`
   4. `{ label: "Mixed", description: "Bullets for summaries, detail for analysis" }`
 - **Target:** `.vista/profile/me.json` → `preferences.outputFormat`
-- **Skip default:** `"Concise bullet points"`
 
 ---
 
-## Role-Specific Interview Files
+## Label-to-Value Mapping
 
-Role-specific questions (formerly Batch 3) are maintained in separate files per role. Load the appropriate file based on `.vista/state/setup.json` → `role`.
+When writing to `me.json`, map option labels to stored values:
 
-| Role | File |
-|------|------|
-| scrum-master | `references/scrum-master-interview.md` |
-| marketing | `references/marketing-interview.md` |
-| product-manager | `references/product-manager-interview.md` |
-| designer | `references/designer-interview.md` |
-| investor-relations | `references/investor-relations-interview.md` |
+| Question | Label | Stored Value |
+|----------|-------|-------------|
+| Language | Japanese (Recommended) | `ja` |
+| Language | English | `en` |
+| Language | Bilingual | `bilingual` |
+| Format | Concise bullets (Recommended) | `bullets` |
+| Format | Detailed prose | `prose` |
+| Format | Tables & data | `tables` |
+| Format | Mixed | `mixed` |
