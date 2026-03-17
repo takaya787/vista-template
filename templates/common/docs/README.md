@@ -1,1 +1,1 @@
-Team definitions (`team.md`, `members/`) if need and AI-generated documents (reports, planning, weekly updates).
+AI-generated documents are saved here under topic-specific subfolders. Do NOT place documents in the project root.
