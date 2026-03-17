@@ -1,111 +1,78 @@
 # Vista Template
 
-Role-based project templates for Claude Code. Each template provides a pre-configured `.claude/` setup with rules, skills, and hooks tailored to a specific job function.
-
-## Available Templates
-
-| Role | Status | Description |
-|------|--------|-------------|
-| `scrum-master` | Ready | Task management, sprint planning, weekly reports, meeting minutes |
-| `product-manager` | Planned | Product roadmap, feature prioritization, stakeholder communication |
-| `designer` | Planned | Design review, asset management, design system documentation |
-| `marketing` | Planned | Campaign tracking, content planning, analytics reports |
-| `investor-relations` | Planned | Financial reporting, investor communication, KPI dashboards |
+A project template for Claude Code that provides a pre-configured `.claude/` setup with rules, skills, and hooks. On first launch, `/onboarding` guides you through a task-based interview to generate project-specific configuration.
 
 ## Prerequisites
 
-| Tool | Version | Required | Purpose |
-|------|---------|----------|---------|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | latest | Yes | AI assistant CLI |
-| [Git](https://git-scm.com/) | any | Yes | Repository cloning |
-| [Node.js](https://nodejs.org/) | >= 18 | Yes | Notion scripts (Playwright) |
-| [pnpm](https://pnpm.io/) | >= 8 | Yes | Package manager (used by setup script) |
-| [GitHub CLI (`gh`)](https://cli.github.com/) | >= 2.0 | Yes (scrum-master) | GitHub API operations |
-| Python 3 | >= 3.9 | No | Timezone auto-detection in setup |
-
-> **Note:** `gh auth login` must be completed before running Claude Code with the scrum-master template. Notion access additionally requires `node scripts/notion-login.mjs` after setup.
+| Tool | Required | Purpose |
+|------|----------|---------|
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | Yes | AI assistant CLI |
+| [Git](https://git-scm.com/) | Yes | Version control |
+| [GitHub CLI (`gh`)](https://cli.github.com/) | No | GitHub username auto-detection |
+| Python 3 | No | Timezone auto-detection |
 
 ## Quick Start
-
-### One-command install (via curl)
-
-No `git clone` required. Just run one command:
-
-**Full Setup** (role-specific):
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- scrum-master ~/path/to/your-project
-```
-
-**Quick Use** (common only):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- ~/path/to/your-project
 ```
 
-**Show Directory Usage** (scrum-master):
+This single command:
+
+1. Downloads vista-template to `~/.vista/vista-template/` (persistent location)
+2. Installs Claude Code CLI if not present
+3. Deploys common templates to your project directory
+4. Generates `.vista/` state and profile skeleton
+
+After installation:
 
 ```bash
-find templates/scrum-master -name "README.md" -not -path "templates/scrum-master/README.md" -exec sh -c 'echo "--- $(dirname "$1" | sed "s|templates/scrum-master/||") ---" && cat "$1" && echo' _ {} \;
+cd ~/path/to/your-project
+claude
+# On first launch, /onboarding will guide you through task-based setup
 ```
 
-**Show Directory Usage** (marketing):
+## Architecture
 
-```bash
-find templates/marketing -name "README.md" -not -path "templates/marketing/README.md" -exec sh -c 'echo "--- $(dirname "$1" | sed "s|templates/marketing/||") ---" && cat "$1" && echo' _ {} \;
-```
-
-## Architecture: common + role
-
-Templates are split into **common** (shared across all roles) and **role-specific** layers. The setup script merges both into the target directory.
+All templates live under `templates/common/`. The `/onboarding` skill generates project-specific configuration (rules, skills, CLAUDE.md) based on a conversational interview about your actual tasks.
 
 ```
-templates/
-├── common/                            # Shared across ALL roles
-│   ├── .ai/                           # Task & plan tracking
-│   ├── .claude/
-│   │   ├── settings.local.json        # Base permissions and hooks config
-│   │   ├── hooks/                     # Safety hooks (block dangerous commands, notifications)
-│   │   ├── rules/
-│   │   │   ├── authority.md           # Convention > Config precedence
-│   │   │   ├── convention/            # Shared standards (do not modify)
-│   │   │   │   ├── task-triage.md     # Complexity assessment
-│   │   │   │   ├── workflow.md        # Planning, sub-agents
-│   │   │   │   ├── documentation.md   # Doc output rules
-│   │   │   │   ├── output-language.md # Language settings
-│   │   │   │   ├── memory.md          # Self-learning policy
-│   │   │   │   ├── onboarding.md      # Owner profile & onboarding rules
-│   │   │   │   ├── claude-md.md       # CLAUDE.md guidelines
-│   │   │   │   └── skill-conventions.md
-│   │   │   └── config/
-│   │   │       └── always.md          # Owner definition
-│   │   └── skills/                    # Common skills (if any)
-│   ├── docs/team.md                   # Team roster
-│   ├── minutes/                       # Meeting transcripts
-│   ├── screenshots/                   # Captured screenshots
-│   ├── .vista/                        # Vista metadata directory
-│   │   ├── state/                     # Onboarding & setup state (gitignored)
-│   │   ├── profile/                   # Owner profile (gitignored)
-│   │   │   └── me.example.json        # Owner profile template
-│   │   └── config/                    # Vista-specific config (tracked)
-│   ├── memory/MEMORY.md               # Auto-memory starter template
-│   └── .gitignore.sample              # Gitignore template (merged into target on deploy)
-│
-├── scrum-master/                      # Role-specific (merged on top of common)
-│   ├── CLAUDE.md                      # AI role: scrum master
-│   ├── .claude/
-│   │   ├── settings.local.json        # Extended permissions (gh, node, playwright)
-│   │   ├── rules/convention/          # sprint-config.md, integrations.md
-│   │   ├── rules/config/              # github-workflow.md, notion-pages.md
-│   │   └── skills/                    # planning, sprint-goal, weekly-update, minutes
-│   ├── docs/template-guide.md
-│   ├── scripts/                       # Notion scripts
-│   └── package.json                   # Playwright dependency
-│
-├── product-manager/                   # (planned)
-├── designer/                          # (planned)
-├── marketing/                         # (planned)
-└── investor-relations/                # (planned)
+templates/common/
+├── .ai/                               # Task & plan tracking
+│   ├── plans/
+│   └── tasks/
+├── .claude/
+│   ├── settings.local.sample.json     # Base permissions and hooks config
+│   ├── hooks/                         # Safety hooks (block dangerous commands, notifications)
+│   ├── rules/
+│   │   ├── authority.md               # Convention > Config precedence
+│   │   ├── convention/                # Shared standards (symlinked, do not modify)
+│   │   │   ├── always.md             # Core behavior rules
+│   │   │   ├── task-triage.md        # Complexity assessment
+│   │   │   ├── workflow.md           # Planning, sub-agents
+│   │   │   ├── documentation.md      # Doc output rules
+│   │   │   ├── output-language.md    # Language settings
+│   │   │   ├── memory.md            # Self-learning policy
+│   │   │   ├── onboarding.md        # Onboarding rules
+│   │   │   ├── claude-md.md         # CLAUDE.md guidelines
+│   │   │   ├── guardrails.md        # Safety guardrails
+│   │   │   ├── rule-conventions.md  # Rule authoring standards
+│   │   │   ├── skill-conventions.md # Skill authoring standards
+│   │   │   └── python-environment.md
+│   │   └── config/                    # Project-specific settings (generated by onboarding)
+├── skills/
+│   │   ├── onboarding/               # Task-based setup interview
+│   │   ├── minutes/                  # Meeting minutes skill
+│   │   ├── task-register/            # Task registration
+│   │   └── task-runner/              # Task execution
+├── .vista/                            # Vista metadata
+│   ├── state/                         # setup.json, onboarding.json (gitignored)
+│   ├── profile/                       # me.json owner profile (gitignored)
+│   └── config/                        # Vista-specific config (tracked)
+├── docs/                              # Documentation
+├── memory/MEMORY.md                   # Auto-memory starter template
+├── minutes/                           # Meeting transcripts
+└── .gitignore.sample                  # Gitignore template
 ```
 
 ### Rules Architecture
@@ -113,49 +80,58 @@ templates/
 Rules are separated into two layers:
 
 - **Convention** (`rules/convention/`) -- Shared immutable standards. Do not modify.
-- **Config** (`rules/config/`) -- Project-specific settings. Customize for your environment.
+- **Config** (`rules/config/`) -- Project-specific settings. Generated by `/onboarding` or customized manually.
 
 Convention always takes precedence over Config. See `rules/authority.md` for details.
 
-Common convention rules apply to all roles. Role-specific templates add additional convention and config rules on top.
+### Onboarding Flow
 
-## Setup Script
+The `/onboarding` skill replaces role-based templates with a task-based approach:
+
+1. Interviews you about your actual tasks and workflows (~3-5 minutes)
+2. Discovers what tools and integrations you use
+3. Generates project-specific `CLAUDE.md`, config rules, and skills
+4. Records your profile in `.vista/profile/me.json`
+
+This means configuration is derived from your real needs rather than predefined role assumptions.
+
+## Deploy Script
 
 ```bash
-./scripts/setup.sh <role> <target-directory>
+./scripts/copy-common.sh <target-directory>
 ```
 
-The script copies template files and creates the `.vista/` directory structure:
+Deploys common templates to the target directory:
 
-1. Copies common + role-specific files to the target
-2. Creates `.vista/` directory with skeleton profile and onboarding state
-3. On first Claude Code launch, `/onboarding` is automatically suggested to personalize your profile and settings (~3-5 minutes conversational interview)
-
-See `docs/template-guide.md` in each template for detailed instructions.
+1. Creates directory skeleton (`.claude/`, `.ai/`, `.vista/`, etc.)
+2. Symlinks convention files to the persistent install location
+3. Copies config, skills, hooks, and other project-specific files
+4. Generates `.vista/state/` and `.vista/profile/` skeleton
+5. Auto-detects GitHub username and timezone
 
 ## Install Strategy
 
 ### Persistent install location
 
-`install.sh` downloads vista-template once to a fixed location on the machine:
+`install.sh` downloads vista-template once to a fixed location:
 
 ```
-~/.vista/vista-template/   ← single source of truth for all workspaces
+~/.vista/vista-template/   <- single source of truth for all workspaces
 ```
 
 This path can be overridden with the `VISTA_HOME` environment variable.
 
 ### Convention files as symlinks
 
-`copy-common.sh` deploys convention files as **absolute-path symlinks** pointing to the persistent install, rather than copies:
+`copy-common.sh` deploys convention files as **absolute-path symlinks** pointing to the persistent install:
 
 | File type | Deployment | Reason |
 |---|---|---|
-| `rules/convention/*.md` | symlink → `~/.vista/vista-template/...` | Update once, reflected everywhere |
-| `rules/authority.md` | symlink → `~/.vista/vista-template/...` | Same |
+| `rules/convention/*.md` | symlink | Update once, reflected everywhere |
+| `rules/authority.md` | symlink | Same |
 | `rules/config/*.md` | copy | Project-specific content |
 | `.claude/hooks/*.sh` | copy | Symlinks are a security risk for hooks |
-| `.claude/skills/` | copy | Role-specific, not updated centrally |
+| `.claude/skills/` | copy | Project-specific, not updated centrally |
 | `memory/MEMORY.md` | copy | Project-specific |
 | `.claude/settings.local.json` | copy from sample (first time only) | User edits this |
 
@@ -181,17 +157,18 @@ curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scrip
 curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- ~/path/to/workspace
 ```
 
-Convention files are deployed as symlinks pointing to `~/.vista/vista-template`. Because symlinks always resolve to the current contents of the install location, updating `~/.vista/vista-template` via `install.sh` ensures every workspace immediately reads the latest convention rules — no per-workspace file updates needed.
+Convention files are deployed as symlinks, so updating `~/.vista/vista-template` via `install.sh` ensures every workspace immediately reads the latest convention rules.
 
 ## Contributing
 
-To add a new role template:
+To contribute to vista-template:
 
-1. Create a directory under `templates/<role-name>/`
-2. Add only role-specific files -- common files are inherited automatically
-3. Add a `CLAUDE.md` defining the AI's role
-4. Add role-specific rules in `.claude/rules/convention/` and `.claude/rules/config/`
-5. Add role-specific skills in `.claude/skills/`
+1. **Add convention rules** in `templates/common/.claude/rules/convention/` -- shared standards that apply to all projects
+2. **Add skills** in `templates/common/.claude/skills/` -- reusable skill definitions
+3. **Add hooks** in `templates/common/.claude/hooks/` -- safety and automation hooks
+4. **Improve onboarding** -- enhance the interview protocol and config generation in `templates/common/.claude/skills/onboarding/`
+
+Convention rules must NOT contain project-specific information or concrete service names. All project-specific details belong in config rules, which are generated per-project by `/onboarding`.
 
 ## License
 

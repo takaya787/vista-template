@@ -121,9 +121,58 @@ chmod +x \
   "$TARGET_DIR/.claude/hooks/notify.sh" \
   2>/dev/null || true
 
+# --- Generate .vista/ state & profile ---
+
+echo "Creating .vista/ state and profile..."
+
+# Auto-detect GitHub username
+GITHUB_USER=""
+if command -v gh &> /dev/null; then
+  GITHUB_USER=$(gh api user --jq '.login' 2>/dev/null || echo "")
+fi
+
+# Auto-detect timezone
+TIMEZONE=""
+if command -v python3 &> /dev/null; then
+  TIMEZONE=$(python3 -c "import datetime; print(datetime.datetime.now().astimezone().tzinfo)" 2>/dev/null || echo "")
+fi
+
+SETUP_DATE=$(date +%Y-%m-%d)
+CREATED_AT=$(date -u +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || date +%Y-%m-%dT%H:%M:%S%z)
+
+# Generate .vista/state/setup.json
+cat > "$TARGET_DIR/.vista/state/setup.json" << EOF
+{
+  "setupDate": "$SETUP_DATE",
+  "sourceVersion": "1.0.0"
+}
+EOF
+
+# Generate .vista/profile/me.json (skeleton, only if not already present)
+if [ ! -f "$TARGET_DIR/.vista/profile/me.json" ]; then
+  cat > "$TARGET_DIR/.vista/profile/me.json" << EOF
+{
+  "github": "${GITHUB_USER}",
+  "workingStyle": { "timezone": "${TIMEZONE}" },
+  "preferences": { "language": "ja" },
+  "legalNotice": "This data is used locally only and is never sent to remote servers"
+}
+EOF
+fi
+
+# Generate .vista/state/onboarding.json (pending, only if not already present)
+if [ ! -f "$TARGET_DIR/.vista/state/onboarding.json" ]; then
+  cat > "$TARGET_DIR/.vista/state/onboarding.json" << EOF
+{
+  "status": "pending",
+  "createdAt": "$CREATED_AT"
+}
+EOF
+fi
+
 echo "Done!"
 echo ""
 echo "Next steps:"
 echo "  1. cd $TARGET_DIR"
-echo "  2. Review and customize files as needed"
-echo "  3. Start Claude Code: claude"
+echo "  2. Start Claude Code: claude"
+echo "     (On first launch, /onboarding will guide you through task-based setup)"

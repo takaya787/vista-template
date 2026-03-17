@@ -4,10 +4,7 @@ set -euo pipefail
 # Vista Template Installer (curl-friendly)
 # Downloads vista-template to ~/.vista/vista-template (persistent) and deploys to a target directory.
 #
-# Full Setup (role-specific):
-#   curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- <role> <target>
-#
-# Quick Use (common only):
+# Usage:
 #   curl -fsSL https://raw.githubusercontent.com/takaya787/vista-template/main/scripts/install.sh | bash -s -- <target>
 
 REPO_TARBALL="https://github.com/takaya787/vista-template/archive/refs/heads/main.tar.gz"
@@ -21,32 +18,24 @@ usage() {
   echo "Vista Template Installer"
   echo ""
   echo "Usage:"
-  echo "  install.sh <role> <target-directory>   # Full Setup (role-specific)"
-  echo "  install.sh <target-directory>           # Quick Use (common only)"
+  echo "  install.sh <target-directory>"
   echo ""
   echo "Examples:"
-  echo "  curl -fsSL .../install.sh | bash -s -- scrum-master ~/my-project"
   echo "  curl -fsSL .../install.sh | bash -s -- ~/my-project"
   echo ""
   echo "Environment:"
   echo "  VISTA_HOME    Override install path (default: ~/.vista/vista-template)"
-  echo "  VISTA_FORCE   Skip confirmation prompts (default: false)"
+  echo "  VISTA_FORCE   Skip confirmation prompts (default: true)"
 }
 
 # --- Argument parsing ---
 
-ROLE=""
-TARGET_DIR=""
-
-if [ $# -ge 2 ]; then
-  ROLE="$1"
-  TARGET_DIR="$2"
-elif [ $# -eq 1 ]; then
-  TARGET_DIR="$1"
-else
+if [ $# -lt 1 ]; then
   usage
   exit 1
 fi
+
+TARGET_DIR="$1"
 
 # --- Install vista-template to persistent location ---
 
@@ -80,10 +69,5 @@ fi
 
 export VISTA_FORCE
 
-if [ -n "$ROLE" ]; then
-  echo "Running Full Setup (role: $ROLE)..."
-  bash "$VISTA_HOME/scripts/setup.sh" "$ROLE" "$TARGET_DIR"
-else
-  echo "Running Quick Use (common only)..."
-  bash "$VISTA_HOME/scripts/copy-common.sh" "$TARGET_DIR"
-fi
+echo "Deploying common templates..."
+bash "$VISTA_HOME/scripts/copy-common.sh" "$TARGET_DIR"
