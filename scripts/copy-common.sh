@@ -79,20 +79,34 @@ for f in "$COMMON_DIR/.claude/rules/convention/"*.md; do
   ln -sf "$f" "$TARGET_DIR/.claude/rules/convention/$(basename "$f")"
 done
 
-# 3. skills → copy (subdirectories included)
-cp -R "$COMMON_DIR/.claude/skills/." "$TARGET_DIR/.claude/skills/" 2>/dev/null || true
+# 3. skills → symlink (per skill directory, overwrite if same name exists)
+for skill_dir in "$COMMON_DIR/.claude/skills/"*/; do
+  [ -d "$skill_dir" ] || continue
+  skill_name="$(basename "$skill_dir")"
+  target_skill="$TARGET_DIR/.claude/skills/$skill_name"
+  # Remove existing skill (symlink or directory) before creating symlink
+  [ -e "$target_skill" ] || [ -L "$target_skill" ] && rm -rf "$target_skill"
+  ln -sf "$skill_dir" "$target_skill"
+done
 
 # 4. hooks → copy (symlinks are a security risk for hooks)
 cp "$COMMON_DIR/.claude/hooks/"*.sh "$TARGET_DIR/.claude/hooks/" 2>/dev/null || true
 
-# 5. config → copy (project-specific content)
-cp "$COMMON_DIR/.claude/rules/config/"*.md "$TARGET_DIR/.claude/rules/config/" 2>/dev/null || true
+# 5. config → copy (only if not already present, project-specific content)
+for f in "$COMMON_DIR/.claude/rules/config/"*.md; do
+  [ -e "$f" ] || continue
+  target_file="$TARGET_DIR/.claude/rules/config/$(basename "$f")"
+  [ -e "$target_file" ] && continue
+  cp "$f" "$target_file"
+done
 
 # 6. authority.md → symlink (absolute path)
 ln -sf "$COMMON_DIR/.claude/rules/authority.md" "$TARGET_DIR/.claude/rules/authority.md" 2>/dev/null || true
 
-# 7. memory/MEMORY.md → copy (project-specific)
-cp "$COMMON_DIR/memory/MEMORY.md" "$TARGET_DIR/memory/" 2>/dev/null || true
+# 7. memory/MEMORY.md → copy (only if not already present, project-specific)
+if [ ! -f "$TARGET_DIR/memory/MEMORY.md" ]; then
+  cp "$COMMON_DIR/memory/MEMORY.md" "$TARGET_DIR/memory/" 2>/dev/null || true
+fi
 
 # 8. settings.local.json → copy from sample (only if not already present)
 if [ ! -f "$TARGET_DIR/.claude/settings.local.json" ]; then
@@ -109,8 +123,16 @@ if [ -f "$COMMON_DIR/.gitignore.sample" ]; then
   fi
 fi
 
-# 10. docs scaffold → copy
-cp -R "$COMMON_DIR/docs/." "$TARGET_DIR/docs/" 2>/dev/null || true
+# 10. docs scaffold → copy (only files not already present)
+if [ -d "$COMMON_DIR/docs" ]; then
+  find "$COMMON_DIR/docs" -type f | while read -r f; do
+    rel="${f#$COMMON_DIR/docs/}"
+    target_file="$TARGET_DIR/docs/$rel"
+    [ -e "$target_file" ] && continue
+    mkdir -p "$(dirname "$target_file")"
+    cp "$f" "$target_file"
+  done
+fi
 
 # Make hook scripts executable (explicit filenames only, no glob)
 chmod +x \
