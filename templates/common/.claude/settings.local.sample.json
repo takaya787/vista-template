@@ -5,7 +5,6 @@
       "Bash(test:*)",
       "Bash(head:*)",
       "WebSearch",
-      "Bash(bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.sh\":*)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
       "Write(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
       "Read(file_path:$CLAUDE_PROJECT_DIR/docs/*)",
@@ -101,18 +100,7 @@
         ]
       }
     ],
-    "Notification": [
-      {
-        "matcher": "idle_prompt|permission_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.sh\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
+    "Notification": [],
     "Stop": [
       {
         "matcher": "",
