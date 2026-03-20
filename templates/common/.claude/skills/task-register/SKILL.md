@@ -38,9 +38,16 @@ Registered tasks are executed by the watcher process in a separate session. This
 
 ```
 .ai/tasks/
-├── ui.md        # Frontend / UI related
-├── backend.md   # Backend / API related
-├── infra.md     # Build / CI / Infrastructure related
+├── sales.md            # 営業・商談・CRM・パイプライン管理
+├── marketing.md        # マーケティング・広告・SNS・コンテンツ
+├── cs.md               # カスタマーサクセス・サポート・問い合わせ対応
+├── hr.md               # 人事・採用・評価・研修・労務
+├── finance.md          # 経理・財務・予算・請求・経費
+├── legal.md            # 法務・契約・コンプライアンス・規約
+├── ops.md              # 総務・オフィス運営・購買・ベンダー管理
+├── product.md          # プロダクト企画・要件定義・ロードマップ
+├── data.md             # データ分析・BI・レポーティング・KPI
+└── exec.md             # 経営企画・戦略・取締役会・IR
 └── (any name).md
 ```
 
