@@ -1,0 +1,19 @@
+#!/bin/bash
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+failed=0
+for test_file in "$REPO_ROOT"/scripts/test/*.py; do
+  [ -f "$test_file" ] || continue
+  echo "Running: $test_file"
+  if ! python3 "$test_file"; then
+    failed=1
+  fi
+done
+
+if [ "$failed" -ne 0 ]; then
+  echo ""
+  echo "pre-push: one or more tests failed. Push aborted."
+  exit 1
+fi

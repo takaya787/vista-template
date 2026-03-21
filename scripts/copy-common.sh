@@ -181,10 +181,64 @@ mkdir -p "$GLOBAL_PROFILE_DIR"
 if [ ! -f "$GLOBAL_PROFILE_DIR/me.json" ]; then
   cat > "$GLOBAL_PROFILE_DIR/me.json" << EOF
 {
-  "github": "${GITHUB_USER}",
-  "workingStyle": { "timezone": "${TIMEZONE}" },
-  "preferences": { "language": "ja" },
-  "legalNotice": "This data is used locally only and is never sent to remote servers"
+  "isOnboardingCompleted": false,
+  "name": "",
+  "email": "",
+  "preferences": {
+    "language": "ja",
+    "outputFormat": "",
+    "verbosity": "",
+    "tone": ""
+  },
+  "role": {
+    "category": "",
+    "title": "",
+    "industry": "",
+    "companySize": "",
+    "positionLevel": "",
+    "stakeholders": ""
+  },
+  "work": {
+    "primaryOutputs": [],
+    "dailyDescription": "",
+    "recurringTasks": "",
+    "timeConsuming": ""
+  },
+  "meetings": {
+    "frequency": "",
+    "types": [],
+    "prepProcess": ""
+  },
+  "workingStyle": {
+    "timezone": "${TIMEZONE}",
+    "approach": "",
+    "decisionStyle": "",
+    "reviewProcess": "",
+    "priorityHandling": "",
+    "workingHours": "",
+    "autonomy": "",
+    "editScope": "",
+    "neverDo": "",
+    "alwaysFollow": ""
+  },
+  "services": {
+    "communication": [],
+    "projectManagement": [],
+    "dataTools": [],
+    "presentationTools": [],
+    "otherTools": ""
+  },
+  "documentation": {
+    "tools": [],
+    "primaryAudience": "",
+    "structurePolicy": "",
+    "conventions": ""
+  },
+  "goals": {
+    "primaryUseCases": [],
+    "painPoint": "",
+    "successImage": ""
+  }
 }
 EOF
   echo "Created global profile at $GLOBAL_PROFILE_DIR/me.json"
