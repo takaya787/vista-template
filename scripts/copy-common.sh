@@ -113,11 +113,11 @@ if [ ! -f "$TARGET_DIR/.claude/settings.local.json" ]; then
   cp "$COMMON_DIR/.claude/settings.local.sample.json" "$TARGET_DIR/.claude/settings.local.json" 2>/dev/null || true
 fi
 
-# 9. .gitignore → copy sample if absent, append if already present
+# 9. .gitignore → copy sample if absent, append if already present (skip if .vista already included)
 if [ -f "$COMMON_DIR/.gitignore.sample" ]; then
   if [ ! -f "$TARGET_DIR/.gitignore" ]; then
     cp "$COMMON_DIR/.gitignore.sample" "$TARGET_DIR/.gitignore"
-  else
+  elif ! grep -q '\.vista' "$TARGET_DIR/.gitignore"; then
     echo "" >> "$TARGET_DIR/.gitignore"
     cat "$COMMON_DIR/.gitignore.sample" >> "$TARGET_DIR/.gitignore"
   fi

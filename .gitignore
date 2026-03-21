@@ -35,9 +35,6 @@ assets/
 screenshots/
 
 # Python Tmp Environment
-scripts/
-
-# Python Tmp Environment
 tmp/
 
 
