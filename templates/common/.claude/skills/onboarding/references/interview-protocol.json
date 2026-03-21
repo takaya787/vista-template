@@ -13,11 +13,10 @@
     "id": "email",
     "phase": 1,
     "phase_label": "基本情報",
-    "type": "text",
+    "type": "auto_detect",
     "label": "メールアドレス",
-    "key": "email",
-    "required": true,
-    "placeholder": "taro@example.com"
+    "description": "認証アカウントのemailを自動で取得します。",
+    "key": "email"
   },
   {
     "id": "timezone",

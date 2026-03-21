@@ -199,16 +199,16 @@ ln -sf "$GLOBAL_PROFILE_DIR/me.json" "$TARGET_DIR/.vista/profile/me.json"
 # - pending  if global profile is a skeleton (onboarding not yet completed)
 # - active   if global profile already has name filled in (onboarding done previously)
 if [ ! -f "$TARGET_DIR/.vista/state/onboarding.json" ]; then
-  HAS_NAME=$(python3 -c "
-import json, sys
+  IS_COMPLETE=$(python3 -c "
+import json
 try:
   d = json.load(open('$GLOBAL_PROFILE_DIR/me.json'))
-  print('true' if d.get('name') else 'false')
+  print('true' if d.get('isOnboardingCompleted') else 'false')
 except Exception:
   print('false')
 " 2>/dev/null || echo "false")
 
-  if [ "$HAS_NAME" = "true" ]; then
+  if [ "$IS_COMPLETE" = "true" ]; then
     ONBOARDING_STATUS="active"
   else
     ONBOARDING_STATUS="pending"
