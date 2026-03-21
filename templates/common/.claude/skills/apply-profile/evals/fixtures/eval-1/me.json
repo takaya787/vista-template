@@ -1,0 +1,39 @@
+{
+  "name": "田中 花子",
+  "email": "hanako@example.com",
+  "isOnboardingCompleted": true,
+  "role": {
+    "category": "マーケター",
+    "title": "マーケティングマネージャー",
+    "industry": "消費財",
+    "companySize": "大企業 (1000+)"
+  },
+  "preferences": {
+    "language": "ja",
+    "outputFormat": "prose",
+    "verbosity": "normal",
+    "tone": "formal"
+  },
+  "workingStyle": {
+    "timezone": "Asia/Tokyo",
+    "autonomy": "guided",
+    "editScope": "minimal",
+    "neverDo": "箇条書きを使わない",
+    "alwaysFollow": "敬語を使う"
+  },
+  "work": {
+    "primaryOutputs": ["emails", "slides", "plans"]
+  },
+  "goals": {
+    "primaryUseCases": ["writing", "communication"],
+    "painPoint": "プレゼン資料の作成に時間がかかりすぎる"
+  },
+  "services": {
+    "communication": ["Slack", "メール"],
+    "projectManagement": ["Asana"],
+    "presentationTools": ["PowerPoint", "Google Slides"]
+  },
+  "documentation": {
+    "tools": ["Notion"]
+  }
+}

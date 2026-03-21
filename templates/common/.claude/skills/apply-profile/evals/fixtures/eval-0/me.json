@@ -1,0 +1,39 @@
+{
+  "name": "Alex Johnson",
+  "email": "alex@example.com",
+  "isOnboardingCompleted": true,
+  "role": {
+    "category": "Product Manager",
+    "title": "Senior Product Manager",
+    "industry": "SaaS",
+    "companySize": "mid-size (100-500)"
+  },
+  "preferences": {
+    "language": "en",
+    "outputFormat": "bullets",
+    "verbosity": "concise",
+    "tone": "neutral"
+  },
+  "workingStyle": {
+    "timezone": "America/New_York",
+    "autonomy": "balanced",
+    "editScope": "moderate",
+    "neverDo": "",
+    "alwaysFollow": ""
+  },
+  "work": {
+    "primaryOutputs": ["reports", "plans", "meeting_docs"]
+  },
+  "goals": {
+    "primaryUseCases": ["analysis", "planning"],
+    "painPoint": "Too much time spent on status reports and meeting prep"
+  },
+  "services": {
+    "communication": ["Slack", "Email"],
+    "projectManagement": ["Jira", "Confluence"],
+    "dataTools": ["Excel", "Tableau"]
+  },
+  "documentation": {
+    "tools": ["Confluence"]
+  }
+}

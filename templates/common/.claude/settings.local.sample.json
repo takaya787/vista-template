@@ -12,7 +12,19 @@
       "Write(file_path:$CLAUDE_PROJECT_DIR/.ai/tasks/*)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/config/*.md)",
       "Write(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/config/*.md)",
-      "Read(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/config/*.md)"
+      "Read(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/config/*.md)",
+
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/CLAUDE.md)",
+      "Write(file_path:$CLAUDE_PROJECT_DIR/CLAUDE.md)",
+
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
+
+      "Write(file_path:$CLAUDE_PROJECT_DIR/memory/MEMORY.md)",
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/memory/MEMORY.md)",
+
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.vista/state/onboarding.json)",
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.vista/state/onboarding.json)"
     ],
     "deny": [
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/convention/*.md)",

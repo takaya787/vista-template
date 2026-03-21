@@ -12,3 +12,35 @@ Thumbs.db
 # Local Only
 memory/loop-history.md
 .ai/*
+# Claude hidden folder
+.ai/*
+.claude/*
+
+# Vista state and profile (generated per user, not shared)
+.vista/*
+
+# AI-generated documents
+docs/*
+
+# AI Memory documents
+memory/*
+
+# Meeting transcripts (sensitive content)
+minutes/*
+
+# Assets (screenshots, videos, traces — all generated)
+assets/
+
+# Legacy screenshots directory
+screenshots/
+
+# Python Tmp Environment
+scripts/
+
+# Python Tmp Environment
+tmp/
+
+
+# Dependencies
+node_modules/
+
