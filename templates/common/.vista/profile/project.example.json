@@ -1,0 +1,27 @@
+{
+  "isOnboardingCompleted": true,
+  "company": {
+    "name": "株式会社ABC",
+    "industry": "retail_ec",
+    "description": "アパレルブランドの企画・製造・販売。自社EC「XYZ」と全国百貨店への卸売りの2チャネルで展開。メインターゲットは30〜40代女性"
+  },
+  "myWork": {
+    "domain": "マーケティング部 / ブランドマーケティング担当",
+    "products": "自社ブランド「XXX」のSNS広告運用、季節キャンペーン企画、インフルエンサーマーケティング、メールマガジン配信",
+    "recurringTasks": "週次でSNSエンゲージメントレポート作成・共有、月次で広告費用対効果レポートを役員向けに提出、四半期ごとに競合分析レポートをチームに共有",
+    "keyMetrics": "月次売上（目標：前年比110%）、広告ROI（目標300%以上）、SNSフォロワー増加率、CV率（目標2%以上）"
+  },
+  "stakeholders": {
+    "internal": "マーケティングディレクター（直属上司・最終承認者）、営業部（週次で施策連携）、EC担当チーム（在庫・掲載管理）、経営層（月次報告先）",
+    "external": "広告代理店A社（主担当：田中さん）、インフルエンサー管理会社B社、撮影スタジオC社"
+  },
+  "currentInitiatives": "春の新商品キャンペーン企画（4月第2週リリース予定）。Instagram広告クリエイティブの全面刷新。SNSフォロワー1万人達成に向けた施策立案",
+  "businessTerms": "ROI=広告費用対効果、CTR=クリック率、CV=コンバージョン（購入完了）、KSF=重点指標、ブランドリフト=ブランド認知度の向上効果、「ハウスリスト」=自社メルマガ登録者リスト",
+  "constraints": "競合他社名を社外文書に出さない。売上数字・利益率は社外秘扱い。代理店への新規依頼は稟議書が必要",
+  "neverDo": "確認なしに外部向け資料に売上・利益数字を記載しない。代理店への指示は上司の事前承認なしに送らない。ブランドガイドライン未確認のクリエイティブを使用しない",
+  "references": [
+    { "type": "url", "label": "会社サイト", "value": "https://example.com" },
+    { "type": "url", "label": "ブランドガイドライン（Notion）", "value": "https://notion.so/brand-guidelines" },
+    { "type": "file", "label": "マーケティング戦略資料", "value": "docs/marketing-strategy-2026.pdf" }
+  ]
+}

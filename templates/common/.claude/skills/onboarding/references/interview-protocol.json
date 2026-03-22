@@ -62,6 +62,7 @@
     "phase_label": "対話スタイル",
     "type": "single_select",
     "label": "出力フォーマットの好みは？",
+    "description": "後からいつでも変更できます。迷ったら「混合」がおすすめです。",
     "key": "preferences.outputFormat",
     "required": true,
     "target": "claude_md",
@@ -78,6 +79,7 @@
     "phase_label": "対話スタイル",
     "type": "single_select",
     "label": "回答の詳細度は？",
+    "description": "後からいつでも変更できます。迷ったら「標準」がおすすめです。",
     "key": "preferences.verbosity",
     "required": true,
     "target": "claude_md",
@@ -322,9 +324,9 @@
     "required": true,
     "target": "claude_md",
     "options": [
-      { "value": "guided", "label": "ガイド型（各ステップで確認を取る）" },
-      { "value": "balanced", "label": "バランス型（重要な判断のみ確認）" },
-      { "value": "autonomous", "label": "自律型（判断して進める・確認は最小限）" }
+      { "value": "guided", "label": "都度確認（各ステップで承認を求める）" },
+      { "value": "balanced", "label": "基本は任せる（重要な変更のみ確認）" },
+      { "value": "autonomous", "label": "どんどん進める（確認は最小限）" }
     ]
   },
   {
@@ -338,9 +340,9 @@
     "required": true,
     "target": "claude_md",
     "options": [
-      { "value": "minimal", "label": "最小限（指示した箇所のみ変更）" },
-      { "value": "moderate", "label": "適度（関連する箇所も含めて改善）" },
-      { "value": "comprehensive", "label": "包括的（全体の品質向上のために広く変更 OK）" }
+      { "value": "minimal", "label": "指示箇所のみ（それ以外は触らない）" },
+      { "value": "moderate", "label": "関連箇所も改善（指示外でも関係する部分を修正）" },
+      { "value": "comprehensive", "label": "全体を最適化（品質向上のため広く変更 OK）" }
     ]
   },
   {

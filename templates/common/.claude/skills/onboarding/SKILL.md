@@ -1,6 +1,7 @@
 ---
 name: onboarding
-description: Task-driven onboarding that personalizes Claude Code by doing real work together.
+description:
+  Task-driven onboarding that personalizes Claude Code by doing real work together.
   Triggers automatically when .vista/state/onboarding.json has status "pending".
   Also triggers on "/onboarding", "run onboarding", "set up my profile",
   "configure my preferences". Can be re-run anytime to discover new tasks.
@@ -21,6 +22,7 @@ Task-driven onboarding that personalizes the Claude Code environment by working 
 
 - `.vista/state/onboarding.json` — Onboarding state and discovered tasks
 - `.vista/profile/me.json` — Symlink to `~/.vista/profile/me.json` (global owner profile)
+- `.vista/profile/project.json` — Per-project context (read-only here; set up via `/onboarding-project`)
 - `references/interview-protocol.md` — Profile questions and rendering notes
 - `references/interview-protocol.json` — Structured question definitions (all phases)
 - `references/task-discovery-guide.md` — Task discovery conversation guide
@@ -49,6 +51,7 @@ All user input MUST be collected via the `AskUserQuestion` tool.
 ### Step 1: Welcome + Detect State
 
 1. **Greet the owner** with a warm welcome message before doing anything else:
+
    > Hi! I'm Claude, your AI work assistant. Let's spend about 10 minutes getting to know how you work — I'll ask a few quick questions, then we'll tackle a real task together. Let me check a few things about your setup first...
 
 2. Read `.vista/state/onboarding.json` to determine current status
@@ -68,7 +71,9 @@ All user input MUST be collected via the `AskUserQuestion` tool.
    - Re-run triggered by user on active environment → follow Re-run Policy in `rules/convention/onboarding.md`
 
 6. Present auto-detected values for confirmation:
+
    > I detected the following — let me know if anything needs correction:
+   >
    > - Email: `{detected}`
    > - Timezone: `{detected}`
 
@@ -89,13 +94,19 @@ See `references/interview-protocol.md` Q1 for full details.
 **Step 2b: Language + Format (single AskUserQuestion call)**
 
 Collect 2 questions in one call:
+
 1. **Output language** (Japanese / English / Bilingual)
 2. **Output format** (bullets / prose / tables / mixed)
 
 Write the profile to `.vista/profile/me.json` immediately after collection.
 
 **Transition message** after profile is saved:
+
 > Nice to meet you, {name}! Your profile is all set. Now let's find something useful to work on together.
+
+If `.vista/profile/project.json` does not exist, also suggest:
+
+> For even better assistance, you can run `/onboarding-project` to set up your project context — this helps me understand your team, company, and current work.
 
 ### Step 3: Task Discovery
 
@@ -107,6 +118,7 @@ Transition to task discovery. See `references/task-discovery-guide.md` for the f
 4. Confirm the task scope using the confirmation format defined in `references/task-discovery-guide.md`
 
 **Transition message** after task confirmation (merge with mid-task exit note from Step 4):
+
 > Got it — let's do this. You can say 'let's stop here' anytime. I'll start by [first action] and show you a draft.
 
 ### Step 4: Do the Task Together
@@ -114,21 +126,25 @@ Transition to task discovery. See `references/task-discovery-guide.md` for the f
 Execute the discovered task collaboratively with the owner.
 
 **Execution approach:**
+
 - Announce what you will do first so the owner knows what to expect
 - Produce a first draft or partial result quickly (aim for under 2 minutes)
 - Show the draft to the owner and ask for feedback before refining
 - Iterate based on feedback — expect 1-2 rounds of revision
 
 **Scope management:**
+
 - If the task is too complex for the 10-minute onboarding window, simplify scope: "This is a big task — let's start with [smaller piece] today and save the rest for next time."
 - Completing a small task is always better than starting a large one
 
 **Mid-task exit:**
+
 - The owner can stop at any point. If they say "stop", "let's stop here", or similar, save progress gracefully and move to Step 6.
 - Mention the exit option in the transition message (e.g., "Got it — let's do this. You can say 'let's stop here' anytime. I'll start by [first action] and show you a draft.")
 - When saving progress: record the task description and any partial output to `onboarding.json` → `pendingTasks` with context, so it can be resumed in a future session.
 
 **Constraints:**
+
 - Use the owner's preferred output format and language from `me.json`
 - When the task requires information not in the profile, ask for it just-in-time
 - When the task requires data or service access you cannot reach, ask the owner to provide the data directly — do not fabricate or simulate it
@@ -141,10 +157,12 @@ After task completion, extract configuration learned during execution. See `refe
 
 **Present the changeset in plain language, not file paths:**
 
-Frame it as "Here's what I learned from our session" with natural language bullets. The owner confirms the *meaning*, not the *storage locations*. File operations happen silently after confirmation.
+Frame it as "Here's what I learned from our session" with natural language bullets. The owner confirms the _meaning_, not the _storage locations_. File operations happen silently after confirmation.
 
 Example:
+
 > Based on our work together, I picked up the following:
+>
 > - You prefer concise bullet-point outputs in Japanese
 > - You create a weekly marketing report from Google Sheets every Monday
 > - Your team reviews reports via Slack
@@ -176,6 +194,7 @@ See `references/config-generation-guide.md` for detailed write rules. Create any
 For re-run behavior on an already-active environment, follow the Re-run Policy defined in `rules/convention/onboarding.md`.
 
 When displaying maturity level to the owner, use plain language instead of internal labels:
+
 - `seed` → "just getting started"
 - `growing` → "well-configured"
 - `established` → "fully set up"

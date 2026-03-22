@@ -1,0 +1,40 @@
+{
+  "skill_name": "onboarding-project",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "no-project-json",
+      "prompt": "/onboarding-project (project.json does not exist — .vista/ dir exists but no project.json)",
+      "expected_output": "Tells user to open the Electron app. No user questions asked. No files created.",
+      "assertions": [
+        { "text": "Response mentions app / アプリ / Electron app" },
+        { "text": "No AskUserQuestion calls made (no project info solicited from user)" },
+        { "text": "No project.json created" }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "update-fields",
+      "prompt": "/onboarding-project (project.json exists with isOnboardingCompleted: true; user selects '更新' then updates currentInitiatives)",
+      "expected_output": "Shows current values, collects only changed field, merges project.json, regenerates project.md, shows completion message with company name.",
+      "assertions": [
+        { "text": "Shows current values before collecting updates" },
+        { "text": "Only the changed field (currentInitiatives) is updated; other fields preserved" },
+        { "text": "project.json written with merged data" },
+        { "text": "project.md regenerated" },
+        { "text": "Completion message includes company name" }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "continue-no-change",
+      "prompt": "/onboarding-project (project.json exists with isOnboardingCompleted: true; user selects '続ける')",
+      "expected_output": "Shows one-line summary. Exits immediately after '続ける'. No files modified.",
+      "assertions": [
+        { "text": "Shows one-line summary with company.name and myWork.domain" },
+        { "text": "Exits immediately after '続ける' with no further questions" },
+        { "text": "No files created or modified" }
+      ]
+    }
+  ]
+}

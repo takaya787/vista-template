@@ -12,28 +12,13 @@
     "category": "pm_planning",
     "title": "プロダクトマネージャー",
     "industry": "tech",
-    "companySize": "startup",
-    "positionLevel": "lead",
-    "stakeholders": "社内の開発チームと経営層の橋渡し。外部では代理店・パートナーとのやりとりが多い"
+    "companySize": "startup"
   },
   "work": {
-    "primaryOutputs": ["slides", "plans", "meeting_docs"],
-    "dailyDescription": "朝はメールとSlackの確認、午前中は数字の集計とレポート作成、午後は社内MTGと顧客対応が多い",
-    "recurringTasks": "月曜に週次進捗レポート作成・共有、月末に売上サマリーを役員向けにまとめる",
-    "timeConsuming": "複数のツールからデータを集めて整形する作業、会議後に議事録を毎回一から書くこと"
-  },
-  "meetings": {
-    "frequency": "moderate",
-    "types": ["standup", "stakeholder", "planning"],
-    "prepProcess": "アジェンダを前日に共有、会議中にメモ、終了後に議事録を1時間以内にSlackで送る"
+    "primaryOutputs": ["slides", "plans", "meeting_docs"]
   },
   "workingStyle": {
     "timezone": "Asia/Tokyo",
-    "approach": "planning_first",
-    "decisionStyle": "data_driven",
-    "reviewProcess": "上司に Slack で確認 → Google ドキュメントでコメントフィードバック → 修正して確定",
-    "priorityHandling": "tool_based",
-    "workingHours": "standard",
     "autonomy": "balanced",
     "editScope": "moderate",
     "neverDo": "確認なしでファイルを削除しない",
@@ -42,19 +27,13 @@
   "services": {
     "communication": ["slack"],
     "projectManagement": ["notion", "jira"],
-    "dataTools": ["google_sheets", "excel"],
-    "presentationTools": ["google_slides"],
     "otherTools": "HubSpot"
   },
   "documentation": {
-    "tools": ["notion", "google_docs"],
-    "primaryAudience": "cross_dept",
-    "structurePolicy": "結論を最初に書く、MECE に整理する",
-    "conventions": "ファイル名に日付とバージョンを入れる"
+    "tools": ["notion", "google_docs"]
   },
   "goals": {
     "primaryUseCases": ["writing", "planning", "meeting"],
-    "painPoint": "毎週のレポート作成に3時間かかる",
-    "successImage": "定型業務を半分の時間でこなせる"
+    "painPoint": "毎週のレポート作成に3時間かかる"
   }
 }

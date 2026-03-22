@@ -69,6 +69,95 @@ When a skill or task requires a field not yet in `me.json`:
 2. `docs/members/{github}.md` — supplementary profile data (optional; do not error if missing)
 3. `docs/team.md` — team roster (optional; do not error if missing)
 
+## Project Profile
+
+### Storage Architecture
+
+Project profile data is stored **per-project** at `.vista/profile/project.json`. Unlike `me.json`, it is **never symlinked** — each repository maintains its own independent project profile.
+
+```
+<project>/.vista/profile/project.json   ← per-project profile (not symlinked)
+<project>/.vista/profile/project.md     ← generated context document (auto-generated from project.json)
+```
+
+**Rationale:** Project context is unique to each repository. A global symlink would be incorrect — different projects have different tech stacks, phases, and constraints.
+
+### Schema
+
+The full schema covers project identity, business domain, current focus, team structure, and guardrails. See `.vista/profile/project.example.json` for a complete example.
+
+Minimum required fields after project setup:
+
+```json
+{
+  "isOnboardingCompleted": true,
+  "company": {
+    "name": "string (required)",
+    "industry": "tech | finance | retail_ec | manufacturing | healthcare | consulting | media_ad | real_estate | education | government (required)",
+    "description": "string (required)"
+  },
+  "myWork": {
+    "domain": "string (required)",
+    "products": "string (required)"
+  },
+  "currentInitiatives": "string (required)"
+}
+```
+
+All other fields (myWork.keyMetrics, stakeholders, businessTerms, neverDo, references) are optional and can be added later.
+
+The `references` field is an array of reference materials (URLs or files) the owner wants Claude to be aware of:
+
+```json
+"references": [
+  { "type": "url", "label": "string", "value": "https://..." },
+  { "type": "file", "label": "string", "value": "relative/path/to/file" }
+]
+```
+
+When `references` is present, Claude should treat listed URLs and files as authoritative context for the project and prioritize them when answering questions or generating documents.
+
+### Usage
+
+- When project context is needed, read `.vista/profile/project.json`
+- If `.vista/profile/project.json` does not exist or `isOnboardingCompleted` is `false` or missing, tell the owner to open the Electron app to set up this project
+- `project.md` is auto-generated from `project.json` — **never hand-edit `project.md`**; update `project.json` via `/onboarding-project` and regenerate
+
+### First-Run Detection (Project)
+
+At the start of each session, check `.vista/profile/project.json`:
+
+- **File does not exist**: project has not been set up → suggest opening the Electron app
+- **`isOnboardingCompleted: false`** or field missing: setup incomplete → suggest opening the Electron app
+- **`isOnboardingCompleted: true`**: project is configured → do not suggest setup unless the owner asks
+
+> **Note:** Project onboarding input is collected via the Electron app UI, not through `AskUserQuestion`. The app renders all questions from the onboarding-project skill's `references/project-interview-protocol.json`, writes `project.json` (with `isOnboardingCompleted: true`), then runs `claude -p "/apply-project-profile"` to generate all remaining workspace files.
+
+### project.md Integration
+
+After the app writes `project.json`, it runs `claude -p "/apply-project-profile"` (one-shot, non-interactive), which generates:
+
+1. **`.vista/profile/project.md`** — from project.json
+2. **`CLAUDE.md`** — Key References row added:
+   ```
+   | Project context | `.vista/profile/project.md` (generated via `/onboarding-project`) |
+   ```
+3. **`rules/config/always.md`** — active read instruction appended:
+   ```markdown
+   ## Project Context
+   Read `.vista/profile/project.md` at the start of each session for business context (company, domain, current initiatives, constraints).
+   ```
+
+The `rules/config/always.md` entry is the authoritative load trigger — it follows the same pattern as `convention/always.md` for `me.json`. This mirrors the `apply-profile` pattern used for owner onboarding.
+
+### Generation Rules
+
+See `references/project-generation-guide.md` in the onboarding-project skill for:
+
+- Field mapping (JSON key → project.md section)
+- project.md template
+- Write sequence and update behavior
+
 ## First-Run Detection
 
 At the start of each session, check `.vista/state/onboarding.json`:
@@ -101,11 +190,11 @@ When the owner explicitly triggers `/onboarding` on an already-active environmen
 
 The `.vista/` directory holds Vista-specific metadata and configuration:
 
-| Subdirectory | Purpose | Git tracked |
-|-------------|---------|-------------|
-| `.vista/state/` | Session state (onboarding status, setup metadata) | No (gitignored) |
-| `.vista/profile/` | Owner personal data | No (gitignored) |
-| `.vista/config/` | Vista-specific config files | Yes (templates only) |
+| Subdirectory      | Purpose                                           | Git tracked          |
+| ----------------- | ------------------------------------------------- | -------------------- |
+| `.vista/state/`   | Session state (onboarding status, setup metadata) | No (gitignored)      |
+| `.vista/profile/` | Owner personal data                               | No (gitignored)      |
+| `.vista/config/`  | Vista-specific config files                       | Yes (templates only) |
 
 - Never commit files in `.vista/state/` or `.vista/profile/` to version control
 - `.vista/config/` may contain tracked template files (e.g., `.example` files)

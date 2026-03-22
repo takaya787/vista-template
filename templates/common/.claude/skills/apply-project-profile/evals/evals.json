@@ -1,0 +1,41 @@
+{
+  "skill_name": "apply-project-profile",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "happy-path",
+      "prompt": "/apply-project-profile (valid project.json with all required fields, fresh workspace — no project.md, no always.md, CLAUDE.md has no project row yet)",
+      "expected_output": "Generates project.md with correct template, adds project.md row to CLAUDE.md, creates rules/config/always.md with frontmatter and Project Context section, shows structured confirmation.",
+      "assertions": [
+        { "text": "project.md is created" },
+        { "text": "project.md contains company name from project.json" },
+        { "text": "CLAUDE.md Key References table has project.md row" },
+        { "text": "rules/config/always.md is created" },
+        { "text": "always.md contains '## Project Context' section" },
+        { "text": "always.md has YAML frontmatter with paths: \"**/*\"" }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "missing-field",
+      "prompt": "/apply-project-profile (project.json exists with isOnboardingCompleted: true but missing currentInitiatives)",
+      "expected_output": "Stops at Step 1, names the missing field explicitly, generates no files.",
+      "assertions": [
+        { "text": "Stops with an error message (does not proceed to generate files)" },
+        { "text": "Error message names the missing field 'currentInitiatives'" },
+        { "text": "No project.md or always.md created" }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "idempotent",
+      "prompt": "/apply-project-profile (project.json valid, project.md already exists, CLAUDE.md already has project row, rules/config/always.md already has Project Context section)",
+      "expected_output": "Skips CLAUDE.md and always.md updates (no duplicates), regenerates project.md, completes successfully.",
+      "assertions": [
+        { "text": "CLAUDE.md has exactly one project.md row (no duplicate)" },
+        { "text": "always.md has exactly one '## Project Context' section (no duplicate)" },
+        { "text": "Skill completes successfully without error" }
+      ]
+    }
+  ]
+}
