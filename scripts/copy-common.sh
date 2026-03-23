@@ -71,7 +71,7 @@ mkdir -p "$TARGET_DIR/.claude/hooks"
 mkdir -p "$TARGET_DIR/.claude/skills"
 mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/tasks" "$TARGET_DIR/.ai/audit"
 mkdir -p "$TARGET_DIR/.vista/state" "$TARGET_DIR/.vista/profile"
-mkdir -p "$TARGET_DIR/memory" "$TARGET_DIR/docs/members" "$TARGET_DIR/minutes" "$TARGET_DIR/screenshots"
+mkdir -p "$TARGET_DIR/memory" "$TARGET_DIR/minutes"
 
 # 2. convention files → symlink (absolute path)
 for f in "$COMMON_DIR/.claude/rules/convention/"*.md; do

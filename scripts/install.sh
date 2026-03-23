@@ -65,6 +65,25 @@ else
   echo "Claude Code already installed: $(claude --version)"
 fi
 
+# --- Install required Claude Code plugins ---
+
+_install_plugin() {
+  local plugin="$1"
+  local name="${plugin%%@*}"
+  if claude plugin list 2>/dev/null | grep -q "^  . ${name}"; then
+    echo "${name} plugin already installed — skipping."
+  else
+    echo "Installing ${name} plugin..."
+    claude plugin install "$plugin" --scope user 2>/dev/null \
+      && echo "${name} plugin installed." \
+      || echo "Warning: Failed to install ${name}. Run manually: claude plugin install ${plugin}"
+  fi
+}
+
+_install_plugin "document-skills@anthropic-agent-skills"
+_install_plugin "context7@claude-plugins-official"
+_install_plugin "frontend-design@claude-plugins-official"
+
 # --- Deploy to target directory ---
 
 export VISTA_FORCE
