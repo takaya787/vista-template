@@ -228,11 +228,6 @@ fi
 # Project .vista/profile/me.json → symlink to global profile
 ln -sf "$GLOBAL_PROFILE_DIR/me.json" "$TARGET_DIR/.vista/profile/me.json"
 
-# project.example.json → copy (per-project, never symlink)
-if [ ! -f "$TARGET_DIR/.vista/profile/project.example.json" ]; then
-  cp "$COMMON_DIR/.vista/profile/project.example.json" "$TARGET_DIR/.vista/profile/project.example.json" 2>/dev/null || true
-fi
-
 # Project .vista/profile/project.json → skeleton (per-project, never symlink)
 if [ ! -f "$TARGET_DIR/.vista/profile/project.json" ]; then
   cat > "$TARGET_DIR/.vista/profile/project.json" << EOF
