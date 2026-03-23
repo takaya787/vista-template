@@ -113,18 +113,7 @@
       }
     ],
     "Notification": [],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.sh\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
+    "Stop": []
   },
   "plansDirectory": ".ai/plans"
 }

@@ -140,7 +140,6 @@ chmod +x \
   "$TARGET_DIR/.claude/hooks/audit-file-write.sh" \
   "$TARGET_DIR/.claude/hooks/block-dangerous-commands.sh" \
   "$TARGET_DIR/.claude/hooks/block-ssrf.sh" \
-  "$TARGET_DIR/.claude/hooks/notify.sh" \
   2>/dev/null || true
 
 # --- Generate .vista/ state & profile ---
