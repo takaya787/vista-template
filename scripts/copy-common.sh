@@ -74,6 +74,8 @@ mkdir -p "$TARGET_DIR/.vista/state" "$TARGET_DIR/.vista/profile"
 mkdir -p "$TARGET_DIR/memory" "$TARGET_DIR/minutes"
 
 # 2. convention files → symlink (absolute path)
+# Remove existing symlinks first to clean up deleted rules
+find "$TARGET_DIR/.claude/rules/convention/" -maxdepth 1 -type l -delete 2>/dev/null || true
 for f in "$COMMON_DIR/.claude/rules/convention/"*.md; do
   [ -e "$f" ] || continue
   ln -sf "$f" "$TARGET_DIR/.claude/rules/convention/$(basename "$f")"
