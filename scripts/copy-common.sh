@@ -139,6 +139,32 @@ chmod +x \
   "$TARGET_DIR/.claude/hooks/block-ssrf.sh" \
   2>/dev/null || true
 
+# --- Check SQLite >= 3.34.0 (required for trigram FTS / Japanese search) ---
+SQLITE_VERSION=$(python3 -c 'import sqlite3; print(sqlite3.sqlite_version)' 2>/dev/null || echo "")
+SQLITE_AVAILABLE="false"
+if [ -z "$SQLITE_VERSION" ]; then
+  echo "Warning: Could not detect SQLite version (python3 unavailable)."
+else
+  SQLITE_MAJOR=$(echo "$SQLITE_VERSION" | cut -d. -f1)
+  SQLITE_MINOR=$(echo "$SQLITE_VERSION" | cut -d. -f2)
+  if [ "$SQLITE_MAJOR" -lt 3 ] || { [ "$SQLITE_MAJOR" -eq 3 ] && [ "$SQLITE_MINOR" -lt 34 ]; }; then
+    echo "Warning: SQLite $SQLITE_VERSION is too old (need >= 3.34.0). History search may not work."
+    echo "  Please update macOS to Monterey (12) or later."
+  else
+    SQLITE_AVAILABLE="true"
+    echo "SQLite $SQLITE_VERSION OK"
+  fi
+fi
+
+# --- Install vista-sync-history to ~/.vista/bin/ ---
+BIN_DIR="$HOME/.vista/bin"
+mkdir -p "$BIN_DIR"
+SYNC_SCRIPT_SRC="$COMMON_DIR/scripts/vista-sync-history.py"
+SYNC_SCRIPT_DEST="$BIN_DIR/vista-sync-history"
+cp "$SYNC_SCRIPT_SRC" "$SYNC_SCRIPT_DEST"
+chmod 755 "$SYNC_SCRIPT_DEST"
+echo "Installed vista-sync-history to $SYNC_SCRIPT_DEST"
+
 # --- Generate .vista/ state & profile ---
 
 echo "Creating .vista/ state and profile..."
@@ -158,11 +184,21 @@ fi
 SETUP_DATE=$(date +%Y-%m-%d)
 CREATED_AT=$(date -u +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || date +%Y-%m-%dT%H:%M:%S%z)
 
+# Fetch latest tag from GitHub
+SOURCE_VERSION=$(curl -fsSL "https://api.github.com/repos/takaya787/vista-template/tags" \
+  | python3 -c "import json,sys; tags=json.load(sys.stdin); print(tags[0]['name'] if tags else '')" \
+  2>/dev/null || echo "")
+SOURCE_VERSION="${SOURCE_VERSION:-unknown}"
+
 # Generate .vista/state/setup.json
 cat > "$TARGET_DIR/.vista/state/setup.json" << EOF
 {
   "setupDate": "$SETUP_DATE",
-  "sourceVersion": "1.0.0"
+  "sourceTemplateVersion": "$SOURCE_VERSION",
+  "sqlite": {
+    "version": "${SQLITE_VERSION:-null}",
+    "available": $SQLITE_AVAILABLE
+  }
 }
 EOF
 

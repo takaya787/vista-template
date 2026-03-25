@@ -1,6 +1,12 @@
 {
   "permissions": {
     "allow": [
+      "Bash(sqlite3 ~/.vista/history/conversations.db*)",
+      "Bash(sqlite3 $HOME/.vista/history/conversations.db*)",
+      "Bash(sqlite3 -readonly ~/.vista/history/conversations.db*)",
+      "Bash(sqlite3 -readonly $HOME/.vista/history/conversations.db*)",
+      "Bash(sqlite3 -cmd*~/.vista/history/conversations.db*)",
+      "Bash(sqlite3 -cmd*$HOME/.vista/history/conversations.db*)",
       "Bash(ls:*)",
       "Bash(test:*)",
       "Bash(head:*)",
@@ -20,8 +26,8 @@
       "Write(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
 
-      "Write(file_path:$CLAUDE_PROJECT_DIR/.vista/state/onboarding.json)",
-      "Edit(file_path:$CLAUDE_PROJECT_DIR/.vista/state/onboarding.json)"
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.vista/*.json)",
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.vista/*.json)"
     ],
     "deny": [
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/convention/*.md)",
@@ -110,7 +116,17 @@
       }
     ],
     "Notification": [],
-    "Stop": []
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.vista/bin/vista-sync-history\""
+          }
+        ]
+      }
+    ]
   },
   "plansDirectory": ".ai/plans"
 }
