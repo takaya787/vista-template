@@ -1,0 +1,3 @@
+{"uuid":"aaa","timestamp":"2024-01-01T00:00:00Z","message":{"role":"user","content":"Hello"}}
+{"type":"summary","customTitle":"テストセッション","summary":"A test conversation","timestamp":"2024-01-01T00:01:00Z"}
+{"uuid":"bbb","timestamp":"2024-01-01T00:00:01Z","message":{"role":"assistant","content":"Hi!"}}

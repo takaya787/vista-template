@@ -33,6 +33,10 @@ screenshots/
 # Python Tmp Environment
 tmp/
 
+# Python cache
+__pycache__/
+*.pyc
+
 
 # Dependencies
 node_modules/

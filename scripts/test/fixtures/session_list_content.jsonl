@@ -1,0 +1,2 @@
+{"uuid":"a","timestamp":"2024-01-01T00:00:00Z","message":{"role":"user","content":[{"type":"text","text":"リスト形式のコンテンツ"},{"type":"tool_use","id":"x"},{"type":"text","text":"続き"}]}}
+{"uuid":"b","timestamp":"2024-01-01T00:00:01Z","message":{"role":"assistant","content":"Response"}}
