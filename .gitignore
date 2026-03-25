@@ -10,7 +10,6 @@ Thumbs.db
 .idea/
 
 # Local Only
-memory/loop-history.md
 .ai/*
 # Claude hidden folder
 .ai/*
@@ -21,9 +20,6 @@ memory/loop-history.md
 
 # AI-generated documents
 docs/*
-
-# AI Memory documents
-memory/*
 
 # Meeting transcripts (sensitive content)
 minutes/*

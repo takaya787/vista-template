@@ -28,7 +28,6 @@ When Convention (`rules/convention/`) and Config (`rules/config/`) conflict, Con
 
 - Override output language rules in Config (`output-language.md` is defined in Convention)
 - Skip or modify workflow steps in Config (`workflow.md` is defined in Convention)
-- Change memory management rules in Config (`memory.md` is defined in Convention)
 - Redefine task triage thresholds in Config (`task-triage.md` is defined in Convention)
 
 ## Enforcement

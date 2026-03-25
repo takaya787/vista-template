@@ -4,7 +4,7 @@
     {
       "id": 0,
       "prompt": "/apply-profile",
-      "expected_output": "CLAUDE.md updated with Role + Owner sections (English labels); data-report-specialist.md, planning-specialist.md, meeting-specialist.md created in .claude/agents/; memory/MEMORY.md seeded; onboarding.json set to status: active",
+      "expected_output": "CLAUDE.md updated with Role + Owner sections (English labels); data-report-specialist.md, planning-specialist.md, meeting-specialist.md created in .claude/agents/; onboarding.json set to status: active",
       "files": [
         "evals/fixtures/eval-0/me.json",
         "evals/fixtures/eval-0/CLAUDE.md",
@@ -30,10 +30,6 @@
         {
           "id": "wrong-agents-not-generated",
           "text": "writing-specialist and documentation-specialist are NOT created (conditions not met)"
-        },
-        {
-          "id": "memory-seeded",
-          "text": "memory/MEMORY.md exists and contains owner preferences and workflow context"
         },
         {
           "id": "onboarding-activated",

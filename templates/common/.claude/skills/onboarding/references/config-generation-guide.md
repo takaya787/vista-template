@@ -21,8 +21,7 @@ When a task references an external service (Notion, Google Sheets, Jira, etc.):
 
 1. Note the service name and how the owner interacts with it
 2. Do not attempt to auto-configure — record the service reference for future setup
-3. Add a note to `memory/MEMORY.md` using the format: `- Owner uses {service} for {purpose} (mentioned during onboarding)`
-4. Add `{service} integration setup` to `pendingTasks` in `onboarding.json` so it surfaces in future sessions
+3. Add `{service} integration setup` to `pendingTasks` in `onboarding.json` so it surfaces in future sessions
 
 ## CLAUDE.md Role Definition
 
@@ -51,28 +50,9 @@ When presenting the changeset to the owner for confirmation (SKILL.md Step 5), u
 > I'll save these so I remember next time. Anything I should change?
 
 **Do not:**
-> Saving to `.vista/profile/me.json`, `memory/MEMORY.md`, `rules/config/`...
+> Saving to `.vista/profile/me.json`, `rules/config/`...
 
 The owner confirms the *insights*, not the *storage locations*. File operations happen silently after confirmation.
-
-## Memory Seed Format
-
-After completing the first task, seed `memory/MEMORY.md` with initial preferences. Follow the `memory.md` convention (Do/Don't format).
-
-Before writing, check if `memory/MEMORY.md` already exists. If so, append seeds under existing sections using the same headers already present. If not, create it with these default sections:
-
-```markdown
-## Owner Preferences
-- Do: [observed preference from task execution]
-- Don't: [observed anti-preference from task execution]
-
-## Workflow Context
-- [Key context discovered during task, e.g., "Owner reviews sprint data every Monday"]
-```
-
-- Only record preferences that were directly observed during the task
-- Do not speculate about preferences not yet demonstrated
-- Keep the initial seed to 3-5 items maximum
 
 ## onboarding.json Schema
 

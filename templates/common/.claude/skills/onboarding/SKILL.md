@@ -176,10 +176,9 @@ For the role definition, present it naturally: "I'd describe my role as: 'An ass
 See `references/config-generation-guide.md` for detailed write rules. Create any missing directories before writing. If a write fails, log a warning and continue with remaining writes.
 
 1. `.vista/profile/me.json` — any new fields discovered (writes persist globally via symlink to `~/.vista/profile/me.json`)
-2. `memory/MEMORY.md` — preference seeds (Do/Don't format per `memory.md` convention)
-3. `rules/config/` — any service-specific config generated
-4. `CLAUDE.md` — apply profile to project's CLAUDE.md per the "Applying Profile to CLAUDE.md" policy in `rules/convention/onboarding.md`
-5. `.vista/state/onboarding.json` — update last (confirms successful write)
+2. `rules/config/` — any service-specific config generated
+3. `CLAUDE.md` — apply profile to project's CLAUDE.md per the "Applying Profile to CLAUDE.md" policy in `rules/convention/onboarding.md`
+4. `.vista/state/onboarding.json` — update last (confirms successful write)
 
 ### Step 6: Offer Next Steps
 

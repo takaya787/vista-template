@@ -52,7 +52,6 @@ templates/common/
 │   │   │   ├── workflow.md           # Planning, sub-agents
 │   │   │   ├── documentation.md      # Doc output rules
 │   │   │   ├── output-language.md    # Language settings
-│   │   │   ├── memory.md            # Self-learning policy
 │   │   │   ├── onboarding.md        # Onboarding rules
 │   │   │   ├── claude-md.md         # CLAUDE.md guidelines
 │   │   │   ├── guardrails.md        # Safety guardrails
@@ -70,7 +69,6 @@ templates/common/
 │   ├── profile/                       # me.json owner profile (gitignored)
 │   └── config/                        # Vista-specific config (tracked)
 ├── docs/                              # Documentation
-├── memory/MEMORY.md                   # Auto-memory starter template
 ├── minutes/                           # Meeting transcripts
 └── .gitignore.sample                  # Gitignore template
 ```
@@ -132,7 +130,6 @@ This path can be overridden with the `VISTA_HOME` environment variable.
 | `rules/config/*.md` | copy | Project-specific content |
 | `.claude/hooks/*.sh` | copy | Symlinks are a security risk for hooks |
 | `.claude/skills/` | copy | Project-specific, not updated centrally |
-| `memory/MEMORY.md` | copy | Project-specific |
 | `.claude/settings.local.json` | copy from sample (first time only) | User edits this |
 
 Symlinked files are listed in `.gitignore` and are **not committed** to the workspace repository. They are regenerated per machine.

@@ -71,7 +71,7 @@ mkdir -p "$TARGET_DIR/.claude/hooks"
 mkdir -p "$TARGET_DIR/.claude/skills"
 mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/tasks" "$TARGET_DIR/.ai/audit"
 mkdir -p "$TARGET_DIR/.vista/state" "$TARGET_DIR/.vista/profile"
-mkdir -p "$TARGET_DIR/memory" "$TARGET_DIR/minutes"
+mkdir -p "$TARGET_DIR/minutes"
 
 # 2. convention files → symlink (absolute path)
 # Remove existing symlinks first to clean up deleted rules
@@ -105,12 +105,7 @@ done
 # 6. authority.md → symlink (absolute path)
 ln -sf "$COMMON_DIR/.claude/rules/authority.md" "$TARGET_DIR/.claude/rules/authority.md" 2>/dev/null || true
 
-# 7. memory/MEMORY.md → copy (only if not already present, project-specific)
-if [ ! -f "$TARGET_DIR/memory/MEMORY.md" ]; then
-  cp "$COMMON_DIR/memory/MEMORY.md" "$TARGET_DIR/memory/" 2>/dev/null || true
-fi
-
-# 8. settings.local.json → copy from sample (only if not already present)
+# 7. settings.local.json → copy from sample (only if not already present)
 if [ ! -f "$TARGET_DIR/.claude/settings.local.json" ]; then
   cp "$COMMON_DIR/.claude/settings.local.sample.json" "$TARGET_DIR/.claude/settings.local.json" 2>/dev/null || true
 fi

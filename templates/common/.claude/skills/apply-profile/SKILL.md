@@ -21,7 +21,6 @@ No interactive questions — all input comes from `.vista/profile/me.json`.
 | `.vista/profile/me.json` | Source of truth |
 | `CLAUDE.md` | Role + Owner sections target |
 | `.claude/agents/` | Agent files target |
-| `memory/MEMORY.md` | Preference seed target |
 | `.vista/state/onboarding.json` | Updated to `active` on success |
 
 ## Steps
@@ -75,29 +74,11 @@ Build `## Owner` block. Label mappings → `references/owner-section-labels.md`.
 Create `.claude/agents/` if absent. Generate one file per matching domain.
 Domain conditions, file names, and system prompt templates → `references/agent-domains.md`.
 
-### Step 6: Seed memory/MEMORY.md
-
-Append to `memory/MEMORY.md` (create if absent):
-
-```markdown
-## Owner Preferences
-- Do: Output in {preferences.language} with {preferences.outputFormat} format
-- Do: Keep responses {preferences.verbosity} in length
-- Do: Use {preferences.tone} tone
-{if neverDo non-empty: "- Don't: {workingStyle.neverDo first item}"}
-
-## Workflow Context
-- Role: {role.category} in {role.industry} ({role.companySize})
-- Primary outputs: {work.primaryOutputs joined}
-- Key tools: {services.communication + services.projectManagement top 3}
-- Core problem: {goals.painPoint truncated to 1 sentence}
-```
-
-### Step 7: Update onboarding.json
+### Step 6: Update onboarding.json
 
 Set `status: "active"`, add `appliedAt` (ISO 8601), add/update `configGenerated` list. Preserve all other fields.
 
-### Step 8: Confirm
+### Step 7: Confirm
 
 > Done! Here's what I set up:
 >

@@ -15,6 +15,3 @@ Run complexity triage per `task-triage.md` to determine whether to enter plan mo
 - For complex problems, deploy multiple sub-agents to apply more compute
 - 1 sub-agent = 1 focused task
 
-## 3. Self-Improvement Loop
-
-Follow the `memory.md` convention for self-learning and memory management.

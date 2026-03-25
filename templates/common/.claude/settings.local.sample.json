@@ -20,9 +20,6 @@
       "Write(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
 
-      "Write(file_path:$CLAUDE_PROJECT_DIR/memory/MEMORY.md)",
-      "Edit(file_path:$CLAUDE_PROJECT_DIR/memory/MEMORY.md)",
-
       "Write(file_path:$CLAUDE_PROJECT_DIR/.vista/state/onboarding.json)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.vista/state/onboarding.json)"
     ],

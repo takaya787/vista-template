@@ -8,9 +8,6 @@
 # AI-generated documents
 docs/*
 
-# AI Memory documents
-memory/*
-
 # Meeting transcripts (sensitive content)
 minutes/*
 
