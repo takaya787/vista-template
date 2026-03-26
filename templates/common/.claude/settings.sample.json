@@ -1,12 +1,12 @@
 {
+  "env": {
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_TELEMETRY": "1"
+  },
   "permissions": {
     "allow": [
-      "Bash(sqlite3 ~/.vista/history/conversations.db*)",
-      "Bash(sqlite3 $HOME/.vista/history/conversations.db*)",
-      "Bash(sqlite3 -readonly ~/.vista/history/conversations.db*)",
-      "Bash(sqlite3 -readonly $HOME/.vista/history/conversations.db*)",
-      "Bash(sqlite3 -cmd*~/.vista/history/conversations.db*)",
-      "Bash(sqlite3 -cmd*$HOME/.vista/history/conversations.db*)",
+      "Bash(python3 ~/.claude/skills/recall-context/scripts/query_history.py:*)" ,
       "Bash(ls:*)",
       "Bash(test:*)",
       "Bash(head:*)",

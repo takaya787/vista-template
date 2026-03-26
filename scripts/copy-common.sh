@@ -105,9 +105,9 @@ done
 # 6. authority.md → symlink (absolute path)
 ln -sf "$COMMON_DIR/.claude/rules/authority.md" "$TARGET_DIR/.claude/rules/authority.md" 2>/dev/null || true
 
-# 7. settings.local.json → copy from sample (only if not already present)
-if [ ! -f "$TARGET_DIR/.claude/settings.local.json" ]; then
-  cp "$COMMON_DIR/.claude/settings.local.sample.json" "$TARGET_DIR/.claude/settings.local.json" 2>/dev/null || true
+# 7. settings.json → copy from sample (only if not already present)
+if [ ! -f "$TARGET_DIR/.claude/settings.json" ]; then
+  cp "$COMMON_DIR/.claude/settings.sample.json" "$TARGET_DIR/.claude/settings.json" 2>/dev/null || true
 fi
 
 # 9. .gitignore → copy sample if absent, append if already present (skip if .vista already included)
