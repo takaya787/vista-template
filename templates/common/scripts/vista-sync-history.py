@@ -90,7 +90,7 @@ def get_db():
 
 
 def encode_path(p):
-    return p.replace("/", "-")
+    return p.replace("/", "-").replace(".", "-").replace("_", "-")
 
 
 def find_jsonl(project_dir):
