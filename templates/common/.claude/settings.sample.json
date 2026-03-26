@@ -4,6 +4,7 @@
     "DISABLE_ERROR_REPORTING": "1",
     "DISABLE_TELEMETRY": "1"
   },
+  "plansDirectory": ".ai/plans",
   "permissions": {
     "allow": [
       "Bash(python3 ~/.claude/skills/recall-context/scripts/query_history.py:*)" ,
@@ -127,6 +128,5 @@
         ]
       }
     ]
-  },
-  "plansDirectory": ".ai/plans"
+  }
 }
