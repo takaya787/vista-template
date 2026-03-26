@@ -163,6 +163,11 @@ SYNC_SCRIPT_SRC="$COMMON_DIR/scripts/vista-sync-history.py"
 SYNC_SCRIPT_DEST="$BIN_DIR/vista-sync-history"
 cp "$SYNC_SCRIPT_SRC" "$SYNC_SCRIPT_DEST"
 chmod 755 "$SYNC_SCRIPT_DEST"
+# Copy schema SQL files alongside the script (required by _load_schema())
+for sql_file in "$COMMON_DIR/scripts/vista-sync-history-schema-v"*.sql; do
+  [ -e "$sql_file" ] || continue
+  cp "$sql_file" "$BIN_DIR/$(basename "$sql_file")"
+done
 echo "Installed vista-sync-history to $SYNC_SCRIPT_DEST"
 
 # --- Generate .vista/ state & profile ---
