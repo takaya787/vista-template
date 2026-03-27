@@ -4,7 +4,8 @@
 CREATE TABLE IF NOT EXISTS sessions (
     id              TEXT PRIMARY KEY,
     project_path    TEXT NOT NULL,
-    title           TEXT,
+    name            TEXT,
+    summary         TEXT,
     started_at      TEXT NOT NULL,
     last_synced_at  TEXT
 );

@@ -1,6 +1,6 @@
 {"uuid":"a","timestamp":"2024-01-01T00:00:00Z","message":{"role":"user","content":"<local-command-caveat>skip this</local-command-caveat>"}}
 {"uuid":"b","timestamp":"2024-01-01T00:00:01Z","message":{"role":"user","content":"<command-name>clear</command-name>"}}
 {"uuid":"c","timestamp":"2024-01-01T00:00:02Z","isSidechain":true,"message":{"role":"user","content":"sidechain message"}}
-{"type":"summary","customTitle":null,"summary":"summary entry should be skipped"}
+{"type":"summary","customTitle":null,"summary":null}
 {"uuid":"d","timestamp":"2024-01-01T00:00:03Z","message":{"role":"user","content":"日本語で質問する"}}
 {"uuid":"e","timestamp":"2024-01-01T00:00:04Z","message":{"role":"assistant","content":"日本語で回答します"}}

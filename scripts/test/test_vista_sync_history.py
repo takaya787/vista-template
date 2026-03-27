@@ -51,25 +51,31 @@ def make_db(path=":memory:"):
 
 
 # ---------------------------------------------------------------------------
-# extract_title
+# extract_session_meta
 # ---------------------------------------------------------------------------
 
-def test_extract_title_in_middle_line():
-    name = "extract_title: customTitle found in non-first line"
-    title = mod.extract_title(FIXTURES / "session_with_title.jsonl")
-    if title == "テストセッション":
-        ok(name)
-    else:
-        fail(name, f"expected 'テストセッション', got {title!r}")
+def test_extract_session_meta_found():
+    name = "extract_session_meta: name and summary found"
+    n, s = mod.extract_session_meta(FIXTURES / "session_with_title.jsonl")
+    if n != "テストセッション":
+        fail(name, f"expected name='テストセッション', got {n!r}")
+        return
+    if s != "A test conversation":
+        fail(name, f"expected summary='A test conversation', got {s!r}")
+        return
+    ok(name)
 
 
-def test_extract_title_missing():
-    name = "extract_title: returns None when no customTitle"
-    title = mod.extract_title(FIXTURES / "session_noise.jsonl")
-    if title is None:
-        ok(name)
-    else:
-        fail(name, f"expected None, got {title!r}")
+def test_extract_session_meta_missing():
+    name = "extract_session_meta: returns (None, None) when absent"
+    n, s = mod.extract_session_meta(FIXTURES / "session_noise.jsonl")
+    if n is not None:
+        fail(name, f"expected name=None, got {n!r}")
+        return
+    if s is not None:
+        fail(name, f"expected summary=None, got {s!r}")
+        return
+    ok(name)
 
 
 # ---------------------------------------------------------------------------
@@ -221,15 +227,18 @@ def test_sync_integration():
         _run_sync_with_fixture(fixture, db_path, uuid)
 
         conn = sqlite3.connect(str(db_path))
-        session = conn.execute("SELECT title, project_path FROM sessions WHERE id=?", (uuid,)).fetchone()
+        session = conn.execute("SELECT name, summary, project_path FROM sessions WHERE id=?", (uuid,)).fetchone()
         if session is None:
             fail(name, "session not inserted")
             return
         if session[0] != "テストセッション":
-            fail(name, f"title={session[0]!r}, expected 'テストセッション'")
+            fail(name, f"name={session[0]!r}, expected 'テストセッション'")
             return
-        if session[1] != "/test/project":
-            fail(name, f"project_path={session[1]!r}")
+        if session[1] != "A test conversation":
+            fail(name, f"summary={session[1]!r}, expected 'A test conversation'")
+            return
+        if session[2] != "/test/project":
+            fail(name, f"project_path={session[2]!r}")
             return
         count = conn.execute("SELECT COUNT(*) FROM messages WHERE session_id=?", (uuid,)).fetchone()[0]
         if count != 2:
@@ -315,8 +324,8 @@ def test_fts_japanese_search():
 def main():
     print(f"Running tests for {SCRIPT.name}\n")
     tests = [
-        test_extract_title_in_middle_line,
-        test_extract_title_missing,
+        test_extract_session_meta_found,
+        test_extract_session_meta_missing,
         test_is_real_message_noise,
         test_is_real_message_real,
         test_parse_messages_basic,

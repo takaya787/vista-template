@@ -38,7 +38,7 @@ def _migrate(conn, current_version):
 
     # Add future migrations here:
     # if current_version < 2:
-    #     conn.execute("ALTER TABLE messages ADD COLUMN tokens INTEGER")
+    #     conn.execute("ALTER TABLE ...")
 
     conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
     conn.commit()
@@ -77,8 +77,13 @@ def find_jsonl(project_dir):
     return files[0] if files else None
 
 
-def extract_title(jsonl_path):
-    """Scan all lines for customTitle (present in type=summary entries)."""
+def extract_session_meta(jsonl_path):
+    """Scan all lines for customTitle and summary (present in type=summary entries).
+
+    Returns (name, summary) tuple.
+    """
+    name = None
+    summary = None
     try:
         with open(jsonl_path, "r", encoding="utf-8") as f:
             for line in f:
@@ -89,12 +94,15 @@ def extract_title(jsonl_path):
                     obj = json.loads(line)
                 except json.JSONDecodeError:
                     continue
-                title = obj.get("customTitle")
-                if title:
-                    return title
+                if name is None:
+                    name = obj.get("customTitle")
+                if summary is None:
+                    summary = obj.get("summary")
+                if name and summary:
+                    break
     except Exception:
         pass
-    return None
+    return name, summary
 
 
 def is_real_message(text, role):
@@ -182,7 +190,7 @@ def sync():
         return
 
     uuid = jsonl_path.stem
-    title = extract_title(jsonl_path)
+    name, summary = extract_session_meta(jsonl_path)
     stat = jsonl_path.stat()
     started_at = datetime.fromtimestamp(
         stat.st_birthtime if hasattr(stat, "st_birthtime") else stat.st_ctime,
@@ -192,12 +200,13 @@ def sync():
     conn = get_db()
     try:
         conn.execute("""
-            INSERT INTO sessions (id, project_path, title, started_at, last_synced_at)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO sessions (id, project_path, name, summary, started_at, last_synced_at)
+            VALUES (?, ?, ?, ?, ?, ?)
             ON CONFLICT(id) DO UPDATE SET
-                title          = excluded.title,
+                name           = excluded.name,
+                summary        = excluded.summary,
                 last_synced_at = excluded.last_synced_at
-        """, (uuid, project_path, title, started_at, datetime.now(timezone.utc).isoformat()))
+        """, (uuid, project_path, name, summary, started_at, datetime.now(timezone.utc).isoformat()))
 
         (existing_count,) = conn.execute(
             "SELECT COUNT(*) FROM messages WHERE session_id = ?", (uuid,)
