@@ -1,6 +1,6 @@
 # Owner Section — Value Label Mappings
 
-Used in Step 3 of SKILL.md to convert raw profile values to human-readable labels.
+Used in Step 2 of SKILL.md to convert raw profile values to human-readable labels.
 
 | Key | Value | Label |
 |-----|-------|-------|
@@ -11,15 +11,6 @@ Used in Step 3 of SKILL.md to convert raw profile values to human-readable label
 | outputFormat | `prose` | Prose |
 | outputFormat | `tables` | Tables |
 | outputFormat | `mixed` | Mixed (context-dependent) |
-| verbosity | `concise` | Concise (key points only) |
-| verbosity | `normal` | Normal |
-| verbosity | `detailed` | Detailed (include reasoning) |
-| tone | `formal` | Formal |
-| tone | `casual` | Casual |
-| tone | `neutral` | Neutral |
 | autonomy | `guided` | Guided (confirm each step) |
 | autonomy | `balanced` | Balanced (confirm key decisions only) |
 | autonomy | `autonomous` | Autonomous (minimal confirmation) |
-| editScope | `minimal` | Minimal (only what was asked) |
-| editScope | `moderate` | Moderate (related areas included) |
-| editScope | `comprehensive` | Comprehensive (full quality pass OK) |

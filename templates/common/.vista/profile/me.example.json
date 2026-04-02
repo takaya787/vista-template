@@ -4,36 +4,10 @@
   "email": "taro.yamada@example.com",
   "preferences": {
     "language": "ja",
-    "outputFormat": "bullets",
-    "verbosity": "normal",
-    "tone": "formal"
-  },
-  "role": {
-    "category": "pm_planning",
-    "title": "プロダクトマネージャー",
-    "industry": "tech",
-    "companySize": "startup"
-  },
-  "work": {
-    "primaryOutputs": ["slides", "plans", "meeting_docs"]
+    "outputFormat": "bullets"
   },
   "workingStyle": {
     "timezone": "Asia/Tokyo",
-    "autonomy": "balanced",
-    "editScope": "moderate",
-    "neverDo": "確認なしでファイルを削除しない",
-    "alwaysFollow": "提案は必ず3案出す"
-  },
-  "services": {
-    "communication": ["slack"],
-    "projectManagement": ["notion", "jira"],
-    "otherTools": "HubSpot"
-  },
-  "documentation": {
-    "tools": ["notion", "google_docs"]
-  },
-  "goals": {
-    "primaryUseCases": ["writing", "planning", "meeting"],
-    "painPoint": "毎週のレポート作成に3時間かかる"
+    "autonomy": "balanced"
   }
 }

@@ -24,8 +24,9 @@
       "Edit(file_path:$CLAUDE_PROJECT_DIR/CLAUDE.md)",
       "Write(file_path:$CLAUDE_PROJECT_DIR/CLAUDE.md)",
 
-      "Write(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
-      "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/agents/*.md)",
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.ai/workflows/*.md)",
+      "Write(file_path:$CLAUDE_PROJECT_DIR/.ai/workflows/*.md)",
+      "Read(file_path:$CLAUDE_PROJECT_DIR/.ai/workflows/*.md)",
 
       "Write(file_path:$CLAUDE_PROJECT_DIR/.vista/*.json)",
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.vista/*.json)"

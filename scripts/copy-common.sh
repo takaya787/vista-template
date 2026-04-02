@@ -223,37 +223,11 @@ if [ ! -f "$GLOBAL_PROFILE_DIR/me.json" ]; then
   "email": "",
   "preferences": {
     "language": "ja",
-    "outputFormat": "",
-    "verbosity": "",
-    "tone": ""
-  },
-  "role": {
-    "category": "",
-    "title": "",
-    "industry": "",
-    "companySize": ""
-  },
-  "work": {
-    "primaryOutputs": []
+    "outputFormat": ""
   },
   "workingStyle": {
     "timezone": "${TIMEZONE}",
-    "autonomy": "",
-    "editScope": "",
-    "neverDo": "",
-    "alwaysFollow": ""
-  },
-  "services": {
-    "communication": [],
-    "projectManagement": [],
-    "otherTools": ""
-  },
-  "documentation": {
-    "tools": []
-  },
-  "goals": {
-    "primaryUseCases": [],
-    "painPoint": ""
+    "autonomy": ""
   }
 }
 EOF
@@ -264,36 +238,6 @@ fi
 
 # Project .vista/profile/me.json → symlink to global profile
 ln -sf "$GLOBAL_PROFILE_DIR/me.json" "$TARGET_DIR/.vista/profile/me.json"
-
-# Project .vista/profile/project.json → skeleton (per-project, never symlink)
-if [ ! -f "$TARGET_DIR/.vista/profile/project.json" ]; then
-  cat > "$TARGET_DIR/.vista/profile/project.json" << EOF
-{
-  "isOnboardingCompleted": false,
-  "company": {
-    "name": "",
-    "industry": "",
-    "description": ""
-  },
-  "myWork": {
-    "domain": "",
-    "products": "",
-    "recurringTasks": "",
-    "keyMetrics": ""
-  },
-  "stakeholders": {
-    "internal": "",
-    "external": ""
-  },
-  "currentInitiatives": "",
-  "businessTerms": "",
-  "constraints": "",
-  "neverDo": "",
-  "references": []
-}
-EOF
-  echo "Created project profile skeleton at $TARGET_DIR/.vista/profile/project.json"
-fi
 
 # Generate .vista/state/onboarding.json:
 # - pending  if global profile is a skeleton (onboarding not yet completed)

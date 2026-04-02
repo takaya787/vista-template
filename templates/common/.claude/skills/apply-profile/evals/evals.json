@@ -4,17 +4,13 @@
     {
       "id": 0,
       "prompt": "/apply-profile",
-      "expected_output": "CLAUDE.md updated with Role + Owner sections (English labels); data-report-specialist.md, planning-specialist.md, meeting-specialist.md created in .claude/agents/; onboarding.json set to status: active",
+      "expected_output": "CLAUDE.md updated with Owner section (English labels); onboarding.json set to status: active",
       "files": [
         "evals/fixtures/eval-0/me.json",
         "evals/fixtures/eval-0/CLAUDE.md",
         "evals/fixtures/eval-0/onboarding.json"
       ],
       "assertions": [
-        {
-          "id": "role-section-populated",
-          "text": "CLAUDE.md ## Role section is populated (not just a placeholder comment)"
-        },
         {
           "id": "owner-section-exists",
           "text": "CLAUDE.md has a ## Owner section appended"
@@ -24,12 +20,8 @@
           "text": "Owner section uses mapped label 'English' (not raw value 'en')"
         },
         {
-          "id": "correct-agents-generated",
-          "text": "Exactly 3 domain agents created: data-report-specialist, meeting-specialist, planning-specialist"
-        },
-        {
-          "id": "wrong-agents-not-generated",
-          "text": "writing-specialist and documentation-specialist are NOT created (conditions not met)"
+          "id": "autonomy-label-mapped",
+          "text": "Owner section uses mapped label 'Balanced' (not raw value 'balanced')"
         },
         {
           "id": "onboarding-activated",
@@ -40,7 +32,7 @@
     {
       "id": 1,
       "prompt": "プロフィールを反映して",
-      "expected_output": "CLAUDE.md updated with Japanese Owner labels (言語: 日本語); writing-specialist.md and planning-specialist.md created; neverDo/alwaysFollow lines present; onboarding.json set to status: active",
+      "expected_output": "CLAUDE.md updated with Japanese Owner labels (言語: 日本語); onboarding.json set to status: active",
       "files": [
         "evals/fixtures/eval-1/me.json",
         "evals/fixtures/eval-1/CLAUDE.md",
@@ -48,28 +40,12 @@
       ],
       "assertions": [
         {
-          "id": "role-section-populated",
-          "text": "CLAUDE.md ## Role section is populated (not just a placeholder comment)"
-        },
-        {
           "id": "language-label-japanese",
           "text": "Owner section uses '日本語' (not raw 'ja') for Language"
         },
         {
-          "id": "never-do-line-present",
-          "text": "Owner section includes '**Never do**: 箇条書きを使わない' line"
-        },
-        {
-          "id": "always-follow-line-present",
-          "text": "Owner section includes '**Always follow**: 敬語を使う' line"
-        },
-        {
-          "id": "correct-agents-generated",
-          "text": "Exactly 2 domain agents created: writing-specialist, planning-specialist"
-        },
-        {
-          "id": "writing-specialist-has-constraints",
-          "text": "writing-specialist.md output standards section contains the neverDo and alwaysFollow values from profile"
+          "id": "autonomy-label-guided",
+          "text": "Owner section uses 'Guided (confirm each step)' for Autonomy"
         },
         {
           "id": "onboarding-activated",
@@ -80,7 +56,7 @@
     {
       "id": 2,
       "prompt": "設定を適用して",
-      "expected_output": "Skill stops immediately with error message about incomplete profile. No changes to CLAUDE.md. No agent files created. onboarding.json unchanged.",
+      "expected_output": "Skill stops immediately with error message about incomplete profile. No changes to CLAUDE.md. onboarding.json unchanged.",
       "files": [
         "evals/fixtures/eval-2/me.json",
         "evals/fixtures/eval-2/CLAUDE.md",
@@ -93,11 +69,7 @@
         },
         {
           "id": "no-claude-md-changes",
-          "text": "CLAUDE.md is NOT modified (no ## Owner section added, Role still placeholder)"
-        },
-        {
-          "id": "no-agents-created",
-          "text": "No agent files created in .claude/agents/"
+          "text": "CLAUDE.md is NOT modified (no ## Owner section added)"
         },
         {
           "id": "onboarding-unchanged",

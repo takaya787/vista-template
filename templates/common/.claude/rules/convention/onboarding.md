@@ -13,17 +13,19 @@ At the start of each session, check `.vista/state/onboarding.json`:
 - If `status` is `"pending"`: prompt the user to finish the onboarding flow in the app
 - If `status` is `"active"`: environment is configured — do not suggest onboarding unless the owner asks
 
-At the start of each session, also check `.vista/profile/project.json`:
-
-- If file does not exist or `isOnboardingCompleted` is `false` / missing: suggest opening the Electron app to set up this project
-- `project.md` is auto-generated from `project.json` — **never hand-edit `project.md`**
-
 ## Pending Task Suggestions
 
 When `status` is `"active"` and `pendingTasks` is non-empty:
 
 - Suggest at most **once per session**: "Last time we identified some tasks you wanted help with: [list]. Want to pick one up?"
 - Do not repeat if the owner declines or changes topic
+
+## Workflow Suggestions
+
+When `status` is `"active"` and `.ai/workflows/` is empty or does not exist:
+
+- Suggest at most **once per session**: "You can automate recurring tasks with `/workflow-create`."
+- Do not repeat if the owner declines
 
 ## Re-run Policy
 

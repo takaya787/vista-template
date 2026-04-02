@@ -4,11 +4,7 @@ paths: "**/*"
 
 ## Owner
 
-- Refer to `.vista/profile/me.json` for owner information (language, output format, autonomy, neverDo, alwaysFollow, etc.; populated via `/onboarding`; if missing or skeleton, suggest running `/onboarding`)
-
-## Project
-
-- Refer to `.vista/profile/project.md` for project context (company, domain, current initiatives, constraints), if the file exists
+- Refer to `.vista/profile/me.json` for owner information (language, output format, autonomy; populated via `/onboarding`; if missing or skeleton, suggest running `/onboarding`)
 
 ## System File Language
 

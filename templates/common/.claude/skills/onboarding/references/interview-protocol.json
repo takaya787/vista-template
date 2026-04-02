@@ -9,7 +9,7 @@
     "key": "name",
     "required": true,
     "placeholder": "山田 太郎",
-    "target": "claude_md"
+    "target": "profile"
   },
   {
     "id": "email",
@@ -31,25 +31,25 @@
     "auto_detect": "system timezone",
     "key": "workingStyle.timezone",
     "required": true,
-    "target": "claude_md"
+    "target": "profile"
   },
   {
     "id": "phase1_complete",
     "type": "phase_complete",
     "phase": 1,
     "message": "プロフィールを登録しました。次は Claude との対話スタイルを設定しましょう。",
-    "next_phase_hint": "言語・フォーマット・トーンを設定することで、Claude の返答があなた好みになります。"
+    "next_phase_hint": "言語・フォーマット・自律度を設定することで、Claude の動き方があなた好みになります。"
   },
   {
     "id": "language",
     "phase": 2,
     "phase_label": "対話スタイル",
-    "phase_description": "Claude との日々のやり取りのスタイルを決めます。これが CLAUDE.md の基本設定になります。",
+    "phase_description": "Claude との日々のやり取りのスタイルを決めます。",
     "type": "single_select",
     "label": "Claude との対話・出力言語は？",
     "key": "preferences.language",
     "required": true,
-    "target": "claude_md",
+    "target": "profile",
     "options": [
       { "value": "ja", "label": "日本語" },
       { "value": "en", "label": "English" },
@@ -65,7 +65,7 @@
     "description": "後からいつでも変更できます。迷ったら「混合」がおすすめです。",
     "key": "preferences.outputFormat",
     "required": true,
-    "target": "claude_md",
+    "target": "profile",
     "options": [
       { "value": "bullets", "label": "箇条書き（スキャンしやすい）" },
       { "value": "prose", "label": "文章（説明・文脈を重視）" },
@@ -74,255 +74,14 @@
     ]
   },
   {
-    "id": "verbosity",
-    "phase": 2,
-    "phase_label": "対話スタイル",
-    "type": "single_select",
-    "label": "回答の詳細度は？",
-    "description": "後からいつでも変更できます。迷ったら「標準」がおすすめです。",
-    "key": "preferences.verbosity",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "concise", "label": "簡潔（要点のみ・スピード重視）" },
-      { "value": "normal", "label": "標準（バランス重視）" },
-      { "value": "detailed", "label": "詳細（背景・根拠も説明）" }
-    ]
-  },
-  {
-    "id": "tone",
-    "phase": 2,
-    "phase_label": "対話スタイル",
-    "type": "single_select",
-    "label": "Claude のトーン・話し方は？",
-    "key": "preferences.tone",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "formal", "label": "フォーマル（丁寧語・敬語）" },
-      { "value": "casual", "label": "カジュアル（話し言葉・タメ口 OK）" },
-      { "value": "neutral", "label": "ニュートラル（どちらでも）" }
-    ]
-  },
-  {
-    "id": "phase2_complete",
-    "type": "phase_complete",
-    "phase": 2,
-    "message": "対話スタイルを設定しました。これで Claude があなたの好みに合わせて返答します。続いて仕事の背景を教えてください。",
-    "next_phase_hint": "役割・業界を伝えることで、Claude がより適切な提案・表現を選べるようになります。"
-  },
-  {
-    "id": "role_category",
-    "phase": 3,
-    "phase_label": "役割・仕事の背景",
-    "phase_description": "あなたの仕事の文脈を把握します。Claude が場面に合った提案をするために使います。",
-    "type": "single_select",
-    "label": "主な役職・役割は？",
-    "key": "role.category",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "pm_planning", "label": "プロダクト・事業企画" },
-      { "value": "sales", "label": "営業・アカウント管理" },
-      { "value": "marketing", "label": "マーケティング・ブランド" },
-      { "value": "hr_ops", "label": "人事・総務・バックオフィス" },
-      { "value": "finance", "label": "財務・経理・法務" },
-      { "value": "consulting", "label": "コンサルタント・アドバイザー" },
-      { "value": "manager", "label": "マネージャー・チームリーダー" },
-      { "value": "executive", "label": "経営者・役員・事業責任者" }
-    ]
-  },
-  {
-    "id": "role_title",
-    "phase": 3,
-    "phase_label": "役割・仕事の背景",
-    "type": "text",
-    "label": "具体的な職種・肩書き（任意）",
-    "description": "上の選択肢に当てはまらない場合や、より具体的に伝えたい場合に記入",
-    "key": "role.title",
-    "required": false,
-    "target": "claude_md",
-    "placeholder": "例：カスタマーサクセスマネージャー、事業開発担当"
-  },
-  {
-    "id": "industry",
-    "phase": 3,
-    "phase_label": "役割・仕事の背景",
-    "type": "single_select",
-    "label": "業界は？",
-    "key": "role.industry",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "tech", "label": "IT・テクノロジー・SaaS" },
-      { "value": "finance", "label": "金融・保険・フィンテック" },
-      { "value": "retail_ec", "label": "小売・EC・消費財" },
-      { "value": "manufacturing", "label": "製造・メーカー" },
-      { "value": "healthcare", "label": "医療・ヘルスケア・製薬" },
-      { "value": "consulting", "label": "コンサルティング・専門サービス" },
-      { "value": "media_ad", "label": "メディア・エンタメ・広告" },
-      { "value": "real_estate", "label": "不動産・建設" }
-    ]
-  },
-  {
-    "id": "company_size",
-    "phase": 3,
-    "phase_label": "役割・仕事の背景",
-    "type": "single_select",
-    "label": "組織規模は？",
-    "key": "role.companySize",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "solo", "label": "個人・フリーランス" },
-      { "value": "startup", "label": "スタートアップ（〜30名）" },
-      { "value": "sme", "label": "中小企業（30〜300名）" },
-      { "value": "enterprise", "label": "大企業・エンタープライズ（300名以上）" }
-    ]
-  },
-  {
-    "id": "primary_outputs",
-    "phase": 3,
-    "phase_label": "役割・仕事の背景",
-    "type": "multi_select",
-    "label": "主に作成・管理する成果物は？（複数選択可）",
-    "key": "work.primaryOutputs",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "reports", "label": "レポート・分析資料" },
-      { "value": "slides", "label": "プレゼン資料・提案書" },
-      { "value": "plans", "label": "計画書・ロードマップ" },
-      { "value": "memos", "label": "稟議書・申請書・社内メモ" },
-      { "value": "emails", "label": "メール・ビジネス文書" },
-      { "value": "spreadsheets", "label": "スプレッドシート・データ集計" },
-      { "value": "meeting_docs", "label": "会議資料・議事録" },
-      { "value": "manuals", "label": "マニュアル・手順書・FAQ" }
-    ]
-  },
-  {
-    "id": "pain_point",
-    "phase": 3,
-    "phase_label": "役割・仕事の背景",
-    "type": "textarea",
-    "label": "今、仕事で最も困っていること・改善したいことは？",
-    "description": "Claude に最初に取り組んでほしい課題を教えてください",
-    "key": "goals.painPoint",
-    "required": true,
-    "target": "claude_md",
-    "placeholder": "例：毎週のレポート作成に3時間かかる、議事録をすぐにまとめられない、提案書のクオリティにばらつきがある"
-  },
-  {
-    "id": "phase3_complete",
-    "type": "phase_complete",
-    "phase": 3,
-    "message": "仕事の背景を把握しました。あなたの役割に合わせた提案ができるようになります。次は使っているツールを教えてください。",
-    "next_phase_hint": "ツール情報をもとに、連携エージェント（agents.md）の設定を自動で最適化します。"
-  },
-  {
-    "id": "communication_tools",
-    "phase": 4,
-    "phase_label": "使用ツール・環境",
-    "phase_description": "普段使っているツールを教えてください。agents.md の設定（MCP 連携など）に使います。",
-    "type": "multi_select",
-    "label": "社内コミュニケーションツールは？（複数可）",
-    "key": "services.communication",
-    "required": true,
-    "target": "agents_md",
-    "options": [
-      { "value": "slack", "label": "Slack" },
-      { "value": "teams", "label": "Microsoft Teams" },
-      { "value": "chatwork", "label": "Chatwork" },
-      { "value": "email", "label": "メール中心（Gmail / Outlook）" },
-      { "value": "discord", "label": "Discord" }
-    ]
-  },
-  {
-    "id": "project_tools",
-    "phase": 4,
-    "phase_label": "使用ツール・環境",
-    "type": "multi_select",
-    "label": "プロジェクト・タスク管理ツールは？（複数可）",
-    "key": "services.projectManagement",
-    "required": false,
-    "target": "agents_md",
-    "options": [
-      { "value": "notion", "label": "Notion" },
-      { "value": "jira", "label": "Jira" },
-      { "value": "asana", "label": "Asana" },
-      { "value": "trello", "label": "Trello" },
-      { "value": "backlog", "label": "Backlog" },
-      { "value": "linear", "label": "Linear" },
-      { "value": "spreadsheet", "label": "スプレッドシート" },
-      { "value": "none", "label": "特に使っていない" }
-    ]
-  },
-  {
-    "id": "doc_tools",
-    "phase": 4,
-    "phase_label": "使用ツール・環境",
-    "type": "multi_select",
-    "label": "ドキュメント・ナレッジ管理ツールは？（複数可）",
-    "key": "documentation.tools",
-    "required": true,
-    "target": "agents_md",
-    "options": [
-      { "value": "notion", "label": "Notion" },
-      { "value": "confluence", "label": "Confluence" },
-      { "value": "google_docs", "label": "Google Docs" },
-      { "value": "word", "label": "Word" },
-      { "value": "sharepoint", "label": "SharePoint" },
-      { "value": "none", "label": "特に決まっていない" }
-    ]
-  },
-  {
-    "id": "other_tools",
-    "phase": 4,
-    "phase_label": "使用ツール・環境",
-    "type": "text",
-    "label": "上記以外でよく使う重要なツール・SaaS（任意）",
-    "key": "services.otherTools",
-    "required": false,
-    "target": "agents_md",
-    "placeholder": "例：HubSpot, Salesforce, Figma, GitHub, kintone"
-  },
-  {
-    "id": "phase4_complete",
-    "type": "phase_complete",
-    "phase": 4,
-    "message": "ツール環境を登録しました。これをもとに agents.md を設定し、各ツールと連携できるエージェントを準備します。最後に Claude の動作ルールを決めましょう。",
-    "next_phase_hint": "ここで設定した内容が CLAUDE.md の中核ルールになります。"
-  },
-  {
-    "id": "primary_use_cases",
-    "phase": 5,
-    "phase_label": "Claude の動作設定",
-    "phase_description": "Claude にどう動いてほしいかを決めます。この設定が CLAUDE.md の行動指針になります。",
-    "type": "multi_select",
-    "label": "Claude を主に何に使いたいですか？（複数可）",
-    "key": "goals.primaryUseCases",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "writing", "label": "文章作成・要約・翻訳" },
-      { "value": "analysis", "label": "データ分析・集計・調査" },
-      { "value": "planning", "label": "計画・戦略の立案・整理" },
-      { "value": "communication", "label": "メール・提案書・報告書作成" },
-      { "value": "meeting", "label": "会議準備・議事録・ファシリテーション" },
-      { "value": "learning", "label": "情報収集・学習・リサーチ" },
-      { "value": "automation", "label": "定型作業の効率化・自動化" },
-      { "value": "ideation", "label": "アイデア出し・ブレスト" }
-    ]
-  },
-  {
     "id": "autonomy",
-    "phase": 5,
-    "phase_label": "Claude の動作設定",
+    "phase": 2,
+    "phase_label": "対話スタイル",
     "type": "single_select",
     "label": "Claude にどれくらい自律的に動いてほしい？",
     "key": "workingStyle.autonomy",
     "required": true,
-    "target": "claude_md",
+    "target": "profile",
     "options": [
       { "value": "guided", "label": "都度確認（各ステップで承認を求める）" },
       { "value": "balanced", "label": "基本は任せる（重要な変更のみ確認）" },
@@ -330,48 +89,10 @@
     ]
   },
   {
-    "id": "edit_scope",
-    "phase": 5,
-    "phase_label": "Claude の動作設定",
-    "type": "single_select",
-    "label": "資料・文書の編集範囲は？",
-    "description": "指示した以外の箇所も改善してよいかどうか",
-    "key": "workingStyle.editScope",
-    "required": true,
-    "target": "claude_md",
-    "options": [
-      { "value": "minimal", "label": "指示箇所のみ（それ以外は触らない）" },
-      { "value": "moderate", "label": "関連箇所も改善（指示外でも関係する部分を修正）" },
-      { "value": "comprehensive", "label": "全体を最適化（品質向上のため広く変更 OK）" }
-    ]
-  },
-  {
-    "id": "never_do",
-    "phase": 5,
-    "phase_label": "Claude の動作設定",
-    "type": "textarea",
-    "label": "Claude にやってほしくないこと・禁止事項（任意）",
-    "key": "workingStyle.neverDo",
-    "required": false,
-    "target": "claude_md",
-    "placeholder": "例：確認なしでファイルを削除しない、英語で返答しない、意見・感想を述べない、勝手に文章のトーンを変えない"
-  },
-  {
-    "id": "always_follow",
-    "phase": 5,
-    "phase_label": "Claude の動作設定",
-    "type": "textarea",
-    "label": "Claude に常に守ってほしいルール・スタイルガイド（任意）",
-    "key": "workingStyle.alwaysFollow",
-    "required": false,
-    "target": "claude_md",
-    "placeholder": "例：提案は必ず3案出す、数字は必ず根拠を添える、社内用語（〇〇とは〜）を使う"
-  },
-  {
-    "id": "phase5_complete",
+    "id": "phase2_complete",
     "type": "phase_complete",
-    "phase": 5,
-    "message": "すべての設定が完了しました。入力内容をもとに CLAUDE.md と agents.md を生成します。",
+    "phase": 2,
+    "message": "設定が完了しました。さっそく何か一緒にやってみましょう。",
     "next_phase_hint": null
   }
 ]
