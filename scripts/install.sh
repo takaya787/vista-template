@@ -62,10 +62,7 @@ if ! command -v claude &> /dev/null; then
   echo "Installing Claude Code..."
   curl -fsSL https://claude.ai/install.sh | sh
 else
-  echo "Claude Code already installed: $(claude --version). Updating..."
-  claude update 2>/dev/null \
-    && echo "Claude Code updated." \
-    || echo "Warning: Failed to update Claude Code. Run manually: claude update"
+  echo "Claude Code already installed: $(claude --version). Run update.sh to update."
 fi
 
 # --- Install required Claude Code plugins ---
@@ -74,10 +71,7 @@ _install_plugin() {
   local plugin="$1"
   local name="${plugin%%@*}"
   if claude plugin list 2>/dev/null | grep -q "^  . ${name}"; then
-    echo "Updating ${name} plugin..."
-    claude plugin update "$name" --scope user 2>/dev/null \
-      && echo "${name} plugin updated." \
-      || echo "Warning: Failed to update ${name}. Run manually: claude plugin update ${name}"
+    echo "${name} plugin already installed. Run update.sh to update."
   else
     echo "Installing ${name} plugin..."
     claude plugin install "$plugin" --scope user 2>/dev/null \
