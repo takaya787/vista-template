@@ -31,7 +31,8 @@
       "Read(file_path:$CLAUDE_PROJECT_DIR/.ai/workflows/*.md)",
 
       "Write(file_path:$CLAUDE_PROJECT_DIR/.vista/*.json)",
-      "Edit(file_path:$CLAUDE_PROJECT_DIR/.vista/*.json)"
+      "Edit(file_path:$CLAUDE_PROJECT_DIR/.vista/*.json)",
+      "mcp__taskmaster-ai__*"
     ],
     "deny": [
       "Edit(file_path:$CLAUDE_PROJECT_DIR/.claude/rules/convention/*.md)",
