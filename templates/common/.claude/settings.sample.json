@@ -9,7 +9,8 @@
   "plansDirectory": ".ai/plans",
   "permissions": {
     "allow": [
-      "Bash(python3 ~/.claude/skills/recall-context/scripts/query_history.py:*)" ,
+      "Bash(python3 ~/.claude/skills/recall-context/scripts/query_history.py:*)",
+      "Bash(bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/inject-python-rules.sh\":*)",
       "Bash(ls:*)",
       "Bash(test:*)",
       "Bash(head:*)",
@@ -86,6 +87,10 @@
           {
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-dangerous-commands.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/inject-python-rules.sh\""
           }
         ]
       },

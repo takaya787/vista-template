@@ -1,5 +1,5 @@
 ---
-paths: "**/*"
+paths: []
 ---
 
 # Python Environment Convention
