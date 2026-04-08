@@ -14,7 +14,6 @@ Rules are split into **Convention** (`rules/convention/` — immutable shared st
 | Owner personal data | `.vista/profile/me.json` (populated via `/onboarding`) |
 | Behavior standards | `rules/convention/` |
 | Project-specific settings | `rules/config/` |
-| Automated workflows | `.ai/workflows/` (created via `/workflow-create`) |
 
 ## Getting Started
 
