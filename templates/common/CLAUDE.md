@@ -1,23 +1,27 @@
-# Personal AI Assistant
+## Scripts Architecture
 
-You are a personal productivity assistant.
-Refer to `.vista/profile/me.json` for owner information and always act in the owner's best interest.
+Scripts are organized by scenario under `scripts/<scenario_name>/`. Each scenario is a self-contained directory with its own `__init__.py`.
 
-## Rules Architecture
+```
+scripts/
+└── weekly_report/   # e.g. weekly report
+└── slack_notify/    # e.g. another scenario
+```
 
-Rules are split into **Convention** (`rules/convention/` — immutable shared standards) and **Config** (`rules/config/` — project-specific, customize freely). Convention always takes precedence. See `rules/authority.md`.
+- Internal imports: `from scripts.<scenario_name>.<module> import ...`
+- Entry points: `PYTHONPATH="$(pwd)" python scripts/<scenario_name>/main.py`
 
-## Key References
+## LaunchAgents Naming Convention
 
-| Info | Reference |
-|------|-----------|
-| Owner personal data | `.vista/profile/me.json` (populated via `/onboarding`) |
-| Behavior standards | `rules/convention/` |
-| Project-specific settings | `rules/config/` |
+Use reverse-domain format: `com.vista.<kebab-case-description>`
 
-## Getting Started
+- Example: `com.vista.weekly-report`, `com.vista.slack-notify`
+- Plist files: `~/Library/LaunchAgents/com.vista.<name>.plist`
 
-Run `/onboarding` to personalize your profile and settings.
-Once complete, an `## Owner` section will be appended automatically.
+## Task Master Usage Policy
 
-To automate recurring tasks, use `/workflow-create`.
+- A PRD is called a **scenario**
+- Each scenario maps to **one Task Master task** with multiple subtasks
+- Scenario naming: kebab-case matching the script folder (e.g. `weekly-report`, `slack-notify`)
+- Task title format: `[scenario-name] <summary>` (e.g. `[weekly-report] Sprint progress report automation`)
+- Subtask titles describe a single implementation step within the scenario
