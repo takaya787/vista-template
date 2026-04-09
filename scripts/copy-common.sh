@@ -69,6 +69,7 @@ mkdir -p "$TARGET_DIR/.claude/rules/convention"
 mkdir -p "$TARGET_DIR/.claude/rules/config"
 mkdir -p "$TARGET_DIR/.claude/hooks"
 mkdir -p "$TARGET_DIR/.claude/skills"
+mkdir -p "$TARGET_DIR/.claude/agents"
 mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/tasks" "$TARGET_DIR/.ai/audit"
 mkdir -p "$TARGET_DIR/.vista/state" "$TARGET_DIR/.vista/profile"
 mkdir -p "$TARGET_DIR/minutes"
@@ -91,10 +92,17 @@ for skill_dir in "$COMMON_DIR/.claude/skills/"*/; do
   ln -sf "$skill_dir" "$target_skill"
 done
 
-# 4. hooks → copy (symlinks are a security risk for hooks)
+# 4. agents → symlink (per agent file)
+find "$TARGET_DIR/.claude/agents/" -maxdepth 1 -type l -delete 2>/dev/null || true
+for f in "$COMMON_DIR/.claude/agents/"*.md; do
+  [ -e "$f" ] || continue
+  ln -sf "$f" "$TARGET_DIR/.claude/agents/$(basename "$f")"
+done
+
+# 5. hooks → copy (symlinks are a security risk for hooks)
 cp "$COMMON_DIR/.claude/hooks/"*.sh "$TARGET_DIR/.claude/hooks/" 2>/dev/null || true
 
-# 5. config → copy (only if not already present, project-specific content)
+# 6. config → copy (only if not already present, project-specific content)
 for f in "$COMMON_DIR/.claude/rules/config/"*.md; do
   [ -e "$f" ] || continue
   target_file="$TARGET_DIR/.claude/rules/config/$(basename "$f")"
