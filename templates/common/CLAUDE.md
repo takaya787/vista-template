@@ -18,6 +18,34 @@ Use reverse-domain format: `com.vista.<kebab-case-description>`
 - Example: `com.vista.weekly-report`, `com.vista.slack-notify`
 - Plist files: `~/Library/LaunchAgents/com.vista.<name>.plist`
 
+## LaunchAgents Setup & Testing
+
+### PATH Configuration (mandatory)
+
+LaunchAgent processes do not inherit the login shell's `PATH`. All shell scripts invoked by a plist **must** export the following PATH at the top:
+
+```bash
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+```
+
+This covers: `claude` (`~/.local/bin`), `gh`, `brew`-installed tools (`/opt/homebrew/bin`).
+
+### Post-setup Test (mandatory)
+
+After registering or modifying a LaunchAgent, always verify it runs correctly:
+
+```bash
+# Trigger immediately (kills any running instance first)
+launchctl kickstart -k gui/$(id -u)/com.vista.<name>
+
+# Check exit status (- = not running, 0 = success, non-zero = error)
+launchctl list | grep com.vista.<name>
+
+# Inspect logs
+cat /tmp/<name>.log
+cat /tmp/<name>-error.log
+```
+
 ## Task Master Usage Policy
 
 - A PRD is called a **scenario**
