@@ -118,6 +118,11 @@ if [ ! -f "$TARGET_DIR/.claude/settings.json" ]; then
   cp "$COMMON_DIR/.claude/settings.sample.json" "$TARGET_DIR/.claude/settings.json" 2>/dev/null || true
 fi
 
+# 8. CLAUDE.md → copy (only if not already present)
+if [ ! -f "$TARGET_DIR/CLAUDE.md" ]; then
+  cp "$COMMON_DIR/CLAUDE.md" "$TARGET_DIR/CLAUDE.md" 2>/dev/null || true
+fi
+
 # 9. .gitignore → copy sample if absent, append if already present (skip if .vista already included)
 if [ -f "$COMMON_DIR/.gitignore.sample" ]; then
   if [ ! -f "$TARGET_DIR/.gitignore" ]; then
