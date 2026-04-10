@@ -1,13 +1,13 @@
 # PRD Interview Forms
 
 Defines the fixed interview forms and PRD output format.
-Present Form 1–5 one at a time in order, then map answers to the PRD Format section to generate the PRD.
+Present Form 1–4 one at a time in order, then map answers to the PRD Format section to generate the PRD.
 **Translate all questions and examples into the user's language before presenting.**
 
 Display format:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 Form N / 5 — {form name}
+📋 Form N / 4 — {form name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Q1. ...
 Q2. ...
@@ -18,7 +18,7 @@ Q3. ...
 
 ---
 
-## Form 1 / 5 — Basic Information
+## Form 1 / 4 — Basic Information
 
 ```
 Q1. Describe the task you want to automate in one short phrase.
@@ -38,7 +38,7 @@ Q4. How often does it happen, and how long does it take?
 
 ---
 
-## Form 2 / 5 — Execution Flow
+## Form 2 / 4 — Execution Flow
 
 ```
 Q1. What triggers the automation?
@@ -55,7 +55,7 @@ Q3. What should it do at the end?
 
 ---
 
-## Form 3 / 5 — Tools & Systems
+## Form 3 / 4 — Tools & Systems
 
 ```
 Q1. What services or apps are involved?
@@ -76,7 +76,7 @@ Q3. Do you have any reference URLs or documents?
 
 ---
 
-## Form 4 / 5 — Quality & Error Handling
+## Form 4 / 4 — Quality & Error Handling
 
 ```
 Q1. How should you be notified if something goes wrong?
@@ -93,23 +93,6 @@ Q3. Any constraints or concerns to keep in mind?
 ```
 
 → Used in PRD `<PRD> # Risks and Mitigations`
-
----
-
-## Form 5 / 5 — Scope & Priority
-
-```
-Q1. List the things that must be included this time (bullet points).
-
-Q2. Are there things that should be left out or saved for later?
-    e.g. Customizing notification message design, supporting multiple languages
-
-Q3. How would you prioritize features? (optional)
-    Use three levels: "Must have" / "Nice to have" / "If time allows"
-    e.g. Must have: data fetch and aggregation, Nice to have: error alerts, If time allows: attach chart
-```
-
-→ Used in PRD `<PRD> # Development Roadmap` and `# Appendix`
 
 ---
 
@@ -152,7 +135,7 @@ Map interview answers to each section to generate the PRD.
 - Environment: [local / server / cloud]
 
 # Development Roadmap
-[Implementation phases. Do not think about timelines — scope and detail only (Form 5)]
+[Implementation phases. Do not think about timelines — scope and detail only]
 
 ## Phase 0: Environment Setup
 - [ ] Install dependencies
@@ -197,20 +180,6 @@ Map interview answers to each section to generate the PRD.
 - [What counts as done (Form 4 Q2)]
 
 # Appendix
-## Scope
-### In Scope
-[Form 5 Q1]
-- ...
-
-### Out of Scope
-[Form 5 Q2]
-- ...
-
-## Priority
-| Feature | Priority | Notes |
-|---------|---------|-------|
-| [feature name] | Must have / Nice to have / If time allows | [reason] |
-
 ## References
 [Reference materials provided in Form 3 Q3]
 - [URL]

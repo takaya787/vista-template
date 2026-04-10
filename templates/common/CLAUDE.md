@@ -22,6 +22,14 @@ Use reverse-domain format: `com.vista.<kebab-case-description>`
 - Example: `com.vista.weekly-report`, `com.vista.slack-notify`
 - Plist files: `~/Library/LaunchAgents/com.vista.<name>.plist`
 
+### Ledger
+
+All registered LaunchAgents are tracked in `~/.vista/automation-library.json`.
+
+- **Read-only reference** — never edit this file manually
+- To inspect: `cat ~/.vista/automation-library.json`
+- Managed exclusively by the `launch-agent-registrar` agent
+
 ### Quick Reference
 
 ```bash
@@ -34,6 +42,9 @@ launchctl kickstart -k gui/$(id -u)/com.vista.<name>
 # Inspect logs
 cat /tmp/com.vista.<name>.log
 cat /tmp/com.vista.<name>-error.log
+
+# Inspect ledger                               
+cat ~/.vista/automation-library.json  
 ```
 
 ## Task Master Usage Policy
