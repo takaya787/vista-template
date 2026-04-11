@@ -113,10 +113,8 @@ done
 # 6. authority.md → symlink (absolute path)
 ln -sf "$COMMON_DIR/.claude/rules/authority.md" "$TARGET_DIR/.claude/rules/authority.md" 2>/dev/null || true
 
-# 7. settings.json → copy from sample (only if not already present)
-if [ ! -f "$TARGET_DIR/.claude/settings.json" ]; then
-  cp "$COMMON_DIR/.claude/settings.sample.json" "$TARGET_DIR/.claude/settings.json" 2>/dev/null || true
-fi
+# 7. settings.json → always overwrite from sample (user customizations go in settings.local.json)
+cp "$COMMON_DIR/.claude/settings.sample.json" "$TARGET_DIR/.claude/settings.json" 2>/dev/null || true
 
 # 8. CLAUDE.md → copy (only if not already present)
 if [ ! -f "$TARGET_DIR/CLAUDE.md" ]; then
@@ -144,13 +142,8 @@ if [ -d "$COMMON_DIR/docs" ]; then
   done
 fi
 
-# Make hook scripts executable (explicit filenames only, no glob)
-chmod +x \
-  "$TARGET_DIR/.claude/hooks/audit-command.sh" \
-  "$TARGET_DIR/.claude/hooks/audit-file-write.sh" \
-  "$TARGET_DIR/.claude/hooks/block-dangerous-commands.sh" \
-  "$TARGET_DIR/.claude/hooks/block-ssrf.sh" \
-  2>/dev/null || true
+# Make hook scripts executable
+chmod +x "$TARGET_DIR/.claude/hooks/"*.sh 2>/dev/null || true
 
 # --- Check SQLite >= 3.34.0 (required for trigram FTS / Japanese search) ---
 SQLITE_VERSION=$(python3 -c 'import sqlite3; print(sqlite3.sqlite_version)' 2>/dev/null || echo "")
