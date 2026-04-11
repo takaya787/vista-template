@@ -8,9 +8,6 @@
 # AI-generated documents
 docs/*
 
-# Meeting transcripts (sensitive content)
-minutes/*
-
 # Assets (screenshots, videos, traces — all generated)
 assets/
 

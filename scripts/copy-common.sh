@@ -70,9 +70,8 @@ mkdir -p "$TARGET_DIR/.claude/rules/config"
 mkdir -p "$TARGET_DIR/.claude/hooks"
 mkdir -p "$TARGET_DIR/.claude/skills"
 mkdir -p "$TARGET_DIR/.claude/agents"
-mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/tasks" "$TARGET_DIR/.ai/audit"
+mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/audit"
 mkdir -p "$TARGET_DIR/.vista/state" "$TARGET_DIR/.vista/profile"
-mkdir -p "$TARGET_DIR/minutes"
 
 # 2. convention files → symlink (absolute path)
 # Remove existing symlinks first to clean up deleted rules
