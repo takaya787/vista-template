@@ -18,6 +18,27 @@ reverse-domain形式: `com.vista.<kebab-case-description>`
 - 例: `com.vista.weekly-report`, `com.vista.slack-notify`
 - plistファイル: `~/Library/LaunchAgents/com.vista.<name>.plist`
 
+## 呼び出しモード
+
+### A. `/automate` skillから呼ばれる場合（マニフェストモード）
+
+`/automate` skillのPhase 4から呼ばれる場合、マニフェストファイルが存在する。
+
+1. マニフェストを Read する: `.taskmaster/automations/{slug}/manifest.json`
+2. 以下のフィールドをマニフェストから読み込み、台帳記録に使用する:
+   - `task_ids` → 台帳の `task_ids`
+   - `prd_path` → 台帳の `prd_path`
+   - `scripts` → 台帳の `scripts`
+   - `working_dir` → 台帳の `working_dir`
+3. 登録完了後、マニフェストを更新する:
+   - `launch_agent_label`, `plist_path`, `registered_at`, `phase: "registered"`
+
+### B. 単独で呼ばれる場合（手動モード）
+
+マニフェストが存在しない場合は、`task_ids` と `prd_path` を手動で確認・入力する（不明な場合は空文字でよい）。
+
+---
+
 ## 制約
 
 - ラベルは必ず `com.vista.` で始めること
@@ -57,7 +78,7 @@ export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PA
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>/path/to/script.sh</string>
+    <string>/path/to/working/dir/scripts/&lt;機能名&gt;/run_script.sh</string>
   </array>
   <key>WorkingDirectory</key>
   <string>/path/to/working/dir</string>
@@ -97,21 +118,30 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.vista.<機能名>.pl
 
 ### 4. 台帳への記録
 
-PostToolUse Hookが `cp` 時点で自動記録するが、`description` と `registered_by` はHookが書かない。
-Hookの記録後に台帳を Read → Edit して補完する：
+台帳スキーマの完全な定義は `.claude/skills/automate/references/automation-library-schema.md` を参照。
+
+PostToolUse Hookが `cp` 時点で自動記録するが、`description` / `registered_by` / `status` / `task_ids` / `prd_path` / `manifest_path` はHookが書かない。
+Hookの記録後に台帳を Read → Edit して補完する:
 
 ```json
 {
   "label": "com.vista.<機能名>",
   "plist": "~/Library/LaunchAgents/com.vista.<機能名>.plist",
-  "script": "/path/to/script.sh",
-  "working_dir": "/path/to/working/dir",
+  "working_dir": "/Users/{user}/private/{user}/{workspace}",
+  "scripts": ["/Users/{user}/private/{user}/{workspace}/scripts/<機能名>/main.py"],
   "schedule": "毎日 09:00",
+  "status": "active",
   "registered_at": "<ISO8601>",
   "description": "<何をするエージェントか。日本語で具体的に>",
-  "registered_by": "claude-code"
+  "registered_by": "claude-code",
+  "task_ids": ["<task-masterのタスクID>"],
+  "prd_path": ".taskmaster/docs/YYYY-MM-DD-<機能名>.md",
+  "manifest_path": ".taskmaster/automations/<機能名>/manifest.json"
 }
 ```
+
+- `scripts` は絶対パスで記載する（venvパスは含めない）
+- `task_ids` / `prd_path` / `manifest_path` はマニフェストモードでは自動入力される。手動モードでは不明な場合 `[]` / `""` でよい。
 
 手順：
 

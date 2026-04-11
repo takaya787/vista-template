@@ -126,6 +126,15 @@
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/audit-command.sh\""
           }
         ]
+      },
+      {
+        "matcher": "mcp__taskmaster-ai__(add_task|expand_task)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/update-manifest-on-task.sh\""
+          }
+        ]
       }
     ],
     "Notification": [],

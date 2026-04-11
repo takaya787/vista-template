@@ -31,16 +31,39 @@ Rules:
 - If the user says "skip", "next", or "continue", end the current form and move on
 - If an argument is provided, treat it as the answer to Form 1 and ask only for missing information
 
-### Step 3: Create and Save PRD
+### Step 3: Create and Save PRD + Manifest
 
-After all forms are complete, generate the PRD by mapping each form's answers to the **PRD Format** in `references/forms.md`.
+After all forms are complete, generate the PRD and initialize the manifest in one step.
 
-**Saving:**
+**3-1. PRD saving:**
 1. Generate a slug from the title (e.g., "Weekly Slack Sales Report" → `slack-weekly-sales-report`)
 2. File name: `YYYY-MM-DD-{slug}.md` (today's date)
 3. If `.taskmaster/docs/` does not exist, run `mkdir -p .taskmaster/docs`
 4. Write to `.taskmaster/docs/YYYY-MM-DD-{slug}.md`
-5. Display the file path after saving
+
+**3-2. Manifest initialization (always, regardless of task generation):**
+1. Run `mkdir -p .taskmaster/automations/{slug}`
+2. Write `.taskmaster/automations/{slug}/manifest.json`:
+
+```json
+{
+  "id": "{slug}",
+  "phase": "prd_created",
+  "prd_path": ".taskmaster/docs/YYYY-MM-DD-{slug}.md",
+  "task_ids": [],
+  "scripts": [],
+  "working_dir": "",
+  "launch_agent_label": "",
+  "plist_path": "",
+  "verified_at": null,
+  "registered_at": null,
+  "created_at": "<ISO8601 now>"
+}
+```
+
+3. Display both paths after saving:
+   - PRD: `.taskmaster/docs/YYYY-MM-DD-{slug}.md`
+   - Manifest: `.taskmaster/automations/{slug}/manifest.json`
 
 ### Step 4: Task Generation (Optional)
 
@@ -50,3 +73,6 @@ Only if approved, use taskmaster MCP tools to:
 1. Create epic tasks with `add_task`
 2. Expand each task into subtasks and set dependencies with `expand_task`
 3. Display the list of generated tasks
+4. Update the manifest `task_ids` with the generated IDs and set `phase: "tasks_generated"`
+
+After Step 4, inform the user: `Run /automate {slug} to continue to implementation.`
