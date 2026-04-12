@@ -71,7 +71,7 @@ mkdir -p "$TARGET_DIR/.claude/hooks"
 mkdir -p "$TARGET_DIR/.claude/skills"
 mkdir -p "$TARGET_DIR/.claude/agents"
 mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/audit"
-mkdir -p "$TARGET_DIR/.vista/state" "$TARGET_DIR/.vista/profile"
+mkdir -p "$TARGET_DIR/.vista/state"
 
 # 2. convention files → symlink (absolute path)
 # Remove existing symlinks first to clean up deleted rules
@@ -212,68 +212,8 @@ cat > "$TARGET_DIR/.vista/state/setup.json" << EOF
 }
 EOF
 
-# --- Global profile: ~/.vista/profile/me.json ---
-# Onboarding results are stored once in the global location.
-# Each project's .vista/profile/me.json is a symlink to it.
-
-GLOBAL_PROFILE_DIR="$HOME/.vista/profile"
-mkdir -p "$GLOBAL_PROFILE_DIR"
-
-# Write skeleton to global profile only if it does not already exist
-if [ ! -f "$GLOBAL_PROFILE_DIR/me.json" ]; then
-  cat > "$GLOBAL_PROFILE_DIR/me.json" << EOF
-{
-  "isOnboardingCompleted": false,
-  "name": "",
-  "email": "",
-  "preferences": {
-    "language": "ja",
-    "outputFormat": ""
-  },
-  "workingStyle": {
-    "timezone": "${TIMEZONE}",
-    "autonomy": ""
-  }
-}
-EOF
-  echo "Created global profile at $GLOBAL_PROFILE_DIR/me.json"
-else
-  echo "Global profile already exists at $GLOBAL_PROFILE_DIR/me.json — reusing"
-fi
-
-# Project .vista/profile/me.json → symlink to global profile
-ln -sf "$GLOBAL_PROFILE_DIR/me.json" "$TARGET_DIR/.vista/profile/me.json"
-
-# Generate .vista/state/onboarding.json:
-# - pending  if global profile is a skeleton (onboarding not yet completed)
-# - active   if global profile already has name filled in (onboarding done previously)
-if [ ! -f "$TARGET_DIR/.vista/state/onboarding.json" ]; then
-  IS_COMPLETE=$(python3 -c "
-import json
-try:
-  d = json.load(open('$GLOBAL_PROFILE_DIR/me.json'))
-  print('true' if d.get('isOnboardingCompleted') else 'false')
-except Exception:
-  print('false')
-" 2>/dev/null || echo "false")
-
-  if [ "$IS_COMPLETE" = "true" ]; then
-    ONBOARDING_STATUS="active"
-  else
-    ONBOARDING_STATUS="pending"
-  fi
-
-  cat > "$TARGET_DIR/.vista/state/onboarding.json" << EOF
-{
-  "status": "${ONBOARDING_STATUS}",
-  "createdAt": "$CREATED_AT"
-}
-EOF
-fi
-
 echo "Done!"
 echo ""
 echo "Next steps:"
 echo "  1. cd $TARGET_DIR"
 echo "  2. Start Claude Code: claude"
-echo "     (On first launch, /onboarding will guide you through task-based setup)"
