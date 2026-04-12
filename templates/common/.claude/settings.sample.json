@@ -79,6 +79,10 @@
       "Write(**/*.key)"
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"$HOME/.claude/statusline-no-branch.sh\""
+  },
   "hooks": {
     "PreToolUse": [
       {

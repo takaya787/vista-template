@@ -175,6 +175,15 @@ for sql_file in "$COMMON_DIR/scripts/vista-sync-history-schema-v"*.sql; do
 done
 echo "Installed vista-sync-history to $SYNC_SCRIPT_DEST"
 
+# --- Install statusline-no-branch.sh to ~/.claude/ ---
+STATUSLINE_SRC="$COMMON_DIR/scripts/statusline-no-branch.sh"
+STATUSLINE_DEST="$HOME/.claude/statusline-no-branch.sh"
+if [ -f "$STATUSLINE_SRC" ]; then
+  cp "$STATUSLINE_SRC" "$STATUSLINE_DEST"
+  chmod 755 "$STATUSLINE_DEST"
+  echo "Installed statusline-no-branch.sh to $STATUSLINE_DEST"
+fi
+
 # --- Generate .vista/ state & profile ---
 
 echo "Creating .vista/ state and profile..."
