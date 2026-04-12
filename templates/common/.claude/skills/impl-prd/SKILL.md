@@ -120,3 +120,7 @@ If called from `/automate`, skip the "Next step" line and return to Phase 4.
 - All paths in `run_script.sh` must be self-relative (no hardcoded absolute paths)
 - Follow `python-environment.md`: venv must live under `tmp/`
 - Do not install packages globally (`pip install` outside venv is forbidden)
+- Follow the Logging rules in `script-conventions.md`:
+  - `FileHandler` → `/tmp/com.vista.{slug}.log` (INFO and above)
+  - `StreamHandler` → stderr, with `setLevel(logging.ERROR)` (ERROR and above only)
+  - Never use bare `StreamHandler()` without `setLevel` — it writes all logs to stderr and pollutes the error log

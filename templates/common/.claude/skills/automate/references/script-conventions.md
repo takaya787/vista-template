@@ -99,3 +99,45 @@ pip install -r scripts/{slug}/requirements.txt
 
 Each automation's `requirements.txt` is installed into the shared `tmp/venv`.
 If workspaces are isolated projects, each has its own `tmp/venv`.
+
+---
+
+## Logging
+
+### Log file paths
+
+LaunchAgent plist must redirect stdout and stderr to `/tmp/`:
+
+```xml
+<key>StandardOutPath</key>
+<string>/tmp/com.vista.{slug}.log</string>
+<key>StandardErrorPath</key>
+<string>/tmp/com.vista.{slug}-error.log</string>
+```
+
+### Python logging setup
+
+`main.py` must configure logging with these two handlers:
+
+```python
+import logging
+
+_stderr_handler = logging.StreamHandler()
+_stderr_handler.setLevel(logging.ERROR)   # ERROR and above only → stderr
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('/tmp/com.vista.{slug}.log'),  # INFO and above → log file
+        _stderr_handler,                                    # ERROR and above → stderr
+    ]
+)
+```
+
+Rules:
+- `FileHandler` writes INFO and above to `/tmp/com.vista.{slug}.log`
+- `StreamHandler` is restricted to ERROR and above via `setLevel(logging.ERROR)`
+  - This prevents INFO logs from polluting `-error.log` (stderr redirect)
+  - Only genuine errors appear in the error log, making monitoring reliable
+- Do **not** use bare `logging.StreamHandler()` without `setLevel` — it defaults to DEBUG and writes all logs to stderr
