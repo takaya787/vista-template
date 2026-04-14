@@ -6,7 +6,7 @@
   },
   "enableAllProjectMcpServers": true,
   "allowedTools": ["mcp__taskmaster-ai__*"],
-  "plansDirectory": ".ai/plans",
+  "plansDirectory": "docs/plans",
   "permissions": {
     "allow": [
       "Bash(python3 ~/.claude/skills/recall-context/scripts/query_history.py:*)",

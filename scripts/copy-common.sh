@@ -72,6 +72,7 @@ mkdir -p "$TARGET_DIR/.claude/skills"
 mkdir -p "$TARGET_DIR/.claude/agents"
 mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/audit"
 mkdir -p "$TARGET_DIR/.vista/state"
+mkdir -p "$TARGET_DIR/docs/plans"
 
 # 2. convention files → symlink (absolute path)
 # Remove existing symlinks first to clean up deleted rules
