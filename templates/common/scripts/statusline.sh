@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Claude Code status line for engineers (no git branch)
-# Shows: cwd | model | context usage | 5h rate limit | 7d rate limit
+# Claude Code status line for engineers
+# Shows: cwd | git branch (if initialized) | model | context usage | 5h rate limit | 7d rate limit
 
 input=$(cat)
 
@@ -14,6 +14,12 @@ seven_day_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage //
 # --- Shorten cwd: replace $HOME with ~ ---
 home="$HOME"
 short_cwd="${cwd/#$home/\~}"
+
+# --- Git branch (only if repo is initialized) ---
+git_branch=""
+if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
+  git_branch=$(git -C "$cwd" -c gc.auto=0 symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
+fi
 
 # --- Context bar ---
 context_str=""
@@ -36,6 +42,11 @@ parts=()
 
 # Directory (cyan)
 parts+=("$(printf '\033[36m%s\033[0m' "$short_cwd")")
+
+# Git branch (yellow), with  prefix
+if [ -n "$git_branch" ]; then
+  parts+=("$(printf '\033[33m\xef\x9c\xa9 %s\033[0m' "$git_branch")")
+fi
 
 # Model (magenta)
 if [ -n "$model" ]; then
