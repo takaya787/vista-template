@@ -81,7 +81,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash \"$HOME/.claude/statusline-no-branch.sh\""
+    "command": "bash \"$HOME/.vista/bin/statusline-no-branch.sh\""
   },
   "hooks": {
     "PreToolUse": [
