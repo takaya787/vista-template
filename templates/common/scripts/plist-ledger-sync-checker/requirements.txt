@@ -1,0 +1,2 @@
+# stdlib only — no extra packages required
+# (json, plistlib, subprocess, pathlib, logging are all built-in)

@@ -73,6 +73,7 @@ mkdir -p "$TARGET_DIR/.claude/agents"
 mkdir -p "$TARGET_DIR/.ai/plans" "$TARGET_DIR/.ai/audit"
 mkdir -p "$TARGET_DIR/.vista/state"
 mkdir -p "$TARGET_DIR/docs/plans"
+mkdir -p "$TARGET_DIR/tmp/venv"
 
 # 2. convention files → symlink (absolute path)
 # Remove existing symlinks first to clean up deleted rules
@@ -142,8 +143,20 @@ if [ -d "$COMMON_DIR/docs" ]; then
   done
 fi
 
-# Make hook scripts executable
+# 11. sample scripts → copy (only if not already present)
+if [ -d "$COMMON_DIR/scripts" ]; then
+  find "$COMMON_DIR/scripts" -type f | while read -r f; do
+    rel="${f#$COMMON_DIR/scripts/}"
+    target_file="$TARGET_DIR/scripts/$rel"
+    [ -e "$target_file" ] && continue
+    mkdir -p "$(dirname "$target_file")"
+    cp "$f" "$target_file"
+  done
+fi
+
+# Make hook scripts and all run_script.sh files executable
 chmod +x "$TARGET_DIR/.claude/hooks/"*.sh 2>/dev/null || true
+find "$TARGET_DIR/scripts" -name "run_script.sh" -exec chmod +x {} \; 2>/dev/null || true
 
 # --- Check SQLite >= 3.34.0 (required for trigram FTS / Japanese search) ---
 SQLITE_VERSION=$(python3 -c 'import sqlite3; print(sqlite3.sqlite_version)' 2>/dev/null || echo "")

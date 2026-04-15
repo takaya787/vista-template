@@ -1,0 +1,6 @@
+# Add your Python dependencies here.
+# Each automation has its own requirements.txt installed into the shared tmp/venv.
+#
+# Example:
+#   requests==2.31.0
+#   beautifulsoup4==4.12.3
