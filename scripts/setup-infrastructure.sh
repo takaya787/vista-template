@@ -93,6 +93,11 @@ _register() {
   <string>$TARGET_DIR</string>
   <key>$schedule_key</key>
   $schedule_value
+  <key>WatchPaths</key>
+  <array>
+    <string>$HOME/Library/LaunchAgents</string>
+    <string>$HOME/.vista/automation-library.json</string>
+  </array>
   <key>StandardOutPath</key>
   <string>/tmp/$label.log</string>
   <key>StandardErrorPath</key>
