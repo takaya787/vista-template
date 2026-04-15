@@ -47,6 +47,16 @@ mkdir -p scripts/{slug}
 
 If `scripts/{slug}/` already contains files, read them before overwriting anything.
 
+### Step 2.5: Copy PRD into script directory
+
+Copy the PRD into the script directory so the implementation and its spec stay colocated:
+
+```bash
+cp {prd_path} scripts/{slug}/prd.md
+```
+
+If `scripts/{slug}/prd.md` already exists, skip this step.
+
 ### Step 3: Phase 0 — Environment setup
 
 1. Create venv if `tmp/venv` does not exist:

@@ -134,8 +134,16 @@ Invoke the `launch-agent-registrar` agent with the manifest context:
    ```bash
    rm -f .taskmaster/automations/.active
    ```
-2. Set `manifest.phase: "completed"`
-2. Print a summary table:
+2. Move the PRD out of `.taskmaster/docs/` now that it lives in `scripts/{slug}/prd.md`:
+   ```bash
+   rm -f {manifest.prd_path}
+   ```
+   Then update the manifest:
+   ```json
+   { "prd_path": "scripts/{slug}/prd.md" }
+   ```
+3. Set `manifest.phase: "completed"`
+4. Print a summary table:
 
 ```
 ✓ Automation registered and verified
