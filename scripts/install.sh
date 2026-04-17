@@ -93,4 +93,5 @@ bash "$VISTA_HOME/scripts/copy-common.sh" "$TARGET_DIR"
 
 echo ""
 echo "Setting up infrastructure LaunchAgents..."
-bash "$VISTA_HOME/scripts/setup-infrastructure.sh" "$TARGET_DIR"
+# これが遅い原因になっていそうなので一旦停止してみる
+# bash "$VISTA_HOME/scripts/setup-infrastructure.sh" "$TARGET_DIR"
