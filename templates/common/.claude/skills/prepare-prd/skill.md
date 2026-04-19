@@ -29,7 +29,7 @@ Rules:
 - If a reference resource URL is provided in Form 3 Q3, load it immediately and reflect it in the PRD
 - If an answer is ambiguous, ask for clarification once: "Do you mean something like ~?"
 - If the user says "skip", "next", or "continue", end the current form and move on
-- If an argument is provided, treat it as the answer to Form 1 and ask only for missing information
+- If an argument is provided **directly with this skill invocation** (e.g., `/prepare-prd <text>`), treat it as the answer to Form 1 and ask only for missing information. Do NOT treat text from prior commands, session renames, or unrelated context as an argument.
 
 ### Step 3: Create and Save PRD + Manifest
 
